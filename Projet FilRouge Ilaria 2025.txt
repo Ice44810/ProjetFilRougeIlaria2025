@@ -1,0 +1,3 @@
+Projet FilRouge Ilaria 2025
+S'aider de l'IA : 
+je suis developpeur full stack en formation. j'ai un projet fil rouge à réaliser. Mon projet consistera a créer un site …... un peu comme .... Je suis en cours git et github et on doit structurer notre repo pour le projet. Je compte utiliser html, css js pour le frontend. Pour le back, je pense utiliser python. Quelle structure de projet me conseilles-tu? fais des recherches sur internet car nous sommes en octobre 2025
