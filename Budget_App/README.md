@@ -21,3 +21,8 @@ b	Définit la direction : Bas (bottom).
 1.  Stylisé comme un bouton standard de Bootstrap (`btn`).
 2.  De couleur **rouge vif** (`btn-danger`).
 3.  Étendu sur toute la **largeur** de son conteneur (`w-100`).
+
+## REMARQUE IMPORTANTE:
+ Le numéro de carte (fullCardNumber) doit être chargé dynamiquement 
+ depuis votre serveur de manière sécurisée. Ne JAMAIS le laisser
+ en clair dans le code HTML ou JavaScript pour une application réelle.

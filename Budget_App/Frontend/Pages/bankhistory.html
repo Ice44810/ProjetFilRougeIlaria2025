@@ -2,71 +2,390 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bank History</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="../css/style.css" />
+    <!-- Chart.js CDN pour le graphique -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <style>
+        /* Styles pour reproduire le look moderne (soft backgrounds, rounded, etc.) */
+        body {
+            background-color: #f4f7f9;
+            /* Couleur de fond légèrement grise pour le corps */
+        }
+
+        .card-icon-income {
+            background-color: #e0e7ff;
+            /* bleu très clair */
+            color: #4f46e5;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            /* équivalent à 12px */
+        }
+
+        .card-icon-outcome {
+            background-color: #fee2e2;
+            /* rouge très clair */
+            color: #ef4444;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            /* équivalent à 12px */
+        }
+
+        .transaction-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .transaction-item:last-child {
+            border-bottom: none;
+        }
+
+        .filter-active {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+            font-weight: 600;
+        }
+    </style>
 </head>
 
 <body>
-    <header class="d-flex align-items-center bg-white p-3 border-bottom">
-        <h5 class="ms-4 mb-0 fw-bold">History</h5>
+    <!-- HEADER -->
+    <header class="d-flex align-items-center bg-white p-3 border-bottom sticky-top">
+        <i class="bi bi-arrow-left fs-4"></i>
+        <h5 class="ms-4 mb-0 fw-bold mx-auto">History</h5>
         <i class="bi bi-funnel ms-auto me-4 fs-4 text-muted" role="button" title="Filter"></i>
-
-        <!-- A FAIRE !!!! -->
-        <!-- ajouter un parametre pour filtrer les transactions ensuite fleche pour revenir en arriere -->
-        <!-- <i class="bi bi-arrow-left ms-4 fs-4 text-muted" role="button" title="Back"></i> -->
-
-        <!-- colum 1 à gauche: opérations des 7 derniers jours (The 7 last days)
-
-         <i class="bi bi-arrow-left ms-4 fs-4 text-muted" role="button" title="Back"></i>
-
-         ajouter un parametre pour filtrer les transactions ensuite fleche pour revenir en arriere
-         <i class="bi bi-arrow-left ms-4 fs-4 text-muted" role="button" title="Back"></i>
-        colum 2 milieu : 30 derniers jours (The 30 last days)
-        colum 3 droite : Custom
-        ajouter graphique avec outcome(red) et income(green) (voir figma) -->
-
-        <!-- En bas, Mois : (November) 
-         En Novembre : on a electric bill (Today 10:27AM) -$300 (outcome)
-         Ester (contact) Today 09:15AM +$500 (income)
-
-        En Octobre : on a mobile (yesterday 17:27 PM) -$25 (outcome)
-            wifi (yesterday 14:00 PM) -$45 (outcome)
-            waterbill (yesterday 12:00 PM) -$00 (outcome)
-
-        En Septembre : on a Netflix (28 Sept 2023) -$15 (outcome)
-            salary (27 Sept 2023) +$2000 (income) -->
     </header>
 
-    <div class="container">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col">
-                    <i class="bi bi-arrow-up-square"></i>
-                    Income
-                    <p>$780</p>
+    <div class="container py-4">
+        <!-- Section 1 : carte sommaire (Income/Outcome) -->
+        <div class="row g-4 mb-4">
+            <!-- Carte INCOME -->
+            <div class="col-6">
+                <div class="card p-3 rounded-4 shadow-sm h-100">
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon-income me-3">
+                            <i class="bi bi-arrow-up fs-5 fw-bold"></i>
+                        </div>
+                        <div>
+                            <p class="text-muted mb-0 small">Income</p>
+                            <h2 class="fs-4 fw-bold text-success mb-0">$778.35</h2>
+                        </div>
+                    </div>
                 </div>
-                <div class="col">
-                    <i class="bi bi-arrow-down-square"></i>
-                    Outcome
-                    <p>$300</p>
+            </div>
+
+            <!-- Carte OUTCOME -->
+            <div class="col-6">
+                <div class="card p-3 rounded-4 shadow-sm h-100">
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon-outcome me-3">
+                            <i class="bi bi-arrow-down fs-5 fw-bold"></i>
+                        </div>
+                        <div>
+                            <p class="text-muted mb-0 small">Outcome</p>
+                            <h2 class="fs-4 fw-bold text-danger mb-0">$878.35</h2>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Section 2 : Filtres et Graphique -->
+        <div class="card p-4 rounded-4 shadow-sm mb-4">
+            <!-- Boutons de Filtre (Pills) -->
+            <ul class="nav nav-tabs mb-3" id="recipientTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active-link" id="date-7-tab" data-bs-toggle="tab" data-bs-target="#Date" type="button" role="tab">
+                        The last 7 days
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link active-link" id="date-30-tab" data-bs-toggle="tab" data-bs-target="#Date" type="button" role="tab">
+                        30 days
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link active-link" id="custom-tab" data-bs-toggle="tab" data-bs-target="#custom" type="button" role="tab">
+                        Custom
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Graphique -->
+        <div style="height: 350px">
+            <canvas id="transactionChart"></canvas>
+        </div>
     </div>
-    <!-- FOOTER -->
+
+    <!-- Section 3 : Liste des Transactions -->
+    <div class="card p-4 rounded-4 shadow-sm">
+        <h3 class="fs-5 fw-bold mb-4">All Transactions</h3>
+
+        <!-- Mois Novembre -->
+        <div class="mb-4">
+            <h4 class="text-secondary fw-semibold mb-3 fs-6">Novembre</h4>
+
+            <!-- Transaction : Electric bill (Outcome) -->
+            <div class="transaction-item">
+                <div class="d-flex align-items-center">
+                    <div class="p-3 me-3 rounded-circle bg-danger-subtle text-danger">
+                        <i class="bi bi-lightning-fill"></i>
+                    </div>
+                    <div>
+                        <p class="fw-medium text-dark mb-0">Electric bill</p>
+                        <p class="small text-muted mb-0">Today 10:27 AM</p>
+                    </div>
+                </div>
+                <p class="fs-5 fw-semibold text-danger mb-0">-$300</p>
+            </div>
+
+            <!-- Transaction : Ester (Income) -->
+            <div class="transaction-item">
+                <div class="d-flex align-items-center">
+                    <div class="p-3 me-3 rounded-circle bg-success-subtle text-success">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div>
+                        <p class="fw-medium text-dark mb-0">Esther</p>
+                        <p class="small text-muted mb-0">Today 09:15 AM</p>
+                    </div>
+                </div>
+                <p class="fs-5 fw-semibold text-success mb-0">+$500</p>
+            </div>
+        </div>
+
+        <!-- Mois Octobre -->
+        <div class="mb-4">
+            <h4 class="text-secondary fw-semibold mb-3 fs-6">Octobre</h4>
+
+            <!-- Transaction : Mobile (Outcome) -->
+            <div class="transaction-item">
+                <div class="d-flex align-items-center">
+                    <div class="p-3 me-3 rounded-circle bg-danger-subtle text-danger">
+                        <i class="bi bi-phone-fill"></i>
+                    </div>
+                    <div>
+                        <p class="fw-medium text-dark mb-0">Mobile</p>
+                        <p class="small text-muted mb-0">Yesterday 17:27 PM</p>
+                    </div>
+                </div>
+                <p class="fs-5 fw-semibold text-danger mb-0">-$25</p>
+            </div>
+
+            <!-- Transaction : Wifi (Outcome) -->
+            <div class="transaction-item">
+                <div class="d-flex align-items-center">
+                    <div class="p-3 me-3 rounded-circle bg-danger-subtle text-danger">
+                        <i class="bi bi-wifi"></i>
+                    </div>
+                    <div>
+                        <p class="fw-medium text-dark mb-0">Wifi</p>
+                        <p class="small text-muted mb-0">Yesterday 14:00 PM</p>
+                    </div>
+                </div>
+                <p class="fs-5 fw-semibold text-danger mb-0">-$45</p>
+            </div>
+
+            <!-- Transaction : Waterbill (Outcome) -->
+            <div class="transaction-item">
+                <div class="d-flex align-items-center">
+                    <div class="p-3 me-3 rounded-circle bg-danger-subtle text-danger">
+                        <i class="bi bi-droplet-fill"></i>
+                    </div>
+                    <div>
+                        <p class="fw-medium text-dark mb-0">Waterbill</p>
+                        <p class="small text-muted mb-0">Yesterday 12:00 PM</p>
+                    </div>
+                </div>
+                <p class="fs-5 fw-semibold text-danger mb-0">-$50</p>
+            </div>
+        </div>
+
+        <!-- Mois Septembre -->
+        <div>
+            <h4 class="text-secondary fw-semibold mb-3 fs-6">Septembre</h4>
+
+            <!-- Transaction : Netflix (Outcome) -->
+            <div class="transaction-item">
+                <div class="d-flex align-items-center">
+                    <div class="p-3 me-3 rounded-circle bg-danger-subtle text-danger">
+                        <i class="bi bi-tv-fill"></i>
+                    </div>
+                    <div>
+                        <p class="fw-medium text-dark mb-0">Netflix</p>
+                        <p class="small text-muted mb-0">28 Sept 2023</p>
+                    </div>
+                </div>
+                <p class="fs-5 fw-semibold text-danger mb-0">-$15</p>
+            </div>
+
+            <!-- Transaction : Salary (Income) -->
+            <div class="transaction-item" style="border-bottom: none">
+                <div class="d-flex align-items-center">
+                    <div class="p-3 me-3 rounded-circle bg-success-subtle text-success">
+                        <i class="bi bi-bank2"></i>
+                    </div>
+                    <div>
+                        <p class="fw-medium text-dark mb-0">Salary</p>
+                        <p class="small text-muted mb-0">27 Sept 2023</p>
+                    </div>
+                </div>
+                <p class="fs-5 fw-semibold text-success mb-0">+$4000</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- FOOTER --> <!-- FOOTER -->
     <footer class="footer mt-5 py-3">
         <div class="d-flex justify-content-around">
-            <a href="pages/home.html" class="text-decoration-none text-muted active-link"><i class="bi bi-house-door-fill fs-4"></i><br>Home</a>
-            <a href="pages/history.html" class="text-decoration-none text-muted"><i class="bi bi-clock-history fs-4"></i><br>History</a>
+            <a href="pages/home.html" class="text-decoration-none text-muted text-center"><i class="bi bi-house-door-fill fs-4"> </i><br>Home</a>
+            <a href="pages/history.html" class="text-decoration-none text-muted text-center"><i class="bi bi-clock-history fs-4"></i><br>History</a>
             <a href="pages/myqr.html" class="text-decoration-none text-muted text-center"><i class="bi bi-qr-code-scan fs-4"></i><br>My QR</a>
-            <a href="pages/rewards.html" class="text-decoration-none text-muted"><i class="bi bi-gift fs-4"></i><br>Rewards</a>
-            <a href="pages/profile.html" class="text-decoration-none text-muted"><i class="bi bi-person fs-4"></i><br>Profile</a>
+            <a href="pages/rewards.html" class="text-decoration-none text-muted text-center"><i class="bi bi-gift fs-4"></i><br>Rewards</a>
+            <a href="pages/profile.html" class="text-decoration-none text-muted text-center"><i class="bi bi-person fs-4"></i><br>Profile</a>
         </div>
     </footer>
+
+    <!-- Scripts Bootstrap et Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Simulation des données pour le graphique
+        const dataPoints = [{
+                income: 280,
+                outcome: -180,
+                date: "29-06",
+            },
+            {
+                income: 420,
+                outcome: -300,
+                date: "30-06",
+            },
+            {
+                income: 80,
+                outcome: -120,
+                date: "01-07",
+            },
+            {
+                income: 50,
+                outcome: -270,
+                date: "02-07",
+            },
+            {
+                income: 320,
+                outcome: -80,
+                date: "03-07",
+            },
+            {
+                income: 100,
+                outcome: -40,
+                date: "04-07",
+            },
+            {
+                income: 0,
+                outcome: -60,
+                date: "05-07",
+            },
+        ];
+        const labels = dataPoints.map((d) => d.date);
+        const incomeData = dataPoints.map((d) => d.income);
+        const outcomeData = dataPoints.map((d) => d.outcome);
+
+        const chartConfig = {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                        label: "Income",
+                        data: incomeData,
+                        backgroundColor: "#198754", // Bootstrap Success = Green
+                        categoryPercentage: 0.8,
+                        barPercentage: 0.9,
+                    },
+                    {
+                        label: "Outcome",
+                        data: outcomeData,
+                        backgroundColor: "#dc3545", // Bootstrap Danger = Red
+                        categoryPercentage: 0.8,
+                        barPercentage: 0.9,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || "";
+                                if (label) {
+                                    label += ": ";
+                                }
+                                if (context.parsed.y !== null) {
+                                    // Utilisation de Intl.NumberFormat pour un format monétaire clair
+                                    label += new Intl.NumberFormat("fr-FR", {
+                                        style: "currency",
+                                        currency: "USD",
+                                    }).format(context.parsed.y);
+                                }
+                                return label;
+                            },
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                        },
+                        ticks: {
+                            maxRotation: 0,
+                            minRotation: 0,
+                            callback: function(val, index) {
+                                // Affiche seulement la première et la dernière étiquette
+                                return index === 0 || index === labels.length - 1 ?
+                                    this.getLabelForValue(val) :
+                                    "";
+                            },
+                        },
+                    },
+                    y: {
+                        min: -400,
+                        max: 400,
+                        ticks: {
+                            callback: function(value, index, ticks) {
+                                return value;
+                            },
+                        },
+                    },
+                },
+            },
+        };
+        // Initialisation du graphique au chargement de la fenêtre
+        window.onload = function() {
+            const ctx = document
+                .getElementById("transactionChart")
+                .getContext("2d");
+            new Chart(ctx, chartConfig);
+        };
+    </script>
+
 </body>
 
 </html>

@@ -11,37 +11,76 @@
 </head>
 
 <body>
-
     <header>
         <h2>Transfer</h2>
     </header>
-
     <div class="container">
         <div class="card p-4">
             <h5 class="mb-3">Send Money</h5>
             <form>
                 <div class="mb-3">
                     <label for="recipient" class="form-label">Recipient</label>
-                    <input type="text" class="form-control" id="recipient" placeholder="Enter name or phone number">
+                    <input type="text" class="form-control" id="recipient" placeholder="Enter name or phone number" />
                 </div>
                 <div class="mb-3">
                     <label for="amount" class="form-label">Amount</label>
-                    <input type="number" class="form-control" id="amount" placeholder="Enter amount">
+                    <input type="number" class="form-control" id="amount" placeholder="Enter amount" />
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Transfer</button>
             </form>
         </div>
     </div>
 
+    <script>
+        const recipientInput = document.getElementById("recipient");
+        const contactNameElem = document.getElementById("contactName");
+        recipientInput.addEventListener("input", () => {
+            if (contactNameElem) {
+                contactNameElem.textContent = recipientInput.value || "Recipient Name";
+            }
+        });
+
+        const amountInput = document.getElementById("amount");
+        const amountDisplayElem = document.getElementById("amountDisplay");
+        amountInput.addEventListener("input", () => {
+            if (amountDisplayElem) {
+                amountDisplayElem.textContent = amountInput.value ? `$${Number(amountInput.value).toFixed(2)}` : "$0.00";
+            }
+        });
+
+        const transferbtn = document.querySelector(".btn-primary");
+        if (transferbtn) {
+            transferbtn.addEventListener("click", (e) => {
+                e.preventDefault();
+                const recipientName = (contactNameElem && contactNameElem.textContent) ? contactNameElem.textContent : (recipientInput.value || "Recipient");
+                if (confirm("Do you want to transfer money to this recipient?")) {
+                    while (true) {
+                        const amount = prompt("Enter amount to transfer:");
+                        if (amount !== null && amount !== "" && !isNaN(amount) && Number(amount) > 0) {
+                            alert(`You have transferred $${Number(amount).toFixed(2)} to ${recipientName}.`);
+                            break;
+                        } else {
+                            alert("Please enter a valid amount.");
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
     <footer class="footer mt-5 py-3">
         <div class="d-flex justify-content-around">
-            <a href="pages/home.html" class="text-decoration-none text-muted active-link"><i class="bi bi-house-door-fill fs-4"></i><br>Home</a>
-            <a href="pages/history.html" class="text-decoration-none text-muted"><i class="bi bi-clock-history fs-4"></i><br>History</a>
-            <a href="pages/rewards.html" class="text-decoration-none text-muted"><i class="bi bi-gift fs-4"></i><br>Rewards</a>
-            <a href="pages/profile.html" class="text-decoration-none text-muted"><i class="bi bi-person fs-4"></i><br>Profile</a>
+            <a href="pages/home.html" class="text-decoration-none text-muted text-center"><i class="bi bi-house-door-fill fs-4"></i><br />Home</a>
+            <a href="pages/history.html" class="text-decoration-none text-muted text-center"><i class="bi bi-clock-history fs-4"></i><br />History</a>
+            <a href="pages/myqr.html" class="text-decoration-none text-muted text-center"><i class="bi bi-qr-code-scan fs-4"></i><br />My QR</a>
+            <a href="pages/rewards.html" class="text-decoration-none text-muted text-center"><i class="bi bi-gift fs-4"></i><br />Rewards</a>
+            <a href="pages/profile.html" class="text-decoration-none text-muted text-center"><i class="bi bi-person fs-4"></i><br />Profile</a>
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../Assets/app.js"></script>
 </body>
 
 </html>

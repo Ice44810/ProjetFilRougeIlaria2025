@@ -20,12 +20,32 @@
             <h5 class="mb-3">Your Virtual Card</h5>
             <!-- ajouter un eil pour voir le num de la carte si possible -->
             <div class="bg-primary text-white p-4 rounded-4">
-                <h4>**** **** **** 2458</h4>
+                <h4>
+                    <span id="cardNumber">**** **** **** 2458</span>
+                    <i class="bi bi-eye" id="toggleCardNumber" style="cursor: pointer;"></i>
+                </h4>
                 <p class="mb-0">Balance: $3,466.90</p>
                 <small>Valid thru: 12/27</small>
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#toggleCardNumber').on('click', function() {
+                const cardNumber = $('#cardNumber');
+                if (cardNumber.text().includes('****')) {
+                    cardNumber.text('**** **** **** 2458');
+                } else {
+                    cardNumber.text('**** **** **** ****');
+                }
+            });
+        });
+
+        #bi - eye {
+            cursor: pointer;
+        }
+    </script>
 
     <!-- FOOTER -->
     <footer class="footer mt-5 py-3">
@@ -36,7 +56,11 @@
             <a href="pages/rewards.html" class="text-decoration-none text-muted text-center"><i class="bi bi-gift fs-4"></i><br>Rewards</a>
             <a href="pages/profile.html" class="text-decoration-none text-muted text-center"><i class="bi bi-person fs-4"></i><br>Profile</a>
         </div>
+
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../Assets/app.js"></script>
 </body>
 
 </html>
