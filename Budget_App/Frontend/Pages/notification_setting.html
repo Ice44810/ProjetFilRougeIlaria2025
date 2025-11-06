@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notifications - Budget App</title>
+</head>
+
+<body>
+    <header class="header-bg text-white p-3 d-flex align-items-center">
+        <a href="./setting.html" class="text-white me-3">
+            <i class="bi bi-arrow-left fs-4"></i>
+        </a>
+        <h2 class="mb-0 fs-5">Paramètres de Notification</h2>
+    </header>
+
+    <div class="container-fluid p-3">
+        <h4 class="mb-3">Alertes Générales</h4>
+
+        <div class="list-group mb-4">
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-arrow-left-right me-3 text-primary"></i> Transferts entrants/sortants</span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" checked>
+                </div>
+            </div>
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-receipt me-3 text-primary"></i> Paiements de factures</span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" checked>
+                </div>
+            </div>
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-gift me-3 text-primary"></i> Offres et promotions</span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch">
+                </div>
+            </div>
+        </div>
+
+        <h4 class="mb-3 mt-4">Canaux de Communication</h4>
+
+        <div class="list-group mb-5">
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-phone me-3 text-primary"></i> Notifications Push (App)</span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" checked>
+                </div>
+            </div>
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-envelope me-3 text-primary"></i> Email</span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" checked>
+                </div>
+            </div>
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-chat-text me-3 text-primary"></i> SMS</span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer py-3">
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

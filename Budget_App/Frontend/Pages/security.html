@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sécurité - Budget App</title>
+</head>
+
+<body>
+    <header class="header-bg text-white p-3 d-flex align-items-center">
+        <a href="./setting.html" class="text-white me-3">
+            <i class="bi bi-arrow-left fs-4"></i>
+        </a>
+        <h2 class="mb-0 fs-5">Sécurité et Mot de Passe</h2>
+    </header>
+
+    <div class="container-fluid p-3">
+        <h4 class="mb-3">Gérer la Sécurité</h4>
+
+        <div class="list-group mb-4">
+            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-key me-3 text-primary"></i> **Changer le mot de passe**</span>
+                <i class="bi bi-chevron-right"></i>
+            </a>
+
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-shield-check me-3 text-primary"></i> **Authentification à 2 facteurs (2FA)**</span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="2faSwitch" checked>
+                </div>
+            </div>
+
+            <a href="#" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-laptop me-3 text-primary"></i> Appareils connectés</span>
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        </div>
+
+        <h4 class="mb-3 mt-4">Options de Connexion Rapide</h4>
+        <div class="list-group mb-5">
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-fingerprint me-3 text-primary"></i> **Déverrouillage biométrique**</span>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="biometricSwitch">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer py-3">
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

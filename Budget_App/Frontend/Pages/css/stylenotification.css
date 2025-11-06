@@ -1,0 +1,46 @@
+/* ======================================= */
+/* 4. STYLES SPÉCIFIQUES AUX NOTIFICATIONS */
+/* ======================================= */
+
+/* Amélioration des éléments de liste de notifications */
+.notification-list .list-group-item {
+    padding-left: 0;
+    /* Alignement propre si on utilise container-fluid */
+}
+
+/* Style de la notification Non LUE */
+.notification-list .unread {
+    /* Ajoute un fond légèrement distinctif pour le non-lu */
+    background-color: var(--bs-light);
+    border-left: 4px solid var(--app-primary-color);
+    /* Bande bleue pour l'attention */
+    padding-left: 12px;
+    /* Compense la bande de bordure */
+    transition: background-color 0.2s ease, border-left 0.2s ease;
+}
+
+/* Style de la notification Non LUE en Mode Sombre */
+[data-bs-theme="dark"] .notification-list .unread {
+    /* Utilise un gris subtilement plus clair que le fond sombre */
+    background-color: var(--bs-gray-900);
+}
+
+/* Assurer un bon alignement vertical pour l'icône */
+.notification-list .notification-icon {
+    margin-top: 3px;
+}
+
+/* Style du lien "Marquer tout lu" dans l'en-tête */
+.mark-all-read {
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.mark-all-read:hover {
+    opacity: 1;
+}
+
+/* Empêche le chevauchement si le texte de la notification est trop long */
+.list-group-item .text-truncate {
+    max-width: 90%;
+}

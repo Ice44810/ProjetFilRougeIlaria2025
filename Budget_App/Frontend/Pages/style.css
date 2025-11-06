@@ -394,13 +394,6 @@ footer {
     border-top: 1px solid #ddd;
 }
 
-/*
-* Le rôle de ce CSS est de gérer les éléments non standard de Bootstrap :
-* 1. La taille de l'image de profil.
-* 2. Les carrés colorés derrière les icônes (icon-square).
-* 3. Retirer les bordures des éléments de liste Bootstrap pour un look plus "propre" d'application.
-*/
-
 /* --- En-tête de profil --- */
 
 .profile-img {
