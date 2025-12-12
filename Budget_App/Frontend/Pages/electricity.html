@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Electricity - Budget App</title>
+    <title>Electricité - Budget App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../css/style.css" />
@@ -12,22 +12,22 @@
 
 <body>
     <header>
-        <h2>Electricity</h2>
+        <h2>Electricité</h2>
     </header>
 
     <div class="container">
         <div class="card p-4">
-            <h5 class="mb-3">Electricity Bill Payment</h5>
+            <h5 class="mb-3">Facture électricité</h5>
             <form>
                 <div class="mb-3">
-                    <label class="form-label">Meter Number</label>
-                    <input type="text" class="form-control" placeholder="Enter meter number" />
+                    <label class="form-label">Numéro Facture</label>
+                    <input type="text" class="form-control numero-facture" placeholder="saisir numéro facture" /><!-- j'ai remplacé métrique par numéro facture car cela me semble plus logique -->
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Amount</label>
-                    <input type="number" class="form-control" placeholder="Enter amount" />
+                    <label class="form-label">Montant</label>
+                    <input type="number" class="form-control montant" placeholder="Saisir montant" />
                 </div>
-                <button class="btn btn-warning w-100">Pay Electricity</button>
+                <button class="btn btn-warning w-100">Payer</button>
             </form>
         </div>
     </div>
@@ -46,6 +46,26 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../Assets/app.js"></script>
+
+    <script>
+        const numeroFacture = document.querySelector('.numero-facture');
+        const montant = document.querySelector('.montant');
+        const btnPayer = document.querySelector('.btn-warning');
+
+        btnPayer.addEventListener('click', (e) => {
+            e.preventDefault(); // empêche le rechargement du formulaire
+
+            const numeroFactureValue = numeroFacture.value;
+            const montantValue = montant.value;
+
+            if (numeroFactureValue && montantValue) {
+                alert(`Vous avez payé ${montantValue}€ dela facture n°${numeroFactureValue}.`);
+            } else {
+                alert('Veuillez entrer un numéro de facture et un montant valide.');
+            }
+
+        });
+    </script>
 </body>
 
 </html>

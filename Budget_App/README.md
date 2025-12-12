@@ -104,3 +104,4 @@ b	Définit la direction : Bas (bottom).
                 type: 'credit',
                 icon: 'person-fill',
                 color: 'text-success'
+                },

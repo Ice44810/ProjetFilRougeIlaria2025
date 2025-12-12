@@ -12,14 +12,21 @@
 
 <body>
     <header>
-        <h2>Movie</h2>
+        <h2>Film</h2>
     </header>
-
     <div class="container">
         <div class="card p-4 text-center">
-            <h5 class="mb-3">Buy Movie Tickets</h5>
-            <p>Book your next movie</p>
-            <button class="btn btn-danger w-100">Book Now</button>
+            <h5 class="mb-3">Acheter des Tickets</h5>
+            <select class="form-select form-select-sm text-center" aria-label="Small select example">
+                <option selected>Réservez votre prochain film</option>
+                <option value="1">UGC</option>
+                <a href="https://www.ugc.fr/"></a>
+                <option value="2">Gaumont Pathé</option>
+                <a href="https://www.pathe.fr/cinemas/cinema-pathe-nantes"></a>
+                <option value="3">Cinéville</option>
+                <a href="https://saint-sebastien.cineville.fr/programmes/sebastien?salle=sebastien"></a>
+            </select>
+            <button class="btn btn-danger w-100">Reserver Maintenant</button>
         </div>
     </div>
 
@@ -38,6 +45,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../Assets/app.js"></script>
 
+    <script>
+        // Récupération des éléments
+        const = document.querySelector('.form-select');
+        const btnReserver = document.querySelector('.btn-danger');
+
+        // Dictionnaire des liens associés aux cinémas
+        const cinemaLinks = {
+            "1": "https://www.ugc.fr/",
+            "2": "https://www.pathe.fr/cinemas/cinema-pathe-nantes",
+            "3": "https://saint-sebastien.cineville.fr/programmes/sebastien?salle=sebastien"
+        };
+
+        // Quand on clique sur le bouton "Réserver Maintenant"
+        btnReserver.addEventListener('click', () => {
+            const selectedValue = selectCinema.value;
+
+            if (!cinemaLinks[selectedValue]) {
+                alert("Veuillez sélectionner un cinéma avant de réserver.");
+                return;
+            }
+
+            // Ouvre le lien dans un nouvel onglet
+            window.open(cinemaLinks[selectedValue], "_blank");
+        });
+    </script>
 </body>
 
 </html>

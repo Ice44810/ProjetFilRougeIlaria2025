@@ -16,7 +16,7 @@
     </header>
     <div class="container">
         <div class="card p-4">
-            <h5 class="mb-3">Alimenter</h5>
+            <h5 class="mb-3">Alimenter mon compte</h5>
             <form>
                 <div class="mb-3">
                     <label class="form-label">Methode paiement</label>
@@ -43,7 +43,7 @@
             const paymentMethod = document.querySelector(".form-select").value;
             const amount = document.querySelector('input[placeholder="Entrer montant"]').value;
             if (paymentMethod && amount && !isNaN(amount) && Number(amount) > 0) {
-                alert(`Vous avez rechargez $${Number(amount).toFixed(2)} using ${paymentMethod}.`);
+                alert(`Vous avez rechargez €${Number(amount).toFixed(2)} par ${paymentMethod}.`);
             } else {
                 alert("Veuillez entrer une méthode de paiement et un montant valide.");
             }

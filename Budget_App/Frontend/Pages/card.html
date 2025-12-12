@@ -12,12 +12,12 @@
 
 <body>
     <header>
-        <h2>My Card</h2>
+        <h2>Ma Carte</h2>
     </header>
 
     <div class="container">
         <div class="card p-4 text-center">
-            <h5 class="mb-3">Your Virtual Card</h5>
+            <h5 class="mb-3">Ma Carte Vituelle</h5>
             <!-- ajouter un eil pour voir le num de la carte si possible -->
             <div class="bg-primary text-white p-4 rounded-4">
                 <h4>
@@ -29,23 +29,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        $(document).ready(function() {
-            $('#toggleCardNumber').on('click', function() {
-                const cardNumber = $('#cardNumber');
-                if (cardNumber.text().includes('****')) {
-                    cardNumber.text('**** **** **** 2458');
-                } else {
-                    cardNumber.text('**** **** **** ****');
-                }
-            });
-        });
-
-        #bi - eye {
-            cursor: pointer;
-        }
-    </script>
 
     <!-- FOOTER -->
     <footer class="footer mt-5 py-3">
@@ -62,6 +45,30 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../Assets/app.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#toggleCardNumber').on('click', function() {
+                const cardNumber = $('#cardNumber');
+                if (cardNumber.text().includes('****')) {
+                    cardNumber.text('**** **** **** 2458');
+                } else {
+                    cardNumber.text('**** **** **** ****');
+                }
+            });
+        });
+        const cardNumber = $('#cardNumber');
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleCardNumber = document.getElementById('toggleCardNumber');
+            toggleCardNumber.addEventListener('click', () => {
+                if (cardNumber.textContent === '**** **** **** 2458') {
+                    cardNumber.textContent = '**** **** **** ****';
+                } else {
+                    cardNumber.textContent = '**** **** **** 2458';
+                }
+            });
+            console.log('showing card number:', value, cardNumber);
+        });
+    </script>
 </body>
 
 </html>
