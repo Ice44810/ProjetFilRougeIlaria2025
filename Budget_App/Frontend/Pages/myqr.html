@@ -11,32 +11,35 @@
 </head>
 
 <body>
-    <header class="d-flex align-items-center bg-white p-3 border-bottom">
-        <i class="bi bi-arrow-left fs-4"></i>
-        <h5 class="ms-4 mb-0 fw-bold text-center">My QR</h5>
+    <header class="header-bg p-3 d-flex align-items-center">
+        <a href="./home.html" class="text-black me-3">
+            <i class="bi bi-arrow-left fs-4"></i>
+        </a>
+        <h2 class="mb-0 fs-5">Mon QR Code</h2>
     </header>
 
     <div class="container text-center">
         <div class="card p-4">
             <h5 class="mb-3">Screen Your QR Code</h5>
             <div id="qrcode"></div>
-            <a href="pages/myqr.html" class="text-decoration-none text-muted   text-center"><i class="bi bi-qr-code-scan fs-4"></i></a>
+            <a href="myqr.html" class="text-decoration-none text-muted   text-center"><i class="bi bi-qr-code-scan fs-4"></i></a>
             <div class="row mt-4">
                 <div class="col">
                     <button class="btn btn-outline-primary w-100"> <!-- éclair btn lorsqu'on le survole -->
                         <i class="bi bi-cash-coin me-2"></i>Payment QR
-                    </button> <!-- ajoute icone cash-coin (billet+$) -->
+                    </button>
+                    <a href="" class="text-decoration-none text-muted   text-center"><i class="fs-4"></i></a>
+
                 </div>
                 <div class="col">
                     <button class="btn btn-outline-danger w-100"> <!-- éclair btn lorsqu'on le survole -->
                         <i class="bi bi-qr-code-scan me-2"></i>Scan QR
                         <!-- ce bouton renvoie à la page de transfer -->
-                        <a href="pages/transfer.html" class="text-decoration-none text-muted text-center"></a>
+                        <a href="./transfer.html" class="text-decoration-none text-muted text-center"></a>
                     </button> <!-- ajoute icone qr-code-scan -->
                 </div>
             </div>
-            <!-- généré plus tard un QR -->
-            <!-- Comment générer un QR Code avec JavaScript -->
+
             <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0 /qrcode.min.js"></script> -->
         </div>
 
@@ -45,6 +48,9 @@
                 text: "UserID-12345",
                 width: 200,
                 height: 200,
+
+                // généré plus tard un QR -->
+                // Comment générer un QR Code avec JavaScript
             });
         </script>
 
@@ -52,11 +58,11 @@
 
         <footer class="footer mt-5 py-3">
             <div class="d-flex justify-content-around">
-                <a href="./home.html" class="text-decoration-none text-muted text-center"><i class="bi bi-house-door-fill fs-4"></i><br>Home</a>
-                <a href="./bankhistory.html" class="text-decoration-none text-muted text-center"><i class="bi bi-clock-history fs-4"></i><br>History</a>
-                <a href="./myqr.html" class="text-decoration-none text-muted text-center"><i class="bi bi-qr-code-scan fs-4"></i><br>My QR</a>
-                <a href="./rewards.html" class="text-decoration-none text-muted text-center"><i class="bi bi-gift fs-4"></i><br>Rewards</a>
-                <a href=./profile.html" class="text-decoration-none text-muted text-center"><i class="bi bi-person fs-4"></i><br>Profile</a>
+                <a href="./home.html" class="text-decoration-none text-muted text-center"><i class="bi bi-house-door-fill fs-4"></i><br>Accueil</a>
+                <a href="./bankhistory.html" class="text-decoration-none text-muted text-center"><i class="bi bi-clock-history fs-4"></i><br>Historique</a>
+                <a href="./myqr.html" class="text-decoration-none text-muted text-center"><i class="bi bi-qr-code-scan fs-4"></i><br>Mon QR</a>
+                <a href="./rewards.html" class="text-decoration-none text-muted text-center"><i class="bi bi-gift fs-4"></i><br>Récompenses</a>
+                <a href="./profile.html" class="text-decoration-none text-muted text-center"><i class="bi bi-person fs-4"></i><br>Profile</a>
             </div>
         </footer>
 

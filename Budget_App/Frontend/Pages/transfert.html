@@ -86,28 +86,26 @@
 
     <div class="fixed-bottom p-3 bg-white border-top">
         <button type="submit" class="btn btn-primary w-100 btn-lg">Effectuer le Transfert</button>
+        <button class="btn btn-success w-100">Confirmer</button>
+        <button class="btn btn-danger w-100">Annuler</button>
     </div>
 
-
-    <footer class="footer py-3">
-        <a href="pages/home.html" class="text-decoration-none text-muted text-center"><i class="bi bi-house-door-fill fs-4"></i><br />Home</a>
-        <a href="bankhistory.html" class="text-decoration-none text-muted text-center"><i class="bi bi-clock-history fs-4"></i><br />History</a>
-        <a href="./myqr.html" class="text-decoration-none text-muted text-center"><i class="bi bi-qr-code-scan fs-4"></i><br />My QR</a>
-        <a href="./rewards.html" class="text-decoration-none text-muted text-center"><i class="bi bi-gift fs-4"></i><br />Rewards</a>
-        <a href="./profile.html" class="text-decoration-none text-muted text-center"><i class="bi bi-person fs-4"></i><br />Profile</a>
+    <footer class="footer mt-5 py-3">
+        <div class="d-flex justify-content-around">
+            <a href="./home.html" class="text-decoration-none text-muted text-center"><i class="bi bi-house-door-fill fs-4"></i><br>Accueil</a>
+            <a href="./bankhistory.html" class="text-decoration-none text-muted text-center"><i class="bi bi-clock-history fs-4"></i><br>Historique</a>
+            <a href="./myqr.html" class="text-decoration-none text-muted text-center"><i class="bi bi-qr-code-scan fs-4"></i><br>Mon QR</a>
+            <a href="./rewards.html" class="text-decoration-none text-muted text-center"><i class="bi bi-gift fs-4"></i><br>Récompenses</a>
+            <a href="./profile.html" class="text-decoration-none text-muted text-center"><i class="bi bi-person fs-4"></i><br>Profile</a>
         </div>
     </footer>
 
     <script>
+        // récupère les données contact
         const recipientInput = document.getElementById("recipient");
-        // J'ai ajouté l'ID 'contactName' à un élément dans la liste des contacts pour que ceci fonctionne
-        const contactNameElem = document.getElementById("contactName");
         recipientInput.addEventListener("input", () => {
             if (contactNameElem) {
-                // Le nom du destinataire ne devrait pas changer en temps réel sur la liste des contacts
-                // Il serait mieux de l'afficher dans une zone séparée (ou de le désactiver).
-                // Je laisse cette ligne commentée si vous préférez l'ancien comportement :
-                // contactNameElem.textContent = recipientInput.value || "Recipient Name";
+
             }
         });
 
@@ -126,15 +124,15 @@
                 // Utilisation de l'input direct si le destinataire est entré manuellement
                 const recipientName = recipientInput.value || "Recipient";
 
-                if (confirm(`Do you want to transfer money to ${recipientName}?`)) {
+                if (confirm(`Voulez-vous transférer à${recipientName}?`)) {
                     while (true) {
                         // Utilisation du montant de l'input du formulaire, pas d'un prompt
                         const amount = amountInput.value;
                         if (amount !== null && amount !== "" && !isNaN(amount) && Number(amount) > 0) {
-                            alert(`You have transferred $${Number(amount).toFixed(2)} to ${recipientName}.`);
+                            alert(`vous avez transferé$${Number(amount).toFixed(2)} to ${recipientName}.`);
                             break;
                         } else {
-                            alert("Please enter a valid amount.");
+                            alert("Veuillez entrer un montant valide.");
                             break; // Sortir après l'alerte pour ne pas boucler indéfiniment
                         }
                     }

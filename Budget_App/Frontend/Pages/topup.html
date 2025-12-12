@@ -12,25 +12,26 @@
 
 <body>
     <header>
-        <h2>Top Up</h2>
+        <h2>Recharger</h2>
     </header>
     <div class="container">
         <div class="card p-4">
-            <h5 class="mb-3">Add Funds</h5>
+            <h5 class="mb-3">Alimenter</h5>
             <form>
                 <div class="mb-3">
-                    <label class="form-label">Payment Method</label>
+                    <label class="form-label">Methode paiement</label>
                     <select class="form-select">
-                        <option>Credit Card</option>
-                        <option>Bank Transfer</option>
-                        <option>Mobile Money</option>
+                        <option>Carte de Credit</option>
+                        <option>Virement Bancaire</option>
+                        <option>Google Pay</option>
+                        <option>Apple Pay</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Amount</label>
-                    <input type="number" class="form-control" placeholder="Enter amount" />
+                    <label class="form-label">Montant</label>
+                    <input type="number" class="form-control" placeholder="Entrer montant" />
                 </div>
-                <button class="btn btn-success w-100">Top Up Now</button>
+                <button class="btn btn-success w-100">Confirmer</button>
             </form>
         </div>
     </div>
@@ -40,11 +41,11 @@
         paymentMethodButton.addEventListener("click", (e) => {
             e.preventDefault();
             const paymentMethod = document.querySelector(".form-select").value;
-            const amount = document.querySelector('input[placeholder="Enter amount"]').value;
+            const amount = document.querySelector('input[placeholder="Entrer montant"]').value;
             if (paymentMethod && amount && !isNaN(amount) && Number(amount) > 0) {
-                alert(`You have topped up $${Number(amount).toFixed(2)} using ${paymentMethod}.`);
+                alert(`Vous avez rechargez $${Number(amount).toFixed(2)} using ${paymentMethod}.`);
             } else {
-                alert("Please enter a valid payment method and amount.");
+                alert("Veuillez entrer une méthode de paiement et un montant valide.");
             }
         });
     </script>
@@ -52,11 +53,11 @@
     <!-- FOOTER -->
     <footer class="footer mt-5 py-3">
         <div class="d-flex justify-content-around">
-            <a href="./home.html" class="text-decoration-none text-muted text-center"><i class="bi bi-house-door-fill fs-4"></i><br>Home</a>
-            <a href="./bankhistory.html" class="text-decoration-none text-muted text-center"><i class="bi bi-clock-history fs-4"></i><br>History</a>
-            <a href="./myqr.html" class="text-decoration-none text-muted text-center"><i class="bi bi-qr-code-scan fs-4"></i><br>My QR</a>
-            <a href="./rewards.html" class="text-decoration-none text-muted text-center"><i class="bi bi-gift fs-4"></i><br>Rewards</a>
-            <a href=./profile.html" class="text-decoration-none text-muted text-center"><i class="bi bi-person fs-4"></i><br>Profile</a>
+            <a href="./home.html" class="text-decoration-none text-muted text-center"><i class="bi bi-house-door-fill fs-4"></i><br>Accueil</a>
+            <a href="./bankhistory.html" class="text-decoration-none text-muted text-center"><i class="bi bi-clock-history fs-4"></i><br>Historique</a>
+            <a href="./myqr.html" class="text-decoration-none text-muted text-center"><i class="bi bi-qr-code-scan fs-4"></i><br>Mon QR</a>
+            <a href="./rewards.html" class="text-decoration-none text-muted text-center"><i class="bi bi-gift fs-4"></i><br>Récompenses</a>
+            <a href="./profile.html" class="text-decoration-none text-muted text-center"><i class="bi bi-person fs-4"></i><br>Profile</a>
         </div>
     </footer>
 
