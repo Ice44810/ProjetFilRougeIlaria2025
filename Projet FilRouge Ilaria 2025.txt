@@ -1,3 +1,48 @@
-Projet FilRouge Ilaria 2025
-S'aider de l'IA : 
-je suis developpeur full stack en formation. j'ai un projet fil rouge à réaliser. Mon projet consistera a créer un site …... un peu comme .... Je suis en cours git et github et on doit structurer notre repo pour le projet. Je compte utiliser html, css js pour le frontend. Pour le back, je pense utiliser python. Quelle structure de projet me conseilles-tu? fais des recherches sur internet car nous sommes en octobre 2025
+NOMENCLATURE DES PAGES DE L'APPLICATION :
+
+Home qui relie les autres pages
+
+*** Setting 
+1- Modifier le profil:
+    un clic sur Modifier le profil pour être redirigé vers la page "edit-profil.html
+
+2- Modifier le mot de passe :
+    un clic sur Modifier le mot de passe pour être redirigé vers la page "changermdp.html
+
+3- centre de sécurité :
+    un clic sur centre de sécurité pour être redirigé vers la page "securitycenter.html
+
+4- Authentification Biométrique
+
+5- Parametres de notification :
+    un clic sur Parametres de notification pour être redirigé vers la page "notificationsettings.html
+
+6- Langues
+    un clic sur Langues permet de sélectionner les langues
+
+7- Thème sombre / clair
+    permet de choisir le thème sombre ou clair
+
+8- Aide et support
+    un clic ici permet d'acceder au panneau d'aide et de support (on y trouve : Ressources d'aide(FAQ); Guide d'utilisateur et documentations; envoyer un mail; Appeler le service client; Demarrer une conversation(chat))
+
+9- Verrouollage Auto Apps
+    permet de sélectionner le temps de verrouillage de l'applications
+
+10- Déconnecter
+    un clic ici permet de se déconnecter de l'application, elle redirige vers la page "confirmation_deconnexion.html" et puis vers la page "login.html" par mésure de sécurité. 
+
+    // Tout ceci découle du transfert client 
+*** Contact: 
+    lorsqu'on clic sur un contact nous somme redirigé vers la page "Transfert"
+        un clic sur continuer pour être redirigé vers la page "Paymentsource.html"
+            un clic sur continuer pour être redirigé vers la page "Transfertconfirm.html"
+                un clic sur continuer pour être redirigé vers la Pop Up vérification OTP "Transfertconfirm.html"
+                    un clic sur continuer pour être redirigé vers la page "successfull.html"
+                        une fois validé, après clic sur validé, on retourne auto vers "home.html"
+                            une fois à l'acceuil, on reçois une notification d'AliPay(cliqué sur autoriser ou décliné)
+
+
+
+
+

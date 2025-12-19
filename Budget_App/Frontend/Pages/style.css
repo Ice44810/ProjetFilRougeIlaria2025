@@ -1,11 +1,7 @@
-/* 1. VARIABLES & BASE  */
-
-/* Définition des couleurs uniformes de l'application */
+/* VARIABLES GLOBALES */
 :root {
     --primary-purple: #5e35b1;
-    /* Violet foncé pour le fond du header */
     --purple-accent: #673ab7;
-    /* Violet pour les liens et icônes actives */
     --light-text: #ffffff;
     --secondary-text: #e0e0e0;
     --card-background: #ffffff;
@@ -13,312 +9,22 @@
     --light-gray-icon: #888;
 }
 
+/* BASE */
 body {
     background-color: #f8f9fa;
-    /* Arrière-plan général très clair */
     font-family: "Poppins", sans-serif;
-    /* Assurez-vous d'avoir Poppins lié dans votre HTML */
-    padding-bottom: 80px;
-    /* Espace nécessaire pour le footer fixe */
+    padding-bottom: 70px;
+    margin-bottom: 70px;
+    /* Espace pour le footer*/
 }
 
-/* 2. HEADER (Structure & Styles)*/
-
-/* Style pour la zone principale violette du header */
+/* HEADER */
 .mobile-header {
     background: var(--primary-purple);
     color: var(--light-text);
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Styles pour le profil */
-.profile-img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid var(--light-text);
-    object-fit: cover;
-}
-
-.username {
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-.slogan {
-    font-size: 0.8rem;
-    color: var(--secondary-text);
-}
-
-/* Notification Badge (Le "2" rouge) */
-.notification-icon {
-    position: relative;
-    display: inline-block;
-    color: var(--light-text);
-}
-
-.notification-icon::after {
-    content: '2';
-    position: absolute;
-    top: -5px;
-    right: -10px;
-    background-color: red;
-    color: var(--light-text);
-    border-radius: 50%;
-    font-size: 0.7rem;
-    padding: 1px 4px;
-    line-height: 1;
-    font-style: normal;
-    font-weight: bold;
-}
-
-/* Section des Statistiques (Carte blanche dans le header) */
-.stats-section {
-    background: var(--card-background);
-    color: var(--text-color);
-    border-radius: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.stat-label {
-    font-size: 0.8rem;
-    color: #888;
-    font-weight: 500;
-}
-
-.stat-value {
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.stat-value .bi-gift-fill {
-    color: #ff4500;
-    /* Orange/Rouge pour le cadeau */
-}
-
-.balance-col {
-    border-right: 1px solid #eee;
-}
-
-/* 3. ACTIONS RAPIDES (Transfer, Top up, Card, My QR) */
-
-.quick-actions-section {
-    padding: 0 10px;
-}
-
-.action-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: var(--text-color);
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.action-icon-wrapper {
-    position: relative;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-/* Style général des icônes principales */
-.action-icon-wrapper>i:first-child {
-    color: var(--light-gray-icon);
-}
-
-/* Styles pour les petites icônes superposées */
-/* en dessous de l'en-tête header  */
-.action-icon-wrapper i.transfer-arrow,
-.action-icon-wrapper i.topup-dollar,
-.action-icon-wrapper i.card-fill,
-.action-icon-wrapper i.qr-scan {
-    position: absolute;
-    font-size: 1rem;
-    color: var(--purple-accent);
-    background-color: white;
-    border-radius: 50%;
-    padding: 2px;
-    line-height: 1;
-}
-
-/* Positionnement pour les petites icônes */
-.transfer-arrow {
-    right: -2px;
-    bottom: -2px;
-}
-
-.topup-dollar {
-    right: 0px;
-    bottom: 0px;
-    font-size: 0.8rem !important;
-    padding: 3px;
-}
-
-.card-fill {
-    right: 0px;
-    bottom: 0px;
-    font-size: 0.8rem !important;
-    padding: 3px;
-}
-
-.qr-scan {
-    right: 0px;
-    bottom: 0px;
-    font-size: 0.8rem !important;
-    padding: 3px;
-}
-
-.action-text {
-    font-size: 0.8rem;
-    color: #555;
-    margin-bottom: 0;
-    text-align: center;
-}
-
-/* 4. Liste de services (Grid)*/
-/* en tete service */
-.service-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-color);
-}
-
-.view-all-link {
-    text-decoration: none;
-    color: var(--purple-accent);
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-/* Cartes de Service (Mobile, Internet, Bill, etc.) */
-.service-card {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-    text-decoration: none;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100px;
-}
-
-.service-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-}
-
-.service-card p {
-    font-size: 0.85rem;
-    font-weight: 500;
-}
-
-/* 5. FOOTER (Navigation Fixe)*/
-
-footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #ffffff;
-    border-top: 1px solid #dee2e6;
-    padding: 10px 0;
-    z-index: 1000;
-}
-
-.footer a {
-    color: #6c757d;
-    margin: 0 10px;
-    /* le flexbox gère l'espacement */
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 0.75rem;
-    text-align: center;
-}
-
-.footer a i {
-    font-size: 1.5rem;
-}
-
-/* Style de l'élément actif */
-.footer a.active-link {
-    color: var(--primary-purple);
-    font-weight: bold;
-}
-
-
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-}
-
-header h5 {
-    margin: 0;
-    font-weight: 600;
-}
-
-.search-bar {
-    background-color: #f1f1f1;
-    border-radius: 10px;
-    padding: 0.5rem 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.search-bar input {
-    border: none;
-    background: transparent;
-    outline: none;
-    flex-grow: 1;
-}
-
-.nav-tabs {
-    border-bottom: 2px solid #eee;
-}
-
-.nav-tabs .nav-link {
-    color: #888;
-    border: none;
-    font-weight: 500;
-}
-
-.nav-tabs .nav-link.active {
-    color: #000;
-    border-bottom: 2px solid #000;
-}
-
-/* .contact-item {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid #f1f1f1;
-} */
-
-/* .contact-item img {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
-} */
-
-body {
-    background-color: #fff;
 }
 
 header {
@@ -338,23 +44,141 @@ header h5 {
     font-weight: 600;
 }
 
-.search-container {
-    width: 100%;
-    background-color: #f1f1f1;
-    border-radius: 0;
-    padding: 0.75rem 1rem;
+/* HEADER TRANSFERT CLIENT  */
+.transfer-header {
+    background: linear-gradient(135deg, #5e35b1, #4a3cc9);
+    color: white;
+    padding: 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
+/* PROFIL */
+.profile-img-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--light-text);
+}
+
+.profile-img-large {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.username {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.slogan {
+    font-size: 0.8rem;
+    color: var(--secondary-text);
+}
+
+/* NOTIFICATION */
+.notification-icon {
+    position: relative;
+    color: var(--light-text);
+}
+
+.notification-icon::after {
+    content: '2';
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    padding: 2px 5px;
+    font-weight: bold;
+}
+
+/* STATS */
+.stats-section {
+    background: var(--card-background);
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.stat-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+/* ACTIONS RAPIDES */
+.quick-actions-section {
+    padding: 0 12px;
+}
+
+.action-item {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 0.8rem;
 }
 
-.search-container input {
-    border: none;
-    background: transparent;
-    outline: none;
-    flex-grow: 1;
+.action-icon-wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 6px;
+    position: relative;
 }
 
+.action-icon-wrapper i:first-child {
+    color: var(--light-gray-icon);
+}
+
+/* Icônes secondaires */
+.action-icon-wrapper i.transfer-arrow,
+.action-icon-wrapper i.topup-dollar,
+.action-icon-wrapper i.card-fill,
+.action-icon-wrapper i.qr-scan {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 0.8rem;
+    background: white;
+    padding: 3px;
+    border-radius: 50%;
+    color: var(--purple-accent);
+}
+
+/* SERVICES */
+.service-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.service-card {
+    background: white;
+    border-radius: 12px;
+    min-height: 100px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* NAV TABS */
 .nav-tabs {
     border-bottom: 2px solid #eee;
 }
@@ -370,75 +194,176 @@ header h5 {
     border-bottom: 2px solid #000;
 }
 
-.contact-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid #f1f1f1;
-    cursor: pointer;
+/* PARTIE TRANSFERT CLIENT */
+/* Balance card */
+.balance-card {
+    background: white;
+    border-radius: 18px;
+    padding: 16px;
+    margin-top: -30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, .08);
 }
 
-.contact-item img {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-}
-
-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 10px 0;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-}
-
-/* --- En-tête de profil --- */
-
-.profile-img {
-    width: 60px;
-    /* Taille de l'image de profil */
-    height: 60px;
-    object-fit: cover;
-    /* Ajout d'une petite bordure pour encadrer l'image comme sur l'exemple */
-    border: 2px solid #ddd;
-}
-
-/* --- Icônes de la liste --- */
-
-.icon-square {
-    /* Dimensions pour le carré derrière l'icône */
-    width: 35px;
-    height: 35px;
-
-    /* Centre l'icône à l'intérieur du carré */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 8px;
-
-    /* Taille de l'icône */
+.amount-input {
+    border-radius: 12px;
+    height: 56px;
     font-size: 1.1rem;
 }
 
-.list-group-item {
-    /* Fond blanc, bordure légère et uniforme */
-    background-color: white;
-    border-bottom: 1px solid #f1f1f1 !important;
-    border-left: none !important;
-    border-right: none !important;
-}
-
-/* La dernière ligne n'a pas de bordure en bas */
-.list-group-flush .list-group-item:last-child {
-    border-bottom: none !important;
-}
-
-/* S'assurer que le texte est bien noir par défaut et non le bleu des liens Bootstrap */
-.list-group-item span {
-    color: #333;
+.amount-btn {
+    border-radius: 20px;
+    padding: 8px 20px;
+    background-color: #f1f1f1;
+    border: none;
     font-weight: 500;
+}
+
+.amount-btn.active {
+    background-color: rgba(94, 53, 177, .15);
+    color: #5e35b1;
+}
+
+.continue-btn {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    height: 56px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    background-color: #5e35b1;
+    border: none;
+}
+
+
+.transfer-card {
+    background: white;
+    border-radius: 18px;
+    padding: 24px 16px;
+    margin-top: -30px;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .08);
+}
+
+.amount {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.divider {
+    border-top: 1px dashed #ddd;
+    margin: 20px 0;
+}
+
+/* Mode de Paiement */
+.payment-card {
+    background: white;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, .05);
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+/*Bouton Continue */
+.continue-btn,
+.confirm-btn,
+.button {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    height: 56px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    background-color: #3f51b8;
+    border: none;
+    cursor: pointer;
+}
+
+/* Partie confirmation de transfert */
+
+.transfer-header {
+    padding: 10px 16px 70px;
+    border-bottom-left-radius: 28px;
+    border-bottom-right-radius: 28px;
+    position: relative;
+}
+
+/* Card */
+.card-custom {
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    margin-top: -60px;
+}
+
+/* List rows */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+/* OTP Modal */
+.otp-modal {
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.otp-input {
+    width: 55px;
+    height: 55px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.otp-input:focus {
+    outline: none;
+    border-color: #5e35b1;
+}
+
+.otp-btn {
+    background-color: #5e35b1;
+    border-radius: 14px;
+    padding: 14px;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* FOOTER */
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #dee2e6;
+    padding: 6px 0;
+    z-index: 1000;
+}
+
+.footer a {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 0.7rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.footer a i {
+    font-size: 1.3rem;
+}
+
+.footer a.active-link {
+    color: var(--primary-purple);
+    font-weight: 600;
 }
