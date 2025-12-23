@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Transfert - Banque</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../Pages/style.css">
+</head>
+
+<!-- HEADER -->
+<header class="transferbank-header">
+    <div class="d-flex align-items-center mb-3">
+        <a href="./tansfertbank.html" class="me-3 text-white">
+            <i class="bi bi-chevron-left fs-3"></i>
+        </a>
+        <h5 class="mb-0 fw-semibold mx-auto text-white">Transfert</h5>
+    </div>
+</header>
+
+<body>
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-semibold">Transfert à</h6>
+            <a href="#" class="text-primary text-decoration-none small">Scan QR</a>
+        </div>
+
+        <!-- BANK -->
+        <!-- Ila faudra voir pour ajouter les logos des banques -->
+        <div class="form-box">
+            <label class="form-label small">Banque</label>
+            <select class="form-select">
+                <option>Visa</option>
+                <option> <a href="#" class="bank-item">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg">
+                        <span>Visa</span>
+                    </a>
+                </option>
+                <option> <a href="#" class="bank-item">
+                        <img src="../assets/images/Techcombank.png">
+                        <span>Techcombank</span>
+                    </a>
+                </option>
+                <option>ACB</option>
+                <option>Citibank</option>
+                <option>ICBC</option>
+                <option>Chase Bank</option>
+                <option>Vietinbank</option>
+                <option>Five Star Bank</option>
+            </select>
+        </div>
+
+        <!-- Numéro compte (SELECT) -->
+        <div class="form-box">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="form-label small mb-0">Numéro compte</label>
+                <a href="#" class="text-primary small d-flex align-items-center gap-1 text-decoration-none">
+                    Enregister Numéro
+                    <i class="bi bi-credit-card-2-front-fill fs-10"></i>
+                </a>
+            </div>
+            <input type="text" class="form-control border-0 p-0" value="1234 0000 2134 3243">
+        </div>
+        <!-- Nom du compte -->
+        <div class="form-box">
+            <label class="form-label small">Nom du compte</label>
+            <input type="text" class="form-control border-0 p-0" value="Themesflat">
+        </div>
+        <!-- MONTANT -->
+        <div class="form-box">
+            <label class="form-label small">Montant</label>
+            <input type="text" class="form-control border-0 p-0 mb-3" value="$50">
+
+            <div class="d-flex justify-content-between">
+                <button class="amount-btn active-link">€50</button>
+                <button class="amount-btn active-link">€75</button>
+                <button class="amount-btn active-link">€150</button>
+            </div>
+        </div>
+
+        <!-- MESSAGE -->
+        <div class="form-box">
+            <label class="form-label small">Message</label>
+            <input type="text" class="form-control border-0 p-0" value="Loan payment">
+        </div>
+
+        <!-- CHECKBOX -->
+        <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox" checked>
+            <label class="form-check-label small">
+                Enregister ce compte pour les futurs transferts
+            </label>
+        </div>
+
+    </div>
+
+    <div class="position-fixed bottom-0 w-100 p-3 bg-white">
+        <button class="btn continue-btn text-white w-100">Continue</button>
+    </div>
+    </div>
+
+</body>
+
+</html>
