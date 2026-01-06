@@ -8,64 +8,84 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../css/style.css" />
+    <style>
+        .bill-icon {
+            width: 110px;
+            height: 110px;
+            background: rgba(255, 0, 0, 0.12);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+        }
+
+        .bill-icon img {
+            width: 60px;
+        }
+
+        .rounded-box {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-primary {
+            background-color: #5e35b1;
+
+        }
+    </style>
 </head>
 
 <body>
-    <header>
-        <h2>Electricité</h2>
-    </header>
-
+    <!-- Header -->
+    <div class="container-fluid bg-white py-3 mb-3 shadow-sm">
+        <div class="container d-flex align-items-center">
+            <a href="home.html" class="me-3 text-dark"><i class="bi bi-chevron-left fs-5"></i></a>
+            <h5 class="m-0 fw-bold text-center">Ma Facture</h5>
+        </div>
+    </div>
     <div class="container">
-        <div class="card p-4">
-            <h5 class="mb-3">Facture électricité</h5>
-            <form>
-                <div class="mb-3">
-                    <label class="form-label">Numéro Facture</label>
-                    <input type="text" class="form-control numero-facture" placeholder="saisir numéro facture" /><!-- j'ai remplacé métrique par numéro facture car cela me semble plus logique -->
+        <div class="rounded-box d-flex align-items-center mb-4">
+            <span class="me-3 bi bi-lightbulb-fill fs-5" style="font-size: 15px;"></span>
+            <h5 class="m-0">Fournisseur Electricité</h5>
+        </div>
+        <div class="text-center py-5 bg-white rounded-4 shadow-sm">
+            <div class="bill-icon mb-4">
+                <img src="../Assets/images/icons8-vérifier.gif" alt="bill icon">
+            </div>
+            <h3 class="fw-bold text-danger">€70.0</h3>
+            <p class="fs-5 fw-semibold">Montant à payer</p>
+            <p class="text-muted">Mise à jour par le fournisseur</p>
+        </div><br>
+        <div class="text-center rounded-4 shadow-sm p-4">
+            <p class="fw-bold mb-4">Informations Client</p>
+            <div class="d-flex justify-content-between">
+                <!-- Colonne gauche -->
+                <div class="text-start">
+                    <p>Code client</p>
+                    <p>Nom client</p>
+                    <p>Mail</p>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Montant</label>
-                    <input type="number" class="form-control montant" placeholder="Saisir montant" />
+                <!-- Colonne droite -->
+                <div class="text-end">
+                    <p>PD123456789</p>
+                    <p>Themesflat</p>
+                    <p>themesflat@gmail.com</p>
                 </div>
-                <button class="btn btn-warning w-100">Payer</button>
-            </form>
+            </div>
+        </div>
+        <div class="mt-3">
+            <a href="./paymentsource.html" class="btn btn-primary w-100 fs-4">Paiement Facture</a>
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="footer mt-5 py-3">
-        <div class="d-flex justify-content-around">
-            <a href="./home.html" class="text-decoration-none text-muted text-center"><i class="bi bi-house-door-fill fs-4"></i><br>Accueil</a>
-            <a href="./bankhistory.html" class="text-decoration-none text-muted text-center"><i class="bi bi-clock-history fs-4"></i><br>Historique</a>
-            <a href="./myqr.html" class="text-decoration-none text-muted text-center"><i class="bi bi-qr-code-scan fs-4"></i><br>Mon QR</a>
-            <a href="./rewards.html" class="text-decoration-none text-muted text-center"><i class="bi bi-gift fs-4"></i><br>Récompenses</a>
-            <a href="./profile.html" class="text-decoration-none text-muted text-center"><i class="bi bi-person fs-4"></i><br>Profile</a>
-        </div>
-    </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="../Assets/app.js"></script>
-
     <script>
-        const numeroFacture = document.querySelector('.numero-facture');
-        const montant = document.querySelector('.montant');
-        const btnPayer = document.querySelector('.btn-warning');
 
-        btnPayer.addEventListener('click', (e) => {
-            e.preventDefault(); // empêche le rechargement du formulaire
-
-            const numeroFactureValue = numeroFacture.value;
-            const montantValue = montant.value;
-
-            if (numeroFactureValue && montantValue) {
-                alert(`Vous avez payé ${montantValue}€ dela facture n°${numeroFactureValue}.`);
-            } else {
-                alert('Veuillez entrer un numéro de facture et un montant valide.');
-            }
-
-        });
     </script>
+
 </body>
 
 </html>

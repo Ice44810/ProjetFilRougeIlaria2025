@@ -42,6 +42,7 @@ header h5 {
     transform: translateX(-50%);
     margin: 0;
     font-weight: 600;
+    align-items: center;
 }
 
 /* HEADER TRANSFERT CLIENT  */
@@ -220,10 +221,11 @@ header h5 {
 
 .amount-btn.active {
     background-color: rgba(94, 53, 177, .15);
-    color: #5e35b1;
+    color: #4f23c8;
 }
 
-.continue-btn {
+.continue-btn,
+.btncontinue {
     position: fixed;
     bottom: 15px;
     left: 15px;
@@ -231,7 +233,7 @@ header h5 {
     height: 56px;
     border-radius: 14px;
     font-size: 1.1rem;
-    background-color: #5e35b1;
+    background-color: #4f23c8;
     border: none;
 }
 
@@ -377,7 +379,7 @@ header h5 {
     outline: none;
 }
 
-/* ----- list bank ----- */
+/* List Bank */
 .bank-list {
     background-color: #fff;
     border-radius: 12px;
@@ -430,6 +432,39 @@ header h5 {
     color: #fff;
 }
 
+/* Partie Détails de contact */
+.profile-img {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+}
+
+.camera-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #fff;
+    border-radius: 50%;
+    padding: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.action-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #5a4dfc;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.info-row {
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+}
 
 /* FOOTER */
 footer {

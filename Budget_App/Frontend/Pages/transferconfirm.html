@@ -1,118 +1,162 @@
-< !DOCTYPE html>
-    <html lang="fr">
+<!DOCTYPE html>
+<html lang="fr">
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Confirmation Transfert</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        <link rel="stylesheet" href="../Pages/style.css">
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirmation Transfert</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../Pages/style.css">
+</head>
 
-    <body>
-        <!-- HEADER -->
-            <div class="transferconfirm-header">
-                <div class="d-flex justify-content-between align-items-center"><a href="./paymentsource.html" class="text-white"><i class="bi bi-chevron-left fs-3"></i></a>
-                    <h6 class="mb-0 fw-semibold text-white">Transfert</h6><span></span>
-                </div>
-                <div class="text-center mt-4">
-                    <div class="small text-white">Montant transfert</div>
-                    <p class="transfer-amount fs-3 text-white">€1200.0</p>
+<body>
+    <!-- HEADER -->
+    <div class="transferconfirm-header">
+        <div class="d-flex justify-content-between align-items-center"><a href="./paymentsource.html" class="text-white"><i class="bi bi-chevron-left fs-3"></i></a>
+            <h6 class="mb-0 fw-semibold text-white">Confirmation Transfert</h6><span></span>
+        </div>
+        <div class="text-center mt-4">
+            <div class="small text-white">Montant transfert</div>
+            <p class="transfer-amount fs-3 text-white">€70</p>
+        </div>
+    </div>
+    <!-- MAIN CARD -->
+    <div class="container">
+        <div class="card card-custom p-3">
+            <!-- Emétteur -->
+            <div>
+                <div class="text-muted small mb-0">De</div>
+                <div class="d-flex align-items-center gap-3"><img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" width="45" alt="Visa">
+                    <div>
+                        <div class="fw-semibold">Visa card</div>
+                        <div class="text-muted small">**** **** **** 4234</div>
+                    </div>
                 </div>
             </div>
-            
-            <!-- MAIN CARD -->
-                <div class="container">
-                    <div class="card card-custom p-3">
-                        <!-- Emétteur -->
-                            <div>
-                                <div class="text-muted small mb-0">De</div>
-                                <div class="d-flex align-items-center gap-3"><img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" width="45" alt="Visa">
-                                    <div>
-                                        <div class="fw-semibold">Visa card</div>
-                                        <div class="text-muted small">**** **** **** 4234</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="divider"></div>
-
-                            <!-- Recepteur -->
-                                <div>
-                                    <div class="text-muted small mb-0">A</div>
-                                    <div class="d-flex align-items-center gap-3"><img src="https://i.pravatar.cc/50" class="rounded-circle" width="45">
-                                        <div>
-                                            <div class="fw-semibold">Themesflat</div>
-                                            <div class="text-muted small">**** **** **** 2424</div>
-                                        </div>
-                                    </div>
-                                </div>
+            <div class="divider"></div>
+            <!-- Recepteur -->
+            <div>
+                <div class="text-muted small mb-0">A</div>
+                <div class="d-flex align-items-center gap-3"><img src="../Assets/images/Themesflat.jpg" class="rounded-circle" width="45">
+                    <div>
+                        <div class="fw-semibold">Themesflat</div>
+                        <div class="text-muted small">**** **** **** 2424</div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <!-- INFO TRANSFERT -->
+        <div class="card card-custom p-3 mt-3">
+            <div class="info-row"><span class="text-muted small">Montant transaction</span><strong>Gratuite</strong></div>
+            <div class="info-row"><span class="text-muted small">Montant en lettres</span><strong class="text-end">Mille deux<br>cent euros </strong></div>
+            <div class="info-row"><span class="text-muted small">Transfert à partir</span><strong>Portefeuille</strong></div>
+            <div class="info-row"><span class="text-muted small">Message</span><strong class="text-end">Marverick Nguyen<br>remboursement prêt </strong></div>
+        </div>
+    </div>
+    <div class="container text-center">
+        <button class="btn btn-primary confirm-btn w-100 py-3" id="btnToOTP">Confirmer</button>
+    </div>
+    <!-- MODALS -->
+    <div class="modal fade" id="otpModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 p-4 text-center">
+                <button type="button" class="btn-close position-absolute top-0 start-0 m-3" data-bs-dismiss="modal"></button>
+                <h5 class="fw-semibold mb-4">Verification OTP</h5>
+                <div class="d-flex justify-content-center gap-3 mb-3">
+                    <input type="text" maxlength="1" class="otp-input">
+                    <input type="text" maxlength="1" class="otp-input">
+                    <input type="text" maxlength="1" class="otp-input">
+                    <input type="text" maxlength="1" class="otp-input">
+                </div>
+                <p class="text-muted mb-1 small">A code has been sent to your phone</p>
+                <p class="mb-4"><span id="resendText" class="text-primary fw-semibold"><span id="timer">01:00</span></span></p>
+                <button class="btn btn-primary w-100 rounded-3 py-2" id="btnToLoading">Continuer</button>
+            </div>
+        </div>
+    </div>
 
-                    <!-- INFO TRANSFERT -->
-                        <div class="card card-custom p-3 mt-3">
-                            <div class="info-row"><span class="text-muted small">Montant transaction</span><strong>Gratuite</strong></div>
-                            <div class="info-row"><span class="text-muted small">Montant en lettres</span><strong class="text-end">Mille deux<br>cent euros </strong></div>
-                            <div class="info-row"><span class="text-muted small">Transfert à partir</span><strong>Portefeuille</strong></div>
-                            <div class="info-row"><span class="text-muted small">Message</span><strong class="text-end">Marverick Nguyen<br>remboursement prêt </strong></div>
-                        </div>
-                </div><button class="btn btn-primary confirm-btn" data-bs-toggle="modal" data-bs-target="#otpModal">Confirmer </button>
+    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 bg-transparent text-center">
+                <div class="spinner-border text-white mb-3" style="width: 3rem; height: 3rem;"></div>
+                <p class="text-white fw-bold">Encours...</p>
+            </div>
+        </div>
+    </div>
 
-                <!-- Outofocus MODAL (OTP) POPUP vérification -->
-                    <div class="modal fade" id="otpModal" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content rounded-4 p-4 text-center">
-
-                                <!-- Close --><button type="button" class="btn-close position-absolute top-0 start-0 m-3" data-bs-dismiss="modal"></button>
-                                    <h5 class="fw-semibold mb-4">Verification OTP</h5>
-
-                                    <!-- OTP Inputs -->
-                                        <div class="d-flex justify-content-center gap-3 mb-3"><input type="text" maxlength="1" class="otp-input"><input type="text" maxlength="1" class="otp-input"><input type="text" maxlength="1" class="otp-input"><input type="text" maxlength="1" class="otp-input"></div>
-                                        <p class="text-muted mb-1">A code has been sent to your phone</p>
-                                        <p class="mb-4"><span id="resendText" class="text-primary fw-semibold"><span id="timer">01:00</span></span></p><button class="btn btn-primary w-100 rounded-3 py-2">Continuer </button>
-                            </div>
-                        </div>
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 p-5 text-center bg-primary text-white overflow-hidden">
+                <div class="bg-white rounded-4 p-4 text-dark shadow position-relative" style="z-index: 2;">
+                    <div class="bg-success rounded-circle d-inline-flex p-3 mb-3 text-white">
+                        <i class="bi bi-check-lg fs-1"></i>
                     </div>
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-                    <script>
-                        let countdown;
-                        const timerElement = document.getElementById("timer");
-                        const resendText = document.getElementById("resendText");
+                    <h4 class="fw-bold">Succes!</h4>
+                    <p class="text-muted small">Votre transfert a été effectuer!</p>
+                    <div class="my-4">
+                        <span class="text-muted small">Total Transfert</span>
+                        <h2 class="fw-bold text-primary" id="successAmountDisplay">€70.0</h2>
+                    </div>
+                    <button class="btn btn-primary w-100 py-3" id="btnDone">Terminer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                        function startCountdown() {
-                            let timeLeft = 60;
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialisation des modals
+            const modalOtp = new bootstrap.Modal(document.getElementById('otpModal'));
+            const modalLoading = new bootstrap.Modal(document.getElementById('loadingModal'));
+            const modalSuccess = new bootstrap.Modal(document.getElementById('successModal'));
 
-                            clearInterval(countdown);
+            // 1. Ouvrir OTP au clic sur Confirmer
+            document.getElementById('btnToOTP').addEventListener('click', () => {
+                modalOtp.show();
+            });
 
-                            countdown = setInterval(() => {
-                                    let minutes = Math.floor(timeLeft / 60);
-                                    let seconds = timeLeft % 60;
+            // 2. OTP -> Loading -> Succès
+            document.getElementById('btnToLoading').addEventListener('click', () => {
+                modalOtp.hide();
+                setTimeout(() => {
+                    modalLoading.show();
+                    // Simulation du traitement
+                    setTimeout(() => {
+                        modalLoading.hide();
+                        // Correction : on affiche le montant fixe ou récupéré
+                        document.getElementById('successAmountDisplay').textContent = "€70.0";
+                        setTimeout(() => modalSuccess.show(), 400);
+                    }, 2000);
+                }, 400);
+            });
 
-                                    timerElement.textContent = `$ {
-                String(minutes).padStart(2, '0')
-            }
+            // 3. Redirection Home
+            document.getElementById('btnDone').addEventListener('click', () => {
+                window.location.href = 'home.html';
+            });
 
-            :$ {
-                String(seconds).padStart(2, '0')
-            }
+            // 4. Auto-focus OTP inputs
+            const otpInputs = document.querySelectorAll('.otp-input');
+            otpInputs.forEach((input, index) => {
+                input.addEventListener('input', () => {
+                    if (input.value && index < otpInputs.length - 1) otpInputs[index + 1].focus();
+                });
+            });
 
-            `;
+            // 5. Timer OTP simplifié
+            let timeLeft = 60;
+            const timerElement = document.getElementById("timer");
+            const countdown = setInterval(() => {
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                timerElement.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+                if (timeLeft <= 0) clearInterval(countdown);
+                timeLeft--;
+            }, 1000);
+        });
+    </script>
+</body>
 
-                                    if (timeLeft <= 0) {
-                                        clearInterval(countdown);
-                                        resendText.innerHTML = `<a href="#"class="fw-semibold text-primary">Resend code</a>`;
-                                    }
-
-                                    timeLeft--;
-                                }
-
-                                , 1000);
-                        }
-
-                        /* Démarre le timer à l’ouverture du modal */
-                        const otpModal = document.getElementById('otpModal');
-                        otpModal.addEventListener('shown.bs.modal', startCountdown);
-                    </script>
-    </body>
-
-    </html>
+</html>
