@@ -11,7 +11,6 @@
 </head>
 
 <body>
-    <!-- partie header -->
     <header class="mobile-header">
         <div class="container-fluid">
             <div class="header-top d-flex justify-content-between align-items-center p-3">
@@ -25,34 +24,47 @@
                     </div>
                 </div>
                 <div class="header-icons">
-                    <i class="bi bi-grid-fill fs-4 me-3"></i>
-                    <a href="./notifications.html" class="notification-link position-relative text-dark">
-                        <i class="bi bi-bell-fill fs-4 notification-icon"></i>
-                        <span class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-1 border border-light d-none">
-                            <span class="visually-hidden">Nouvelles notifications</span>
-                        </span>
+                    <a href="#offcanvasLeft" class="menu-link text-white me-3" data-bs-toggle="offcanvas" role="button">
+                        <i class="bi bi-grid fs-4 me-3"></i>
                     </a>
+
+                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasLeft">
+                        <div class="offcanvas-header bg-primary text-white d-flex justify-content-between">
+                            <span class="bi bi-wallet2 gap-2">Budget App</span>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <p class="text-muted small fw-bold">MENU</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
+                                    <span><i class="bi bi-house me-3"></i> Home</span>
+                                    <i class="bi bi-chevron-right small text-muted"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+                <a href="./notifications.html" class="notification-link position-relative text-dark">
+                    <i class="bi bi-bell-fill fs-4"></i>
+                    <span class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-1 border border-light d-none"></span>
+                </a>
             </div>
             <div class="stats-section p-3 mx-2 mb-3">
                 <div class="row g-0">
-                    <div class="col-6 balance-col pe-2">
+                    <div class="col-6 pe-2">
                         <p class="stat-label mb-1">Votre solde:</p>
                         <p class="stat-value text-black">€3 466,9</p>
                     </div>
-                    <div class="col-6 reward-col ps-2">
-                        <a href="./rewards.html" class="text-decoration-none text-dark d-block">
-                            <p class="stat-label mb-1 text-end">Vos recompenses:</p>
-                            <p class="stat-value text-end">
-                                <i class="bi bi-gift-fill me-1"></i>
-                                307 Point
-                            </p>
+                    <div class="col-6 ps-2 text-end">
+                        <a href="./rewards.html" class="text-decoration-none text-dark">
+                            <p class="stat-label mb-1">Vos recompenses:</p>
+                            <p class="stat-value"><i class="bi bi-gift-fill me-1"></i>307 Point</p>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
-    </header> <!-- Fin partie header -->
+    </header>
 
     <main>
         <div class="quick-actions-section container-fluid mt-4 mb-4">
@@ -96,7 +108,6 @@
             </div>
         </div>
 
-        <!-- cette partie à retravailler -->
         <div class="container-fluid service-header mt-4 px-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="service-title mb-0">Vos services</h4>
@@ -161,143 +172,148 @@
         </div>
 
         <!-- 2ème partie tableau : contacts rescents -->
-        <div class="container-fluid mt-4 px-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h4 class="service-title mb-0">Contacts Rescents</h4>
-                <a href="#collapseContactsRecents" id="toggleContacts" class="view-all-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseContactsRecents">
+        <div class="container-fluid service-header mt-4 px-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="service-title mb-0">Contacts Récents</h4>
+                <a href="#collapseContactsRecents" id="toggleContactsRecents" class="view-all-link" data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseContactsRecents">
                     Tout voir <!-- permet de cacher des élémets sur une page -->
                 </a>
             </div>
+        </div>
 
-            <div class="collapse" id="collapseContactsRecents">
-                <div class="row row-cols-3 row-cols-sm-4 row-cols-md-6 g-3 mb-4">
-                    <div class="col text-center">
-                        <img src="../Assets/images/esther.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+        <div class="collapse " id="collapseContactsRecents">
+            <div class="row row-cols-3 row-cols-sm-4 row-cols-md-6 g-3      mb-4">
+                <div class="col text-center">
+                    <img src="../Assets/images/esther.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
                 border: 3px solid transparent; padding: 2px;
                 box-shadow: 0 0 0 1px #d3d3d3;">
-                        <p class="small text-truncate mb-0">Esther</p>
-                    </div>
-
-                    <div class="col text-center">
-                        <img src="../Assets/images/hawkins.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                border: 3px solid transparent; padding: 2px;
-                box-shadow: 0 0 0 1px #d3d3d3;">
-                        <p class="small text-truncate mb-0">Hawkins</p>
-                    </div>
-
-                    <div class="col text-center">
-                        <img src="../Assets/images/jenny.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                border: 3px solid transparent; padding: 2px;
-                box-shadow: 0 0 0 1px #d3d3d3;">
-                        <p class="small text-truncate mb-0">Jenny</p>
-                    </div>
-                    <div class="col text-center">
-                        <img src="../Assets/images/leslie.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                border: 3px solid transparent; padding: 2px;
-                box-shadow: 0 0 0 1px #d3d3d3;">
-                        <p class="small text-truncate mb-0">Leslie</p>
-                    </div>
-
-                    <div class="col text-center">
-                        <img src="../Assets/images/jerome.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                border: 3px solid transparent; padding: 2px;
-                box-shadow: 0 0 0 1px #d3d3d3;">
-                        <p class="small text-truncate mb-0">Jerome</p>
-                    </div>
-
-                    <div class="col text-center">
-                        <img src="../Assets/images/betty.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                border: 3px solid transparent; padding: 2px;
-                box-shadow: 0 0 0 1px #d3d3d3;">
-                        <p class="small text-truncate mb-0">Betty</p>
-                    </div>
-
-                    <!-- CARD 1 -->
-                    <div class="d-flex justify-content-center">
-                        <div class="card rounded-3 border-0" style="max-width: 300px; background-color: #ffda47; min-height: 180px;">
-                            <div class="card-body p-3 d-flex align-items-center justify-content-between">
-                                <div>
-                                    <p class="text-muted small">Illustration ici</p>
-                                </div>
-                                <div class="text-end">
-                                    <h3 class="fw-bold mb-2" style="color: #4a4a4a;">
-                                        SHOPPING <br> EN LIGNE
-                                    </h3>
-                                    <button class="btn btn-sm text-white border-0" style="background-color: #ff69b4;">
-                                        Plus
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- CARD 2 -->
-                    <div class="card rounded-3 border-0" style="max-width: 300px; background-color: #47eaff; min-height: 180px;">
-                        <div class="card-body p-3 d-flex align-items-center justify-content-between">
-                            <div>
-                                <p class="text-muted small">Illustration ici</p>
-                            </div>
-                            <div class="text-end">
-                                <h3 class="fw-bold mb-2" style="color: #4a4a4a;">
-                                    SHOPPING <br> EN LIGNE
-                                </h3>
-                                <button class="btn btn-sm text-white border-0" style="background-color: #ff69b4;">
-                                    Plus
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CARD 3 -->
-                    <div class="card rounded-3 border-0" style="max-width: 300px; background-color: #b4b4b4; min-height: 180px;">
-                        <div class="card-body p-3 d-flex align-items-center justify-content-between">
-                            <div>
-                                <p class="text-muted small">Illustration ici</p>
-                            </div>
-                            <div class="text-end">
-                                <h3 class="fw-bold mb-2" style="color: #4a4a4a;">
-                                    SHOPPING <br> EN LIGNE
-                                </h3>
-                                <button class="btn btn-sm text-white border-0" style="background-color: #ff69b4;">
-                                    Plus
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- CARD 4 -->
-                    <div class="card rounded-3 border-0" style="max-width: 300px; background-color: #46886c; min-height: 180px;">
-                        <div class="card-body p-3 d-flex align-items-center justify-content-between">
-                            <div>
-                                <p class="text-muted small">Illustration ici</p>
-                            </div>
-                            <div class="text-end">
-                                <h3 class="fw-bold mb-2" style="color: #4a4a4a;">
-                                    SHOPPING <br> EN LIGNE
-                                </h3>
-                                <button class="btn btn-sm text-white border-0" style="background-color: #ff69b4;">
-                                    Plus
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
+                    <p class="small text-truncate mb-0">Esther</p>
                 </div>
 
-                <!-- CONTRÔLES -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#cardsCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                    <span class="visually-hidden">Précédent</span>
-                </button>
+                <div class="col text-center">
+                    <img src="../Assets/images/hawkins.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                border: 3px solid transparent; padding: 2px;
+                box-shadow: 0 0 0 1px #d3d3d3;">
+                    <p class="small text-truncate mb-0">Hawkins</p>
+                </div>
 
-                <button class="carousel-control-next" type="button" data-bs-target="#cardsCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                    <span class="visually-hidden">Suivant</span>
-                </button>
+                <div class="col text-center">
+                    <img src="../Assets/images/jenny.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                border: 3px solid transparent; padding: 2px;
+                box-shadow: 0 0 0 1px #d3d3d3;">
+                    <p class="small text-truncate mb-0">Jenny</p>
+                </div>
+                <div class="col text-center">
+                    <img src="../Assets/images/leslie.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                border: 3px solid transparent; padding: 2px;
+                box-shadow: 0 0 0 1px #d3d3d3;">
+                    <p class="small text-truncate mb-0">Leslie</p>
+                </div>
+
+                <div class="col text-center">
+                    <img src="../Assets/images/jerome.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                border: 3px solid transparent; padding: 2px;
+                box-shadow: 0 0 0 1px #d3d3d3;">
+                    <p class="small text-truncate mb-0">Jerome</p>
+                </div>
+
+                <div class="col text-center">
+                    <img src="../Assets/images/betty.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                border: 3px solid transparent; padding: 2px;
+                box-shadow: 0 0 0 1px #d3d3d3;">
+                    <p class="small text-truncate mb-0">Betty</p>
+                </div>
+
+                <div class="collapse show" id="collapseContactsRecents">
+                    <div class="row row-cols-3 row-cols-sm-4 row-cols-md-6 g-3 mb-4">
+                        <div class="col text-center">
+                            <img src="../Assets/images/esther.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover; border: 3px solid transparent; padding: 2px; box-shadow: 0 0 0 1px #d3d3d3;">
+                            <p class="small text-truncate mb-0">Esther</p>
+                        </div>
+                        <div class="col text-center">
+                            <img src="../Assets/images/betty.jpg" alt="Betty" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover; border: 3px solid transparent; padding: 2px; box-shadow: 0 0 0 1px #d3d3d3;">
+                            <p class="small text-truncate mb-0">Betty</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-        </div>
-        </div>
-        </div>
+            <div class="scroll-container px-4">
+                <div class="shopping-card-item">
+                    <div class="card rounded-4 border-0 p-3 shadow-sm" style="background-color: #68c0d1; min-height: 150px;">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-center">
+                                <img src="../Assets/images/iconeshopping.jpg" alt="Mode" class="rounded-3 bg-white" style="width: 60px; height: 60px; object-fit: contain;">
+                                <p class="small mb-0 fw-bold mt-1 text-dark">Mode</p>
+                            </div>
+                            <div class="text-end">
+                                <h5 class="fw-bold mb-2 text-dark">SHOPPING EN<br>LIGNE</h5>
+                                <button class="btn btn-sm btn-dark rounded-pill px-3">Plus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shopping-card-item">
+                    <div class="card rounded-4 border-0 p-3 shadow-sm" style="background-color: #131921; min-height: 150px;">
+                        <div class="d-flex justify-content-between align-items-center text-white">
+                            <div>
+                                <i class="bi bi-amazon fs-1 text-warning"></i>
+                                <p class="small mb-0 fw-bold">Amazon</p>
+                            </div>
+                            <div class="text-end">
+                                <h6 class="fw-bold mb-2">PRIME DAY<br>DISPONIBLE</h6>
+                                <a href="https://www.amazon.fr" class="btn btn-sm btn-warning rounded-pill px-3 fw-bold">Plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shopping-card-item">
+                    <div class="card rounded-4 border-0 p-3 shadow-sm" style="background-color: #e1bc2a; min-height: 150px;">
+                        <div class="d-flex justify-content-between align-items-center text-dark">
+                            <div class="text-center">
+                                <img src="../Assets/images/logofnac.png" alt="FNAC" class="rounded-3 bg-white p-1" style="width: 50px;">
+                                <p class="small mb-0 fw-bold mt-1">FNAC</p>
+                            </div>
+                            <div class="text-end">
+                                <h5 class="fw-bold mb-2">OFFRES<br>ADHÉRENTS</h5>
+                                <a href="https://www.fnac.com" class="btn btn-sm btn-dark rounded-pill px-3">Plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shopping-card-item">
+                    <div class="card rounded-4 border-0 p-3 shadow-sm" style="background-color: #3142ac; min-height: 150px;">
+                        <div class="d-flex justify-content-between align-items-center text-white">
+                            <div class="text-center">
+                                <img src="../Assets/images/logocdiscount.png" alt="Cdiscount" style="width: 100px; background-color: white;" class="rounded-3 p-1">
+                                <p class="small mb-0 fw-bold mt-1">Cdiscount</p>
+                            </div>
+                            <div class="text-end">
+                                <h5 class="fw-bold mb-2">Ventes<br>Flash</h5>
+                                <a href="https://www.cdiscount.com" class="btn btn-sm btn-light text-primary rounded-pill px-3 fw-bold">Plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shopping-card-item">
+                    <div class="card rounded-4 border-0 p-3 shadow-sm" style="background-color: #e38556; min-height: 150px;">
+                        <div class="d-flex justify-content-between align-items-center text-white">
+                            <div class="text-center">
+                                <img src="../Assets/images/logoboulanger.png" alt="Boulanger" style="width: 100px; background-color: white;" class="rounded-3 p-1">
+                                <p class="small mb-0 fw-bold mt-1">Boulanger</p>
+                            </div>
+                            <div class="text-end">
+                                <h5 class="fw-bold mb-2">Ventes<br>Flash</h5>
+                                <a href="https://www.boulanger.com" class="btn btn-sm btn-light text-primary rounded-pill px-3 fw-bold">Plus</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </main>
 
     <!-- FOOTER -->
@@ -330,8 +346,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
-
             // NOTIFICATIONS
 
             const badge = document.querySelector('.notification-badge');
@@ -349,11 +363,10 @@
                 notificationLink.addEventListener('click', (e) => {
                     e.preventDefault();
                     toggleNotificationBadge(false);
-                    // Redirection après action (optionnel)
+                    // Redirection après action
                     window.location.href = notificationLink.getAttribute('href');
                 });
             }
-
 
             // COLLAPSE CONTACTS RÉCENTS
 

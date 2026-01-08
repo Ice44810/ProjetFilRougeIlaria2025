@@ -19,7 +19,8 @@ body {
 }
 
 /* HEADER */
-.mobile-header {
+.mobile-header,
+.offcanvas-header {
     background: var(--primary-purple);
     color: var(--light-text);
     border-bottom-left-radius: 25px;
@@ -46,7 +47,8 @@ header h5 {
 }
 
 /* HEADER TRANSFERT CLIENT  */
-.transfer-header {
+.transfer-header,
+.offcanvas-header {
     background: linear-gradient(135deg, #5e35b1, #4a3cc9);
     color: white;
     padding: 20px;
@@ -196,6 +198,14 @@ header h5 {
 }
 
 /* PARTIE TRANSFERT CLIENT */
+.transfer-header {
+    background: linear-gradient(135deg, #5e35b1, #4a3cc9);
+    color: white;
+    padding: 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
 /* Balance card */
 .balance-card {
     background: white;
@@ -464,6 +474,42 @@ header h5 {
 .info-row {
     padding: 14px 0;
     border-bottom: 1px solid #eee;
+}
+
+/* Partie Shopping / market */
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    /* Active le scroll horizontal */
+    gap: 15px;
+    padding: 10px 5px;
+    scroll-snap-type: x mandatory;
+    /* Aligne les cartes proprement */
+    -webkit-overflow-scrolling: touch;
+    /* Scroll fluide sur iPhone */
+}
+
+/* Optionnel : Personnaliser la barre de défilement pour qu'elle soit discrète */
+.scroll-container::-webkit-scrollbar {
+    height: 4px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+
+.shopping-card-item {
+    flex: 0 0 85%;
+    /* Sur mobile, on voit 1.15 carte */
+    scroll-snap-align: center;
+}
+
+/* Sur tablette et PC, on réduit la taille des cartes pour en voir 3 d'un coup */
+@media (min-width: 768px) {
+    .shopping-card-item {
+        flex: 0 0 30%;
+    }
 }
 
 /* FOOTER */
