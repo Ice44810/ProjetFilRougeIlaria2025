@@ -1,3 +1,16 @@
+/* Sur tablette et PC, on réduit la taille des cartes pour en voir 3 d'un coup */
+@media (min-width: 768px) {
+    .shopping-card-item {
+        flex: 0 0 30%;
+    }
+}
+
+@media (max-width: 576px) {
+    .offcanvas {
+        width: 100% !important;
+    }
+}
+
 /* VARIABLES GLOBALES */
 :root {
     --primary-purple: #5e35b1;
@@ -18,7 +31,13 @@ body {
     /* Espace pour le footer*/
 }
 
-/* HEADER */
+a {
+    text-decoration: none !important;
+    color: inherit;
+    /* Enlève la couleur par défaut des liens */
+}
+
+/* HEADER GENERAL */
 .mobile-header,
 .offcanvas-header {
     background: var(--primary-purple);
@@ -35,15 +54,6 @@ header {
     padding: 1rem;
     border-bottom: 1px solid #eee;
     position: relative;
-}
-
-header h5 {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    font-weight: 600;
-    align-items: center;
 }
 
 /* HEADER TRANSFERT CLIENT  */
@@ -415,14 +425,7 @@ header h5 {
     height: 26px;
 }
 
-/* Hover + focus */
-.bank-item:hover,
-.bank-item:focus {
-    background-color: rgba(94, 53, 177, 0.12);
-    outline: none;
-}
-
-/* Partie TRANSFERT BY BANK */
+/* Partie TRANSFERT BANK */
 .form-box {
     background: #fff;
     border-radius: 14px;
@@ -482,34 +485,323 @@ header h5 {
     overflow-x: auto;
     /* Active le scroll horizontal */
     gap: 15px;
-    padding: 10px 5px;
-    scroll-snap-type: x mandatory;
-    /* Aligne les cartes proprement */
-    -webkit-overflow-scrolling: touch;
-    /* Scroll fluide sur iPhone */
+    /* Espace entre les coupons */
+    scrollbar-width: none;
+    padding-bottom: 10px;
+    cursor: grab;
+    user-select: none;
+    scroll-behavior: smooth;
+    /* Adouci le scroll */
 }
 
-/* Optionnel : Personnaliser la barre de défilement pour qu'elle soit discrète */
+.coupon-card {
+    min-width: 280px;
+    /* IMPORTANT : empêche le coupon de rétrécir */
+    flex-shrink: 0;
+    /* Empêche Bootstrap de forcer la largeur */
+    display: flex;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #eee;
+}
+
+/* Style des petits points (...) */
+.dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ccc;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background-color: #198754;
+    /* Couleur verte pour correspondre à tes coupons */
+    width: 20px;
+    /* Effet "pilule" pour le point actif */
+    border-radius: 10px;
+}
+
+/* Barre de scroll */
 .scroll-container::-webkit-scrollbar {
-    height: 4px;
+    display: none;
 }
 
-.scroll-container::-webkit-scrollbar-thumb {
+.scroll-container:active {
+    cursor: grabbing;
+}
+
+/* Cache la scrollbar pour Chrome */
+.overflow-auto::-webkit-scrollbar {
+    display: none;
+}
+
+/* Assure un défilement fluide sur iOS */
+.overflow-auto {
+    -webkit-overflow-scrolling: touch;
+}
+
+.scroll-container::-webkit-scrollbar-thumb,
+.scroll-container2::-webkit-scrollbar-thumb {
     background: #ccc;
     border-radius: 10px;
 }
 
 .shopping-card-item {
-    flex: 0 0 85%;
-    /* Sur mobile, on voit 1.15 carte */
-    scroll-snap-align: center;
+    flex: 0 0 50%;
+    scroll-snap-align: start;
 }
 
-/* Sur tablette et PC, on réduit la taille des cartes pour en voir 3 d'un coup */
-@media (min-width: 768px) {
-    .shopping-card-item {
-        flex: 0 0 30%;
-    }
+/* --- Partie Catégories Rewards --- */
+.category-item {
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.category-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-size: 24px;
+}
+
+/* --- Styles Gift Cards (Coupons) --- */
+.coupon-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    height: 100px;
+}
+
+.coupon-left {
+    padding: 15px;
+    flex-grow: 1;
+    position: relative;
+}
+
+.coupon-left::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background: #f8f9fa;
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.coupon-right {
+    width: 100px;
+    /* Définit la largeur de la partie image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.background-image {
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- Styles Deals --- */
+.deal-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.deal-card:hover {
+    transform: translateY(-5px);
+}
+
+.discount-badge {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    background-color: #dc3545;
+    color: white;
+    padding: 2px 12px;
+    border-radius: 0 10px 10px 0;
+    font-weight: bold;
+    z-index: 10;
+}
+
+.rating-text {
+    color: #ffc107;
+    font-size: 0.9rem;
+}
+
+.rating-count {
+    color: #6c757d;
+    font-size: 0.8rem;
+}
+
+/* --- Marques --- */
+.brand-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 8px;
+}
+
+/* --- Styles Carte info --- */
+.credit-card {
+    background: linear-gradient(135deg, #5d44f8 0%, #102767 100%);
+    border-radius: 15px;
+    color: white;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.service-row {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-footer-info {
+    background: rgba(0, 0, 0, 0.8);
+    margin: 0 -25px -25px -25px;
+    padding: 10px 25px;
+    border-radius: 0 0 15px 15px;
+}
+
+/* Partie scroll carte Bancaire */
+/* Animation et Positionnement Top */
+.modal.modal-top .modal-dialog {
+    transform: translate(0, -100%);
+    /* Départ hors écran haut */
+    transition: transform 0.3s ease-out;
+    max-width: 100%;
+}
+
+.modal.modal-top.show .modal-dialog {
+    transform: translate(0, 0);
+    /* Arrivée à 0 */
+}
+
+/* Style de la Modal-Content */
+.rounded-bottom-4 {
+    border-bottom-left-radius: 25px !important;
+    border-bottom-right-radius: 25px !important;
+}
+
+/* Carte sélectionnée (Encadré violet) */
+.card-selected {
+    background-color: #f6f7ff;
+    border: 1px solid #7c7eff;
+    border-radius: 15px;
+}
+
+/* Bouton pointillé */
+.btn-add-dashed {
+    border: 2px dashed #e0e0e0;
+    border-radius: 12px;
+    color: #444;
+    cursor: pointer;
+}
+
+/* Tailles de texte extra-petites pour mobile */
+.extra-small {
+    font-size: 0.75rem;
+}
+
+/* Couleur verte de validation */
+.text-success {
+    color: #4cc279 !important;
+}
+
+/* Ajustement des logos pour qu'ils soient nets */
+.card-logo img,
+.other-cards-list img {
+    object-fit: contain;
+}
+
+/* Partie Giftcard Detail */
+/* Image d'entête avec badge */
+.header-image-container {
+    position: relative;
+    width: 100%;
+    height: 290px;
+    overflow: hidden;
+    background-color: bisque;
+}
+
+.header-image-container img {
+    width: 80%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.discount-badge-top {
+    position: absolute;
+    top: 200px;
+    right: 0;
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 15px;
+    font-weight: bold;
+    border-bottom-left-radius: 10px;
+    font-size: 1.2rem;
+}
+
+/* Sections */
+.section-title {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+.info-card {
+    background: white;
+    border-radius: 0;
+    padding: 20px;
+    margin-bottom: 2px;
+}
+
+/* Bouton fixe en bas */
+.footer-button-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+.btn-main {
+    background-color: #5d3df3;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+}
+
+.view-more-link {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
 }
 
 /* FOOTER */

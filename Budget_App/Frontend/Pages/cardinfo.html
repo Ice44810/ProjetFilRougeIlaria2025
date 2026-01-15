@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Card - Budget App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="../Pages/style.css" />
+</head>
+
+<body>
+    <div class="container-fluid bg-white mb-3 shadow-sm border-bottom">
+        <div class="d-flex align-items-center p-3">
+            <a href="home.html" class="text-dark text-decoration-none">
+                <i class="bi bi-chevron-left fs-6"></i>
+            </a>
+            <h5 class="mb-0 fw-bold flex-grow-1 text-center me-4">Info Carte</h5>
+        </div>
+    </div>
+
+    <div class="card-container w-100 h-75 px-3">
+        <div class="credit-card shadow mb-3 p-4 position-relative">
+            <img src="../Assets/images/icons8-visa-48.png" alt="visa logo" class="position-absolute top-2 start-3"
+                style="width: 60px;" /><br><br><br>
+            <div>
+                <i class="bi bi-basket-fill position-absolute top-3 end-3 text-white"></i>
+            </div>
+            <h6 class="mb-2 active">**** **** **** 7576</h6>
+            </button>
+            <div class="card-footer-info d-flex justify-content-between">
+                <div><small class="d-block">Date Exp</small><strong>09/24</strong></div>
+                <div class="text-end"><small class="d-block">Num CVV</small><strong>657</strong></div>
+            </div>
+        </div>
+
+        <h6 class="fw-bold mb-3">Service Carte</h6>
+        <div class="card shadow-sm border-0 p-3">
+            <div class="service-row text-muted">
+                <span class="small">Recharge minimum</span>
+                <strong class="text-dark">€10</strong>
+            </div>
+            <div class="service-row text-muted">
+                <span class="small">Limite Recharge</span>
+                <strong class="text-dark">€2000</strong>
+            </div>
+            <div class="service-row text-muted border-0">
+                <span class="small">Limite paiement</span>
+                <strong class="text-dark">€2000</strong>
+            </div>
+            <div class="service-row text-muted border-0">
+                <span class="small">Limite paiement</span>
+                <strong class="text-dark">2000$</strong>
+            </div>
+            <div class="service-row text-muted border-0">
+                <span class="small">Payment limit</span>
+                <strong class="text-dark">2000$</strong>
+            </div>
+        </div>
+        <!-- Pour une mise en prod, il faudra modifier cette partie de code en rendant "Augmentaion de la Limite" ; "Gerer la recharge" cliquable -->
+        <h6 class="fw-bold mt-3 mb-3">Services avancés</h6>
+        <div class="card shadow-sm border-0 p-2 mb-2 d-flex flex-row justify-content-between align-items-center">
+            <span>Augmentaion de la Limite</span>
+            <i class="bi bi-chevron-right"></i>
+        </div>
+        <div class="card shadow-sm border-0 p-2 d-flex flex-row justify-content-between align-items-center">
+            <span>Gérer la recharge</span>
+            <i class="bi bi-chevron-right"></i>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../Assets/app.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#toggleCardNumber').on('click', function () {
+                const cardNumber = $('#cardNumber');
+                if (cardNumber.text().includes('****')) {
+                    cardNumber.text('**** **** **** 2458');
+                } else {
+                    cardNumber.text('**** **** **** ****');
+                }
+            });
+        });
+        const cardNumber = $('#cardNumber');
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleCardNumber = document.getElementById('toggleCardNumber');
+            toggleCardNumber.addEventListener('click', () => {
+                if (cardNumber.textContent === '**** **** **** 2458') {
+                    cardNumber.textContent = '**** **** **** ****';
+                } else {
+                    cardNumber.textContent = '**** **** **** 2458';
+                }
+            });
+            console.log('showing card number:', value, cardNumber);
+        });
+    </script>
+</body>
+
+</html>

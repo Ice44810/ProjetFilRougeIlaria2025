@@ -12,20 +12,27 @@
 
 <body>
     <!-- HEADER -->
-    <header class="d-flex justify-content-between align-items-center p-3">
-        <a href="../Pages/mycontact.html"><i class="bi bi-chevron-left fs-4"></i></a>
-        <i class="bi bi-three-dots-vertical fs-4"></i>
-    </header>
+    <div class="container-fluid bg-white mb-3 shadow-sm border-bottom">
+        <div class="d-flex align-items-center p-2">
+            <a href="profile.html" class="text-dark text-decoration-none">
+                <i class="bi bi-chevron-left fs-6"></i>
+            </a>
+            <h5 class="mb-0 fw-bold flex-grow-1 text-center me-4">Profil</h5>
+            <span class="small"></span>
+            <i class="bi bi-three-dots-vertical fs-4"></i>
+            <!-- ajouter le bouton du modal-->
+        </div>
+    </div>
 
     <!-- PROFILE -->
-    <div class="text-center mt-3">
+    <div class="text-center mt-2">
         <div class="position-relative d-inline-block">
             <img src="../Assets/images/Themesflat.jpg" class="rounded-circle profile-img" alt="Profile">
             <span class="camera-icon">
-                <i class="bi bi-camera"></i>
+                <img src="" alt=""><i class="bi bi-camera"></i>
             </span>
         </div>
-        <h5 class="mt-3 fw-bold">Themesflat</h5>
+        <h5 class="mt-2 fw-bold">Themesflat</h5>
         <div class="d-flex justify-content-center align-items-center gap-2 text-muted mt-1">
             <span id="accountNumber small">0321 0000 2342 2424</span>
             <i class="bi bi-clipboard copy-icon" id="copyBtn" style="cursor:pointer;"></i>
