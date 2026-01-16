@@ -10,10 +10,6 @@
     <link rel="stylesheet" href="../Pages/style.css">
 
     <style>
-        .btn-primary {
-            background-color: #5829b7;
-        }
-
         .clickable-payment {
             cursor: pointer;
             transition: all 0.2s ease;
@@ -35,8 +31,7 @@
     <div class="transfer-header">
         <div class="d-flex align-items-center justify-content-between">
             <a href="./transfert.html"><i class="bi bi-chevron-left text-white fs-3"></i></a>
-            <h5 class="mb-0 fw-semibold mb-4">Transfert</h5><span></span>
-            <!--sert de “faux élément” d’équilibrage dans le flex, sinon le transfert sera légerement décalé-->
+            <h5 class="mb-4 fw-semibold ">Transfert</h5><span></span>
         </div>
     </div>
 
@@ -52,12 +47,14 @@
             <p class="text-muted mb-3 small">Montant transfert</p>
             <div class="divider">
             </div>
-            <div class="d-flex justify-content-between"><span class="text-muted small">Frais transaction </span><strong class="small">Gratuit</strong>
+            <div class="d-flex justify-content-between"><span class="text-muted small">Frais transaction </span><strong
+                    class="small">Gratuit</strong>
             </div>
         </div>
         <!-- METHODE DE PAIEMENTS -->
         <div class="mt-4">
-            <div class="payment-card d-flex align-items-center justify-content-between p-3 mb-2 rounded-3 border clickable-payment active" onclick="selectPayment(this)">
+            <div class="payment-card d-flex align-items-center justify-content-between p-3 mb-2 rounded-3 border clickable-payment active"
+                onclick="selectPayment(this)">
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://img.icons8.com/color/48/wallet.png" width="32">
                     <div>
@@ -68,7 +65,8 @@
                 <input class="form-check-input" type="radio" name="payment_method" checked>
             </div>
 
-            <div class="payment-card d-flex align-items-center justify-content-between p-3 rounded-3 border clickable-payment" onclick="selectPayment(this)">
+            <div class="payment-card d-flex align-items-center justify-content-between p-3 rounded-3 border clickable-payment"
+                onclick="selectPayment(this)">
                 <div class="d-flex align-items-center gap-3">
                     <img src="https://img.icons8.com/color/48/visa.png" width="40">
                     <div>
@@ -81,7 +79,8 @@
         </div>
     </div>
     <div class="container mt-3 text-center">
-        <a href="./transferconfirm.html"><button class="btn btn-primary confirm-btn w-100 py-3">Confirmer Paiement</button></a>
+        <a href="./transferconfirm.html"><button class="btn btn-primary confirm-btn w-100 py-3">Confirmer
+                Paiement</button></a>
     </div>
 
     <script>

@@ -39,31 +39,19 @@ a {
 
 /* HEADER GENERAL */
 .mobile-header,
-.offcanvas-header {
-    background: var(--primary-purple);
+.offcanvas-header,
+.transfer-header,
+.transferbank-header,
+.credit-card,
+.transferbybank-header,
+.topup-header,
+.transferconfirm-header {
+    background: linear-gradient(135deg, #5e35b1, #4a3cc9);
     color: var(--light-text);
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    border-bottom: 1px solid #eee;
-    position: relative;
-}
-
-/* HEADER TRANSFERT CLIENT  */
-.transfer-header,
-.offcanvas-header {
-    background: linear-gradient(135deg, #5e35b1, #4a3cc9);
-    color: white;
-    padding: 20px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
+    padding: 10px;
 }
 
 /* PROFIL */
@@ -91,6 +79,9 @@ header {
 .slogan {
     font-size: 0.8rem;
     color: var(--secondary-text);
+}
+
+/* Let's save your money /*
 }
 
 /* NOTIFICATION */
@@ -207,15 +198,6 @@ header {
     border-bottom: 2px solid #000;
 }
 
-/* PARTIE TRANSFERT CLIENT */
-.transfer-header {
-    background: linear-gradient(135deg, #5e35b1, #4a3cc9);
-    color: white;
-    padding: 20px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-}
-
 /* Balance card */
 .balance-card {
     background: white;
@@ -243,20 +225,6 @@ header {
     background-color: rgba(94, 53, 177, .15);
     color: #4f23c8;
 }
-
-.continue-btn,
-.btncontinue {
-    position: fixed;
-    bottom: 15px;
-    left: 15px;
-    right: 15px;
-    height: 56px;
-    border-radius: 14px;
-    font-size: 1.1rem;
-    background-color: #4f23c8;
-    border: none;
-}
-
 
 .transfer-card {
     background: white;
@@ -288,8 +256,11 @@ header {
 
 /*Bouton Continue */
 .continue-btn,
+.btncontinue,
 .confirm-btn,
-.button {
+.button,
+.btn-main,
+.btn-primary {
     position: fixed;
     bottom: 15px;
     left: 15px;
@@ -297,20 +268,17 @@ header {
     height: 56px;
     border-radius: 14px;
     font-size: 1.1rem;
-    background-color: #3f51b8;
+    background-color: #4f23c8;
+    color: white;
     border: none;
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    /* Pour passer au dessus du contenu */
 }
 
 /* Partie confirmation de transfert */
-.transferconfirm-header {
-    background: linear-gradient(135deg, #5e35b1, #4a3cc9);
-    padding: 10px 16px 70px;
-    border-bottom-left-radius: 28px;
-    border-bottom-right-radius: 28px;
-    position: relative;
-}
-
 /* Card */
 .card-custom {
     border-radius: 18px;
@@ -361,14 +329,6 @@ header {
 }
 
 /* Partie TRANSFERT BANK */
-.transferbank-header {
-    background: linear-gradient(135deg, #5e35b1, #4a3cc9);
-    padding: 10px 10px 10px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    position: relative;
-}
-
 .bank-card {
     background-color: #fff;
     border-radius: 12px;
@@ -474,11 +434,6 @@ header {
     font-size: 22px;
 }
 
-.info-row {
-    padding: 14px 0;
-    border-bottom: 1px solid #eee;
-}
-
 /* Partie Shopping / market */
 .scroll-container {
     display: flex;
@@ -503,6 +458,10 @@ header {
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid #eee;
+    height: 100px;
+    flex-direction: row;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 /* Style des petits points (...) */
@@ -571,17 +530,6 @@ header {
 }
 
 /* --- Styles Gift Cards (Coupons) --- */
-.coupon-card {
-    border: none;
-    border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    background: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    height: 100px;
-}
-
 .coupon-left {
     padding: 15px;
     flex-grow: 1;
@@ -659,14 +607,6 @@ header {
 }
 
 /* --- Styles Carte info --- */
-.credit-card {
-    background: linear-gradient(135deg, #5d44f8 0%, #102767 100%);
-    border-radius: 15px;
-    color: white;
-    padding: 25px;
-    margin-bottom: 25px;
-}
-
 .service-row {
     border-bottom: 1px solid #f0f0f0;
     padding: 15px 0;
@@ -723,7 +663,7 @@ header {
 
 /* Couleur verte de validation */
 .text-success {
-    color: #4cc279 !important;
+    color: #4b3acb !important;
 }
 
 /* Ajustement des logos pour qu'ils soient nets */
