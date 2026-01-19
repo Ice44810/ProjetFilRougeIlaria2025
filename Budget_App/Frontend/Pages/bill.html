@@ -1,209 +1,408 @@
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="light">
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Paiement Factures - Budget App</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        crossorigin="anonymous" />
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
-    <!-- Custom Style (pour fixer le footer) -->
-    <style>
-        :root {
-            --app-primary-color: #0d6efd;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Factures - Budget App</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+<link rel="stylesheet" href="../Pages/style.css" />
 
-        body {
-            padding-bottom: 70px;
-            /* Espace pour le footer fixe */
-            font-family: 'Inter', sans-serif;
-        }
+<style>
+    /* Section Favorite Service */
+    .service-icon-box {
+        width: 65px;
+        height: 65px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 8px;
+        font-size: 1.8rem;
+    }
 
-        .footer {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            z-index: 1030;
-            background-color: var(--bs-body-bg);
-            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
-            border-top: 1px solid var(--bs-border-color);
-        }
+    .service-item p {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #333;
+    }
 
-        .service-card {
-            border-radius: 12px;
-            background-color: var(--bs-light);
-            transition: all 0.2s;
-        }
+    /* Section Search */
+    .search-container {
+        position: relative;
+    }
 
-        .service-card:hover {
-            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.1);
-            transform: translateY(-2px);
-        }
+    .search-container .bi-search {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+    }
 
-        .alert-custom {
-            opacity: 0;
-            transition: opacity 0.5s, transform 0.5s;
-            transform: translateY(-20px);
-        }
+    .search-container .bi-qr-code-scan {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #333;
+        cursor: pointer;
+    }
 
-        .alert-custom.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    .search-input {
+        padding-left: 45px;
+        padding-right: 45px;
+        height: 50px;
+        border-radius: 12px;
+        border: 1px solid #eee;
+        background: #fff;
+    }
+
+    /* Liste des Factures */
+    .invoice-card {
+        background: #fff;
+        padding: 15px 0;
+        border-bottom: 1px solid #f1f1f1;
+        display: flex;
+        align-items: center;
+    }
+
+    .icon-circle {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        border: 1px solid #eee;
+    }
+
+    .invoice-info h6 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .invoice-info p {
+        margin: 0;
+        font-size: 0.75rem;
+        color: #888;
+    }
+
+    .status-text {
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    /* Menu Items (Bas de page) */
+    .menu-action-card {
+        background: #fff;
+        border-radius: 15px;
+        padding: 15px;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
+        transition: background 0.2s;
+    }
+
+    .menu-action-card:active {
+        background: #f0f0f0;
+    }
+
+    .service-card-outstanding:hover {
+        transform: translateY(-2px);
+        /* Petit effet de survol */
+        color: #333;
+        /* Garder la couleur du texte au survol */
+    }
+
+    /* Style des icônes à gauche */
+    .service-icon-outstanding {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        /* Bords légèrement arrondis pour l'icône */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 1.5rem;
+        /* Taille de l'icône */
+        flex-shrink: 0;
+        /* Empêche l'icône de se rétrécir */
+    }
+
+    /* Couleurs spécifiques des icônes */
+    .icon-lightbulb {
+        background-color: #ffe58f;
+        color: #faad14;
+    }
+
+    /* Jaune */
+    .icon-droplet {
+        background-color: #bae0ff;
+        color: #1677ff;
+    }
+
+    /* Bleu */
+    .icon-wifi {
+        background-color: #d9f7be;
+        color: #52c41a;
+    }
+
+    /* Vert */
+    .icon-mobile {
+        background-color: #bae0ff;
+        color: #1677ff;
+    }
+
+    /* Bleu, comme le style de l'image */
+
+    /* Texte du service */
+    .service-name-outstanding {
+        font-weight: 500;
+        font-size: 0.95rem;
+        /* Taille de police légèrement plus petite */
+    }
+</style>
 </head>
 
 <body>
-    <header class="bg-primary text-white p-3 text-center rounded-bottom-lg shadow-sm">
-        <h2 class="mb-0 fs-4">Paiement Factures</h2>
-    </header>
-
-    <div class="container mt-4 mb-5 pb-5">
-
-        <!-- Zone de Message Personnalisé -->
-        <div id="messageAlert"
-            class="alert-custom position-fixed top-0 start-50 translate-middle-x mt-3 w-75 rounded-3 shadow"
-            style="z-index: 2000;">
-            <!-- Le contenu sera rempli par JavaScript -->
-        </div>
-
-        <div class="card p-4 shadow-lg rounded-4">
-            <h5 class="mb-4 text-primary fw-bold">Factures générales</h5>
-            <form id="billPaymentForm">
-                <div class="mb-3">
-                    <!-- ID corrigé : TypeFacture -->
-                    <label for="TypeFacture" class="form-label">Type Facture</label>
-                    <select id="TypeFacture" class="form-select rounded-3">
-                        <option>Électricité</option>
-                        <option selected>Eau</option>
-                        <option>Internet</option>
-                        <option>Téléphone</option>
-                        <option>Cinéma</option>
-                    </select>
-                </div>
-                <div class="mb-4">
-                    <!-- ID correct : montantInput -->
-                    <label for="montantInput" class="form-label">Montant</label>
-                    <input type="number" id="montantInput" class="form-control rounded-3"
-                        placeholder="Entrer le montant (Ex: 50.00)" required min="1" step="0.01" />
-                </div>
-                <button type="submit" class="btn btn-primary w-100 py-2 fw-bold rounded-3">Payer Facture</button>
-            </form>
+    <div class="container-fluid bg-white mb-2 shadow-sm border-bottom">
+        <div class="d-flex align-items-center p-3">
+            <a href="rewards.html" class="text-dark text-decoration-none">
+                <i class="bi bi-chevron-left fs-6"></i>
+            </a>
+            <h5 class="mb-0 fw-semibold flex-grow-1 text-center me-4">Factures</h5>
         </div>
     </div>
 
-    <!-- MODAL DE CONFIRMATION (Remplace confirm()) -->
-    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 shadow-lg">
-                <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title fw-bold" id="confirmationModalLabel">Confirmer le paiement</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="container pb-2">
+        <div class="search-container mb-4">
+            <i class="bi bi-search"></i>
+            <input type="text" class="form-control search-input w-100 shadow-sm"
+                placeholder="Rechercher une facture"></i>
+            <i class="bi bi-qr-code-scan"></i>
+        </div>
+
+        <div class="container-fluid">
+            <section class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-semibold mb-0">Factures enregitrées</h6>
+                    <a href="./bill.html" class="text-primary text-decoration-none small fw-bold">Tout voir</a>
                 </div>
-                <div class="modal-body pt-2">
-                    <p class="mb-1">Type de facture: <span id="modalBillType" class="fw-semibold text-primary"></span>
-                    </p>
-                    <p>Montant à payer: <span id="modalAmount" class="fw-bold text-danger"></span></p>
-                    <hr>
-                    <p class="mb-0">Êtes-vous sûr de vouloir **continuer** cette opération ?</p>
+
+                <div class="bg-white rounded-4 px-3 shadow-sm">
+                    <div class="invoice-card">
+                        <div class="icon-circle text-warning">
+                            <i class="bi bi-lightbulb-fill"></i>
+                        </div>
+                        <div class="invoice-info flex-grow-1">
+                            <h6 class="small text-muted">Fournisseur électrique</h6>
+                            <p class="small text-muted">Themesflat</p>
+                            <p class="small text-muted">PD123456789</p>
+                        </div>
+                        <div class="status-text text-danger">Payment Is Due</div>
+                    </div>
+
+                    <div class="invoice-card">
+                        <div class="icon-circle text-primary"><i class="bi bi-droplet-fill"></i></div>
+                        <div class="invoice-info flex-grow-1">
+                            <h6>Water Company</h6>
+                            <p>Themesflat</p>
+                            <p>PD123456789</p>
+                        </div>
+                        <div class="status-text text-muted">Not Due Yet</div>
+                    </div>
+
+                    <div class="invoice-card border-0">
+                        <div class="icon-circle text-info"><i class="bi bi-wifi"></i></div>
+                        <div class="invoice-info flex-grow-1">
+                            <h6>Telecom Operator</h6>
+                            <p>Themesflat</p>
+                            <p>PD123456789</p>
+                        </div>
+                        <div class="status-text text-primary">Completely Payment</div>
+                    </div>
                 </div>
-                <div class="modal-footer border-0 pt-0">
-                    <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-danger rounded-3" id="confirmPaymentBtn">Confirmer le
-                        Paiement</button>
+            </section>
+
+            <section>
+                <a href="#" class="menu-action-card shadow-sm">
+                    <div class="icon-circle bg-danger-subtle text-danger border-0"><i class="bi bi-pie-chart-fill"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold" style="font-size: 0.9rem;">View Spending Statistics</h6>
+                        <small class="text-muted">Track Your Monthly Spending</small>
+                    </div>
+                    <i class="bi bi-chevron-right text-muted"></i>
+                </a>
+
+                <a href="#" class="menu-action-card shadow-sm">
+                    <div class="icon-circle bg-primary-subtle text-primary border-0"><i
+                            class="bi bi-gear-wide-connected"></i></div>
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold" style="font-size: 0.9rem;">Manage your spending</h6>
+                        <small class="text-muted">Spend smarter with Alipay</small>
+                    </div>
+                    <i class="bi bi-chevron-right text-muted"></i>
+                </a>
+            </section>
+        </div>
+
+        <div class="container">
+            <h4 class="mb-4 fw-bold">Outstanding service</h4>
+            <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                    <a href="#" class="service-card-outstanding">
+                        <div class="service-icon-outstanding icon-lightbulb">
+                            <i class="bi bi-lightbulb-fill"></i>
+                        </div>
+                        <span class="service-name-outstanding">Electricity Nationwide</span>
+                    </a>
+                </div>
+
+                <div class="col-12 col-sm-6">
+                    <a href="#" class="service-card-outstanding">
+                        <div class="service-icon-outstanding icon-droplet">
+                            <i class="bi bi-droplet-fill"></i>
+                        </div>
+                        <span class="service-name-outstanding">Paying For Water</span>
+                    </a>
+                </div>
+
+                <div class="col-12 col-sm-6">
+                    <a href="#" class="service-card-outstanding">
+                        <div class="service-icon-outstanding icon-wifi">
+                            <i class="bi bi-wifi"></i>
+                        </div>
+                        <span class="service-name-outstanding">Internet Payment</span>
+                    </a>
+                </div>
+
+                <div class="col-12 col-sm-6">
+                    <a href="#" class="service-card-outstanding">
+                        <div class="service-icon-outstanding icon-mobile">
+                            <i class="bi bi-phone"></i>
+                        </div>
+                        <span class="service-name-outstanding">Internet Payment</span>
+                    </a>
                 </div>
             </div>
         </div>
+
+        <p class="service-title px-4 fw-normal">Paiments</p>
+        <div class="row row-cols-4 row-cols-md-4 g-3">
+            <div class="col category-item">
+                <div class="delete-badge" style="display: none;">
+                    <i class="bi bi-x-circle-fill text-danger"></i>
+                </div>
+                <div class="category-icon" style="background-color: #e1f5fe;">
+                    <a href="./topup.html"><i class="bi bi-wallet2 text-danger"></i></a>
+                </div>
+                <p class="small">Recharge</p>
+            </div>
+            <div class="col category-item">
+                <div class="delete-badge" style="display: none;">
+                    <i class="bi bi-x-circle-fill text-danger"></i>
+                </div>
+                <div class="category-icon" style="background-color: #98c1ea;">
+                    <a href="./myqr.html"><i class="bi bi-qr-code-scan text-dark"></i></a>
+                </div>
+                <p class="small">Code scan</p>
+            </div>
+            <div class="col category-item">
+                <div class="delete-badge" style="display: none;">
+                    <i class="bi bi-x-circle-fill text-danger"></i>
+                </div>
+                <div class="category-icon" style="background-color: #fff9c4;">
+                    <a href="./rewards.html"><i class="bi bi-shop text-success"></i></a>
+                </div>
+                <p class="small">Shopping</p>
+            </div>
+            <div class="col category-item">
+                <div class="delete-badge" style="display: none;">
+                    <i class="bi bi-x-circle-fill text-danger"></i>
+                </div>
+                <div class="category-icon" style="background-color: #e0ecf3;">
+                    <a href="./banque.html"><i class="bi bi-bank text-success"></i></a>
+                </div>
+                <p class="small">Banque</p>
+            </div>
+            <div class="col category-item">
+                <div class="delete-badge" style="display: none;">
+                    <i class="bi bi-x-circle-fill text-danger"></i>
+                </div>
+                <div class="category-icon" style="background-color: #e1f5fe;">
+                    <a href="./topup.html"><i class="bi bi-wallet2 text-danger"></i></a>
+                </div>
+                <p class="small">Recharge</p>
+            </div>
+            <div class="col category-item">
+                <div class="delete-badge" style="display: none;">
+                    <i class="bi bi-x-circle-fill text-danger"></i>
+                </div>
+                <div class="category-icon" style="background-color: #98c1ea;">
+                    <a href="./myqr.html"><i class="bi bi-qr-code-scan text-dark"></i></a>
+                </div>
+                <p class="small">Code scan</p>
+            </div>
+            <div class="col category-item">
+                <div class="delete-badge" style="display: none;">
+                    <i class="bi bi-x-circle-fill text-danger"></i>
+                </div>
+                <div class="category-icon" style="background-color: #fff9c4;">
+                    <a href="./rewards.html"><i class="bi bi-shop text-success"></i></a>
+                </div>
+                <p class="small">Shopping</p>
+            </div>
+            <div class="col category-item">
+                <div class="delete-badge" style="display: none;">
+                    <i class="bi bi-x-circle-fill text-danger"></i>
+                </div>
+                <div class="category-icon" style="background-color: #e0ecf3;">
+                    <a href="./banque.html"><i class="bi bi-bank text-success"></i></a>
+                </div>
+                <p class="small">Banque</p>
+            </div>
+        </div>
+
     </div>
 
     <!-- FOOTER -->
-    <footer class="footer mt-5 py-3">
-        <div class="d-flex justify-content-around">
-            <a href="./home.html" class="text-decoration-none text-muted text-center"><i
-                    class="bi bi-house-door-fill fs-4"></i><br>Accueil</a>
-            <a href="./bankhistory.html" class="text-decoration-none text-muted text-center"><i
-                    class="bi bi-clock-history fs-4"></i><br>Historique</a>
-            <a href="./myqr.html" class="text-decoration-none text-muted text-center"><i
-                    class="bi bi-qr-code-scan fs-4"></i><br>Mon QR</a>
-            <a href="./rewards.html" class="text-decoration-none text-muted text-center"><i
-                    class="bi bi-gift fs-4"></i><br>Récompenses</a>
-            <a href="./profile.html" class="text-decoration-none text-muted text-center"><i
-                    class="bi bi-person fs-4"></i><br>Profile</a>
+    <footer class="footer py-2">
+        <div class="d-flex justify-content-around align-items-center">
+            <a href="./home.html" class="active-link">
+                <i class="bi bi-house-door-fill"></i>
+                <span>Accueil</span>
+            </a>
+            <a href="./bankhistory.html" class="footer-link">
+                <i class="bi bi-clock-history"></i>
+                <span>Historique</span>
+            </a>
+            <a href="./myqr.html" class="footer-link">
+                <i class="bi bi-qr-code-scan"></i>
+                <span>QR</span>
+            </a>
+            <a href="./rewards.html" class="footer-link">
+                <i class="bi bi-gift"></i>
+                <span>Récompenses</span>
+            </a>
+            <a href="./profile.html" class="footer-link">
+                <i class="bi bi-person"></i>
+                <span>Profil</span>
+            </a>
         </div>
     </footer>
 
-    <!-- Bootstrap JS (Doit être chargé avant jQuery pour les composants comme Modal) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- jQuery (Doit être chargé AVANT le script personnalisé qui utilise $) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
-        // Fonction pour afficher le message personnalisé
-        function showCustomAlert(message, type = 'success') {
-            const alertElement = document.getElementById('messageAlert');
-            alertElement.className = 'alert-custom position-fixed top-0 start-50 translate-middle-x mt-3 w-75 rounded-3 shadow alert alert-' + type;
-            alertElement.innerHTML = `<div class="d-flex align-items-center"><i class="bi bi-${type === 'success' ? 'check-circle-fill' : 'x-octagon-fill'} me-2"></i> ${message}</div>`;
 
-            // Afficher
-            setTimeout(() => alertElement.classList.add('show'), 10);
-
-            // Cacher après 4 secondes
-            setTimeout(() => {
-                alertElement.classList.remove('show');
-                // Nettoyer après la transition
-                setTimeout(() => alertElement.className = 'alert-custom', 500);
-            }, 4000);
-        }
-
-        // pour gérer la soumission du formulaire et la confirmation
-        $(document).ready(function () {
-            let currentBillType = '';
-            let currentAmount = '';
-            const myModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-
-            // Gérer la soumission du formulaire (Ouvre la modale)
-            $('#billPaymentForm').on('submit', function (e) {
-                e.preventDefault();
-
-                // Récupération des valeurs corrigées
-                currentBillType = $('#TypeFacture').val();
-                currentAmount = $('#montantInput').val();
-
-                // Remplir la modale avec les données
-                $('#modalBillType').text(currentBillType);
-                $('#modalAmount').text(currentAmount + ' €');
-
-                // Afficher la modale de confirmation
-                myModal.show();
-            });
-
-            // Gérer le clic sur le bouton "Confirmer le Paiement" dans la modale
-            $('#confirmPaymentBtn').on('click', function () {
-                myModal.hide(); // Fermer la modale
-
-                // Logique de validation de l'opération
-                if (currentBillType && currentAmount) {
-                    // l'opération est réussie
-                    showCustomAlert(`Paiement de ${currentAmount} € effectué pour la facture de type : ${currentBillType}.`, 'success');
-
-                    // et la réinitialisation du formulaire si nécessaire.
-                    $('#billPaymentForm')[0].reset(); // Réinitialise le formulaire
-                } else {
-                    showCustomAlert("Erreur : Les informations de paiement sont incomplètes.", 'danger');
-                }
-            });
-
-            // Gérer l'annulation via le bouton "Annuler" ou le "x" de la modale (Bootstrap)
-            document.getElementById('confirmationModal').addEventListener('hidden.bs.modal', function (event) {
-                // Si la modale est cachée sans confirmation (par exemple en cliquant sur annuler ou le fond)
-
-            })
-
-        });
     </script>
 </body>
 

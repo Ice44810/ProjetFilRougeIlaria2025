@@ -51,7 +51,7 @@ a {
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 10px;
+    padding: 20px;
 }
 
 /* PROFIL */
@@ -81,9 +81,6 @@ a {
     color: var(--secondary-text);
 }
 
-/* Let's save your money /*
-}
-
 /* NOTIFICATION */
 .notification-icon {
     position: relative;
@@ -101,6 +98,44 @@ a {
     font-size: 0.7rem;
     padding: 2px 5px;
     font-weight: bold;
+}
+
+
+/* PARTIE service Management Service2
+ Badge "Delete" pour Editer les cards*/
+.delete-badge {
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    z-index: 10;
+    cursor: pointer;
+    font-size: 1.2rem;
+    background: white;
+    border-radius: 50%;
+    line-height: 1;
+}
+
+/* Animation légère quand on clique sur modifier */
+.category-item.edit-mode {
+    animation: shake 0.3s infinite;
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(1deg);
+    }
+
+    75% {
+        transform: rotate(-1deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
 }
 
 /* STATS */
@@ -474,8 +509,7 @@ a {
 }
 
 .dot.active {
-    background-color: #198754;
-    /* Couleur verte pour correspondre à tes coupons */
+    background-color: #374b9d;
     width: 20px;
     /* Effet "pilule" pour le point actif */
     border-radius: 10px;
@@ -670,6 +704,19 @@ a {
 .card-logo img,
 .other-cards-list img {
     object-fit: contain;
+}
+
+/* Page PaymentSource */
+.clickable-payment {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid #eee !important;
+    /* Bordure par défaut */
+}
+
+.clickable-payment.active {
+    border-color: #0d6efd !important;
+    background-color: rgba(13, 110, 253, 0.05);
 }
 
 /* Partie Giftcard Detail */

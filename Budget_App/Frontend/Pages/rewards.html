@@ -12,7 +12,7 @@
 
 <body>
     <!-- HEADER -->
-    <div class="container-fluid bg-white mb-3 shadow-sm border-bottom">
+    <div class="container-fluid bg-white mb-3 shadow-sm border-bottom rounded-3">
         <div class="d-flex align-items-center p-3">
             <a href="home.html" class="text-dark text-decoration-none">
                 <i class="bi bi-chevron-left fs-6"></i>
@@ -30,15 +30,14 @@
                 </a>
             </div>
         </div>
-
-        <div class="search-bar position-relative px-3 mb-3">
-            <input type="text" class="form-control rounded-3 fs-6 ps-5" placeholder="Rechercher des produits..."
-                style="height: 50px;" />
-            <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-4 text-muted"></i>
-        </div>
     </div>
-    <!-- OFF CANVAS -->
+    <div class="search-bar position-relative mb-3 px-3">
+        <input type="text" class="form-control rounded-3 fs-6 ps-5" placeholder="Rechercher des produits..."
+            style="height: 50px;" />
+        <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-4 text-muted"></i>
+    </div>
 
+    <!-- OFF CANVAS Notification -->
     <div class="offcanvas offcanvas-start-lg top-0" tabindex="-1" id="offcanvasLeft">
         <div class="offcanvas-header-rewards bg-white border-bottom">
             <div class="d-flex align-items-center">
@@ -66,7 +65,6 @@
                         data-bs-target="#pills-promotion" type="button" role="tab">Promotions</button>
                 </li>
             </ul>
-
             <div class="tab-content d-flex justify-content-center" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="pills-allnotification" role="tabpanel">
                     <div class="list-group-item d-flex flex-column border rounded p-2">

@@ -25,10 +25,10 @@
                     </div>
                 </div>
                 <div class="header-icons">
-                    <a href="#offcanvasLeft" class="menu-link text-white" data-bs-toggle="offcanvas" role="button">
+                    <a href="#offcanvasMenu" class="menu-link text-white" data-bs-toggle="offcanvas" role="button">
                         <i class="bi bi-grid fs-4 me-2"></i>
                     </a>
-                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasLeft">
+                    <div class="offcanvas Menu offcanvas-start" tabindex="-1" id="offcanvasMenu">
                         <div class="offcanvas-header bg-primary text-white d-flex justify-content-between">
                             <span class="fw-bold fs-5">Budget App</span>
                             <button type="button" class="btn-close btn-close-white"
@@ -60,10 +60,12 @@
                             </ul>
                         </div>
                     </div>
-                    <a href="./notifications.html" class="notification-link position-relative text-dark">
+                    <a href="#offcanvasNotification" class="notification-link position-relative text-dark"
+                        data-bs-toggle="offcanvas" role="button" id="bellIcon">
                         <i class="bi bi-bell-fill text-white fs-4"></i>
-                        <span
-                            class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-1 border border-light d-none"></span>
+                        <span id="notificationBadge"
+                            class="notification-badge position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger p-1 border border-light">
+                        </span>
                     </a>
                 </div>
             </div>
@@ -395,7 +397,108 @@
             </div>
         </div>
     </div>
-    <!-- Fin Modal Carte bancaire ouverture vers le haut -->
+
+    <!-- OFF CANVAS Notification -->
+    <div class="offcanvas offcanvas-start-lg top-0" tabindex="1" id="offcanvasNotification">
+        <div class="offcanvas-header-rewards bg-white border-bottom">
+            <div class="d-flex align-items-center">
+                <button type="button" class="btn-close border-0 p-2 me-2" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+                <h5 class="mb-2 mt-2 fw-semibold flex-grow-1 text-center me-4">Notification</h5>
+            </div>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-allnotification-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-allnotification" type="button" role="tab">Toutes</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-remind-tab" data-bs-toggle="pill" data-bs-target="#pills-remind"
+                        type="button" role="tab">Rappel</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-transaction-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-transaction" type="button" role="tab">Transactions</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-promotion-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-promotion" type="button" role="tab">Promotions</button>
+                </li>
+            </ul>
+            <div class="tab-content d-flex justify-content-center" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-allnotification" role="tabpanel">
+                    <div class="list-group-item d-flex flex-column border rounded p-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <i class="bi bi-bell"></i>
+                            <span class="fw-bold">Toutes notifications</span>
+                            <small class="text-muted">5 Min</small>
+                        </div>
+                        <p class="small mb-0">Alipay gives you 20% offcoupon for all bills, applicable for bills
+                            paid
+                            through Alipay wallet!
+                        </p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-remind" role="tabpanel">
+                    <div class="list-group-item d-flex flex-column border rounded p-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <i class="bi bi-bell"></i>
+                            <span class="fw-bold">Rappel</span>
+                            <small class="text-muted">5 Min</small>
+                        </div>
+                        <p class="small mb-0">Alipay gives you 20% offcoupon for all bills, applicable for bills
+                            paid
+                            through Alipay wallet!
+                        </p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-transaction" role="tabpanel">
+                    <div class="list-group-item d-flex flex-column border rounded p-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <i class="bi bi-credit-card"></i>
+                            <span class="fw-bold">Transactions</span>
+                            <small class="text-muted">5 Min</small>
+                        </div>
+                        <p class="small mb-0">Alipay gives you 20% offcoupon for all bills, applicable for bills
+                            paid
+                            through Alipay wallet!
+                        </p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="pills-promotion" role="tabpanel">
+                    <div class="list-group-item d-flex flex-column border rounded p-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <i class="bi bi-tag"></i>
+                            <span class="fw-bold">Promotions</span>
+                            <small class="text-muted">12h</small>
+                        </div>
+                        <p class="small mb-0">Alipay gives you 20% offcoupon for all bills, applicable for bills
+                            paid
+                            through Alipay wallet!
+                        </p>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <i class="bi bi-tag"></i>
+                        <span class="fw-bold">Promotions</span>
+                        <small class="text-muted">12h</small>
+                    </div>
+                    <p class="small mb-0">Alipay gives you 20% offcoupon for all bills, applicable for bills paid
+                        through Alipay wallet!
+                    </p>
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <i class="bi bi-tag"></i>
+                        <span class="fw-bold">Promotions</span>
+                        <small class="text-muted">12h</small>
+                    </div>
+                    <p class="small mb-0">Alipay gives you 20% offcoupon for all bills, applicable for bills paid
+                        through Alipay wallet!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="footer py-2">
         <div class="d-flex justify-content-around align-items-center">
@@ -541,6 +644,8 @@
                 container.scrollLeft = scrollLeft - walk;
             });
         });
+
+
     </script>
 
 </body>
