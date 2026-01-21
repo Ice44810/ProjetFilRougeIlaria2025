@@ -143,20 +143,20 @@
                 const sign = transaction.type === 'credit' ? '+' : '';
 
                 htmlContent += `
-                    <div class="d-flex justify-content-between align-items-center transaction-item">
-                        <div class="d-flex align-items-center">
-                            <i class="bi bi-${transaction.icon} fs-4 me-3 ${transaction.color}"></i>
-                            <div>
-                                <h6 class="mb-0 fw-bold">${transaction.description}</h6>
-                                <small class="text-muted">${transaction.source}</small>
+                        <div class="d-flex justify-content-between align-items-center transaction-item">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-${transaction.icon} fs-4 me-3 ${transaction.color}"></i>
+                                <div>
+                                    <h6 class="mb-0 fw-bold">${transaction.description}</h6>
+                                    <small class="text-muted">${transaction.source}</small>
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <span class="${amountClass} fw-bold">${sign}${formatCurrency(Math.abs(transaction.amount))}</span>
+                                <small class="d-block text-muted">${dateObj.toLocaleDateString('fr-FR')}</small>
                             </div>
                         </div>
-                        <div class="text-end">
-                            <span class="${amountClass} fw-bold">${sign}${formatCurrency(Math.abs(transaction.amount))}</span>
-                            <small class="d-block text-muted">${dateObj.toLocaleDateString('fr-FR')}</small>
-                        </div>
-                    </div>
-                `;
+                    `;
             });
 
             listContainer.innerHTML = htmlContent;
@@ -192,28 +192,13 @@
             }
 
             renderTransactions(filtered);
-            // Cacher la modale après le filtrage
+            // Cacher le modale après le filtrage
             const filterModal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
             if (filterModal) {
                 filterModal.hide();
             }
         }
 
-        // --- Initialisation ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Afficher l'état initial (liste vide) au chargement de la page
-            renderTransactions(allTransactions);
-
-            // Gérer la soumission du formulaire de filtre
-            const filterForm = document.getElementById('filterForm');
-            filterForm.addEventListener('submit', function (e) {
-                e.preventDefault();
-                applyFilters();
-            });
-
-            // Initialiser manuellement la modale Bootstrap 
-            new bootstrap.Modal(document.getElementById('filterModal'));
-        });
     </script>
 
 </body>

@@ -20,6 +20,10 @@
     --card-background: #ffffff;
     --text-color: #333;
     --light-gray-icon: #888;
+    --primary-color: #026cdf;
+    /* Bleu Ticketmaster */
+    --pathe-yellow: #ffd400;
+    --ugc-blue: #004a99;
 }
 
 /* BASE */
@@ -295,22 +299,31 @@ a {
 .confirm-btn,
 .button,
 .btn-main,
-.btn-primary {
+.btn-primary,
+#api-booking-btn,
+.btn-partner,
+.btn-checkout {
     position: fixed;
     bottom: 15px;
+    /* On définit la position par rapport aux bords gauche et droit */
     left: 15px;
     right: 15px;
-    height: 56px;
+    /* On force la largeur à "auto" pour que left/right dictent la taille */
+    width: calc(100% - 30px) !important;
+    height: 48px;
+    /* Augmenté légèrement pour un meilleur look mobile */
     border-radius: 14px;
-    font-size: 1.1rem;
-    background-color: #4f23c8;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #5a31cb;
     color: white;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1050;
-    /* Pour passer au dessus du contenu */
+    text-decoration: none;
+
 }
 
 /* Partie confirmation de transfert */
@@ -763,6 +776,115 @@ a {
     margin-bottom: 2px;
 }
 
+/* PARTIE CINEMA
+Banner & Header */
+.movie-banner {
+    height: 250px;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=80');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: flex-end;
+    color: white;
+    padding-bottom: 20px;
+}
+
+/* Cartes & Badges */
+.cinema-card {
+    background: white;
+    border-radius: 15px;
+    border: none;
+}
+
+.brand-badge {
+    /* Badges des marques */
+    width: 60px;
+    height: 22px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.badge-pathe {
+    background-color: var(--pathe-yellow);
+    color: black;
+}
+
+.badge-ugc {
+    background-color: var(--ugc-blue);
+    color: white;
+}
+
+/* Horaires & Dates */
+.date-card {
+    min-width: 70px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background: white;
+}
+
+.date-card.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.time-slot {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    transition: 0.2s;
+}
+
+.time-slot.full {
+    opacity: 0.4;
+    pointer-events: none;
+    background: #eee;
+}
+
+/* Grille des sièges */
+.seat-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 8px;
+    max-width: 350px;
+    margin: 20px auto;
+}
+
+.seat {
+    width: 22px;
+    height: 22px;
+    background-color: #e0e0e0;
+    border-radius: 5px 5px 2px 2px;
+    cursor: pointer;
+}
+
+.seat.selected {
+    background-color: #28a745;
+}
+
+.seat.occupied {
+    background-color: #444;
+    cursor: not-allowed;
+    opacity: 0.3;
+}
+
+.screen-line {
+    height: 4px;
+    background: #ccc;
+    width: 80%;
+    margin: 10px auto 30px;
+    border-radius: 50%;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
 /* Bouton fixe en bas */
 .footer-button-container {
     position: fixed;
@@ -789,6 +911,38 @@ a {
     text-decoration: none;
     font-size: 0.9rem;
     cursor: pointer;
+}
+
+/* Style pour le modal de logout */
+#logoutModal .modal-content {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    /* Effet flou en arrière plan */
+}
+
+.btn-ios-action {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 12px;
+    font-size: 17px;
+    color: #007aff;
+    /* Bleu iOS par défaut */
+    border-radius: 0;
+    transition: background 0.2s;
+}
+
+.btn-ios-action:active {
+    background-color: #f0f0f0;
+}
+
+.btn-ios-action.text-danger {
+    color: #ff3b30 !important;
+    /* Rouge iOS */
+}
+
+.border-secondary-subtle {
+    border-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 /* FOOTER */

@@ -9,167 +9,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
 <link rel="stylesheet" href="../Pages/style.css" />
 
-<style>
-    /* Section Favorite Service */
-    .service-icon-box {
-        width: 65px;
-        height: 65px;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 8px;
-        font-size: 1.8rem;
-    }
-
-    .service-item p {
-        font-size: 0.85rem;
-        font-weight: 500;
-        color: #333;
-    }
-
-    /* Section Search */
-    .search-container {
-        position: relative;
-    }
-
-    .search-container .bi-search {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #888;
-    }
-
-    .search-container .bi-qr-code-scan {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #333;
-        cursor: pointer;
-    }
-
-    .search-input {
-        padding-left: 45px;
-        padding-right: 45px;
-        height: 50px;
-        border-radius: 12px;
-        border: 1px solid #eee;
-        background: #fff;
-    }
-
-    /* Liste des Factures */
-    .invoice-card {
-        background: #fff;
-        padding: 15px 0;
-        border-bottom: 1px solid #f1f1f1;
-        display: flex;
-        align-items: center;
-    }
-
-    .icon-circle {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 15px;
-        border: 1px solid #eee;
-    }
-
-    .invoice-info h6 {
-        margin: 0;
-        font-weight: 600;
-        font-size: 0.95rem;
-    }
-
-    .invoice-info p {
-        margin: 0;
-        font-size: 0.75rem;
-        color: #888;
-    }
-
-    .status-text {
-        font-size: 0.75rem;
-        font-weight: 500;
-    }
-
-    /* Menu Items (Bas de page) */
-    .menu-action-card {
-        background: #fff;
-        border-radius: 15px;
-        padding: 15px;
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-        color: inherit;
-        transition: background 0.2s;
-    }
-
-    .menu-action-card:active {
-        background: #f0f0f0;
-    }
-
-    .service-card-outstanding:hover {
-        transform: translateY(-2px);
-        /* Petit effet de survol */
-        color: #333;
-        /* Garder la couleur du texte au survol */
-    }
-
-    /* Style des icônes à gauche */
-    .service-icon-outstanding {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        /* Bords légèrement arrondis pour l'icône */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 15px;
-        font-size: 1.5rem;
-        /* Taille de l'icône */
-        flex-shrink: 0;
-        /* Empêche l'icône de se rétrécir */
-    }
-
-    /* Couleurs spécifiques des icônes */
-    .icon-lightbulb {
-        background-color: #ffe58f;
-        color: #faad14;
-    }
-
-    /* Jaune */
-    .icon-droplet {
-        background-color: #bae0ff;
-        color: #1677ff;
-    }
-
-    /* Bleu */
-    .icon-wifi {
-        background-color: #d9f7be;
-        color: #52c41a;
-    }
-
-    /* Vert */
-    .icon-mobile {
-        background-color: #bae0ff;
-        color: #1677ff;
-    }
-
-    /* Bleu, comme le style de l'image */
-
-    /* Texte du service */
-    .service-name-outstanding {
-        font-weight: 500;
-        font-size: 0.95rem;
-        /* Taille de police légèrement plus petite */
-    }
-</style>
 </head>
+<!-- Header -->
 
 <body>
     <div class="container-fluid bg-white mb-2 shadow-sm border-bottom">
@@ -180,197 +21,179 @@
             <h5 class="mb-0 fw-semibold flex-grow-1 text-center me-4">Factures</h5>
         </div>
     </div>
-
-    <div class="container pb-2">
-        <div class="search-container mb-4">
-            <i class="bi bi-search"></i>
-            <input type="text" class="form-control search-input w-100 shadow-sm"
-                placeholder="Rechercher une facture"></i>
-            <i class="bi bi-qr-code-scan"></i>
+    <!-- Contenu -->
+    <div class="container py-2">
+        <div class="d-flex align-items-center mb-3 gap-1">
+            <div class="position-relative flex-grow-1 w-100">
+                <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 fw-bold text-muted"></i>
+                <input type="text" class="form-control ps-5 py-2 border-1 rounded-3"
+                    placeholder="Rechercher une facture">
+            </div>
+            <div class="bg-white rounded-3 d-flex align-items-center justify-content-center"
+                style="width: 42px; height: 42px; cursor: pointer;">
+                <i class="bi bi-qr-code-scan fs-3 text-dark"></i>
+            </div>
         </div>
 
-        <div class="container-fluid">
-            <section class="mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h6 class="fw-semibold mb-0">Factures enregitrées</h6>
-                    <a href="./bill.html" class="text-primary text-decoration-none small fw-bold">Tout voir</a>
+        <section class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-semibold mb-0">Factures enregistrées</h6>
+                <a href="./bill.html" class="text-primary text-decoration-none small">Tout voir</a>
+            </div>
+
+            <div class="bg-white rounded-3">
+                <div class="d-flex align-items-center p-3 border-bottom">
+                    <div class="icon-box text-warning me-3 b">
+                        <i class="bi bi-lightbulb-fill fs-4"></i>
+                    </div>
+                    <a href="./electricity.html" class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold small">Fournisseur électrique</h6>
+                        <p class="mb-0 text-muted extra-small">Themesflat</p>
+                        <p class="mb-0 text-muted extra-small">PD123456789</p>
+                    </a>
+                    <div class="text-danger extra-small">Paiement Dû</div>
                 </div>
 
-                <div class="bg-white rounded-4 px-3 shadow-sm">
-                    <div class="invoice-card">
-                        <div class="icon-circle text-warning">
-                            <i class="bi bi-lightbulb-fill"></i>
-                        </div>
-                        <div class="invoice-info flex-grow-1">
-                            <h6 class="small text-muted">Fournisseur électrique</h6>
-                            <p class="small text-muted">Themesflat</p>
-                            <p class="small text-muted">PD123456789</p>
-                        </div>
-                        <div class="status-text text-danger">Payment Is Due</div>
+                <div class="d-flex align-items-center p-3 border-bottom">
+                    <div class="icon-box text-primary me-3">
+                        <i class="bi bi-droplet-fill fs-4"></i>
                     </div>
-
-                    <div class="invoice-card">
-                        <div class="icon-circle text-primary"><i class="bi bi-droplet-fill"></i></div>
-                        <div class="invoice-info flex-grow-1">
-                            <h6>Water Company</h6>
-                            <p>Themesflat</p>
-                            <p>PD123456789</p>
-                        </div>
-                        <div class="status-text text-muted">Not Due Yet</div>
-                    </div>
-
-                    <div class="invoice-card border-0">
-                        <div class="icon-circle text-info"><i class="bi bi-wifi"></i></div>
-                        <div class="invoice-info flex-grow-1">
-                            <h6>Telecom Operator</h6>
-                            <p>Themesflat</p>
-                            <p>PD123456789</p>
-                        </div>
-                        <div class="status-text text-primary">Completely Payment</div>
-                    </div>
+                    <a href="./waterbill.html" class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold small">Fournisseur d'eau</h6>
+                        <p class="mb-0 text-muted extra-small">Themesflat</p>
+                        <p class="mb-0 text-muted extra-small">PD123456789</p>
+                    </a>
+                    <div class="text-muted extra-small">À payer</div>
                 </div>
-            </section>
 
-            <section>
-                <a href="#" class="menu-action-card shadow-sm">
-                    <div class="icon-circle bg-danger-subtle text-danger border-0"><i class="bi bi-pie-chart-fill"></i>
+                <div class="d-flex align-items-center p-3">
+                    <div class="icon-box text-primary me-3">
+                        <i class="bi bi-wifi fs-4"></i>
+                    </div>
+                    <a href="./internet.html" class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold small">Opérateur Telecom</h6>
+                        <p class="mb-0 text-muted extra-small">Themesflat</p>
+                        <p class="mb-0 text-muted extra-small">PD123456789</p>
+                    </a>
+                    <div class="text-primary extra-small">Paiement Intégral</div>
+                </div>
+            </div>
+        </section>
+        <section class="mb-4">
+            <div class="list-group gap-2 border-0">
+                <a href="./bankhistory.html"
+                    class="list-group-item list-group-item-action d-flex align-items-center border-1 rounded-2 p-2 shadow-sm">
+                    <div class="icon-box text-danger me-3"><i class="bi bi-pie-chart-fill fs-5"></i>
                     </div>
                     <div class="flex-grow-1">
-                        <h6 class="mb-0 fw-bold" style="font-size: 0.9rem;">View Spending Statistics</h6>
-                        <small class="text-muted">Track Your Monthly Spending</small>
+                        <h6 class="mb-0 fw-bold small">Voir les Statistiques</h6>
+                        <small class="text-muted">Suivez vos dépenses mensuelles</small>
                     </div>
                     <i class="bi bi-chevron-right text-muted"></i>
                 </a>
-
-                <a href="#" class="menu-action-card shadow-sm">
-                    <div class="icon-circle bg-primary-subtle text-primary border-0"><i
-                            class="bi bi-gear-wide-connected"></i></div>
+                <a href="#"
+                    class="list-group-item list-group-item-action d-flex align-items-center border-1 rounded-2 p-2 shadow-sm">
+                    <div class="icon-box text-primary me-3"><i class="bi bi-gear-wide-connected fs-5"></i>
+                    </div>
                     <div class="flex-grow-1">
-                        <h6 class="mb-0 fw-bold" style="font-size: 0.9rem;">Manage your spending</h6>
-                        <small class="text-muted">Spend smarter with Alipay</small>
+                        <h6 class="mb-0 fw-bold small">Gérez vos dépenses</h6>
+                        <small class="text-muted">Acheter Malins avec Alipay</small>
                     </div>
                     <i class="bi bi-chevron-right text-muted"></i>
                 </a>
-            </section>
-        </div>
-
-        <div class="container">
-            <h4 class="mb-4 fw-bold">Outstanding service</h4>
+            </div>
+        </section>
+        <!-- Service exceptionnel -->
+        <section class="mb-4">
+            <h6 class="fw-bold mb-3">Service exceptionnel</h6>
             <div class="row g-3">
-                <div class="col-12 col-sm-6">
-                    <a href="#" class="service-card-outstanding">
-                        <div class="service-icon-outstanding icon-lightbulb">
-                            <i class="bi bi-lightbulb-fill"></i>
+                <div class="col-6">
+                    <div class="p-2 rounded-3 border-1 shadow-sm d-flex align-items-center">
+                        <div class="icon-box text-warning me-2">
+                            <i class="bi bi-lightbulb-fill fs-3"></i>
                         </div>
-                        <span class="service-name-outstanding">Electricity Nationwide</span>
-                    </a>
+                        <span class="small fw-medium">Électricité</span>
+                    </div>
                 </div>
-
-                <div class="col-12 col-sm-6">
-                    <a href="#" class="service-card-outstanding">
-                        <div class="service-icon-outstanding icon-droplet">
-                            <i class="bi bi-droplet-fill"></i>
-                        </div>
-                        <span class="service-name-outstanding">Paying For Water</span>
-                    </a>
+                <div class="col-6">
+                    <div class="bg-white p-2 rounded-3 shadow-sm d-flex align-items-center">
+                        <div class="icon-box text-primary me-2 fs-3"><i class="bi bi-droplet-fill"></i></div>
+                        <span class="small fw-medium">Eau</span>
+                    </div>
                 </div>
-
-                <div class="col-12 col-sm-6">
-                    <a href="#" class="service-card-outstanding">
-                        <div class="service-icon-outstanding icon-wifi">
+                <div class="col-6">
+                    <div class="bg-white p-2 rounded-3 shadow-sm d-flex align-items-center">
+                        <div class="icon-box me-2 fs-3 text-success">
                             <i class="bi bi-wifi"></i>
                         </div>
-                        <span class="service-name-outstanding">Internet Payment</span>
-                    </a>
+                        <span class="small fw-medium">Paiement Internet</span>
+                    </div>
                 </div>
-
-                <div class="col-12 col-sm-6">
-                    <a href="#" class="service-card-outstanding">
-                        <div class="service-icon-outstanding icon-mobile">
+                <div class="col-6">
+                    <div class="bg-white p-2 rounded-3 shadow-sm d-flex align-items-center">
+                        <div class="icon-box text-info me-2 fs-3">
                             <i class="bi bi-phone"></i>
                         </div>
-                        <span class="service-name-outstanding">Internet Payment</span>
-                    </a>
+                        <span class="small fw-medium">Paiement Internet</span>
+                    </div>
                 </div>
             </div>
+        </section>
+        <!-- Liste des Services -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <p class="service-title fw-semibold">Liste des services</p>
+            <a href="./bill.html" class="text-primary small">Tout voir</a>
         </div>
-
-        <p class="service-title px-4 fw-normal">Paiments</p>
         <div class="row row-cols-4 row-cols-md-4 g-3">
             <div class="col category-item">
-                <div class="delete-badge" style="display: none;">
-                    <i class="bi bi-x-circle-fill text-danger"></i>
-                </div>
                 <div class="category-icon" style="background-color: #e1f5fe;">
-                    <a href="./topup.html"><i class="bi bi-wallet2 text-danger"></i></a>
+                    <a href="./mobile.html"><i class="bi bi-phone text-primary"></i></a>
                 </div>
-                <p class="small">Recharge</p>
+                <p class="small">Mobile</p>
             </div>
             <div class="col category-item">
-                <div class="delete-badge" style="display: none;">
-                    <i class="bi bi-x-circle-fill text-danger"></i>
-                </div>
                 <div class="category-icon" style="background-color: #98c1ea;">
-                    <a href="./myqr.html"><i class="bi bi-qr-code-scan text-dark"></i></a>
+                    <a href="./internet.html"><i class="bi bi-wifi text-primary"></i></a>
                 </div>
-                <p class="small">Code scan</p>
+                <p class="small">Internet</p>
             </div>
             <div class="col category-item">
-                <div class="delete-badge" style="display: none;">
-                    <i class="bi bi-x-circle-fill text-danger"></i>
+                <div class="category-icon" style="background-color: #bfe4df;">
+                    <a href="./bill.html"><i class="bi bi-receipt text-warning"></i></a>
                 </div>
-                <div class="category-icon" style="background-color: #fff9c4;">
-                    <a href="./rewards.html"><i class="bi bi-shop text-success"></i></a>
-                </div>
-                <p class="small">Shopping</p>
+                <p class="small">Bill</p>
             </div>
             <div class="col category-item">
-                <div class="delete-badge" style="display: none;">
-                    <i class="bi bi-x-circle-fill text-danger"></i>
-                </div>
-                <div class="category-icon" style="background-color: #e0ecf3;">
-                    <a href="./banque.html"><i class="bi bi-bank text-success"></i></a>
-                </div>
-                <p class="small">Banque</p>
-            </div>
-            <div class="col category-item">
-                <div class="delete-badge" style="display: none;">
-                    <i class="bi bi-x-circle-fill text-danger"></i>
-                </div>
                 <div class="category-icon" style="background-color: #e1f5fe;">
-                    <a href="./topup.html"><i class="bi bi-wallet2 text-danger"></i></a>
+                    <a href="./electricity.html"><i class="bi bi-lightning-fill text-warning"></i></a>
                 </div>
-                <p class="small">Recharge</p>
+                <p class="small">Electricité</p>
             </div>
             <div class="col category-item">
-                <div class="delete-badge" style="display: none;">
-                    <i class="bi bi-x-circle-fill text-danger"></i>
+                <div class="category-icon" style="background-color: #d6d5c4;">
+                    <a href="./film.html"><i class="bi bi-film text-danger"></i></a>
                 </div>
-                <div class="category-icon" style="background-color: #98c1ea;">
-                    <a href="./myqr.html"><i class="bi bi-qr-code-scan text-dark"></i></a>
-                </div>
-                <p class="small">Code scan</p>
+                <p class="small">Film</p>
             </div>
             <div class="col category-item">
-                <div class="delete-badge" style="display: none;">
-                    <i class="bi bi-x-circle-fill text-danger"></i>
+                <div class="category-icon" style="background-color: #d9dcdf;">
+                    <a href="./waterbill.html"><i class="bi bi-droplet-fill text-primary"></i></a>
                 </div>
-                <div class="category-icon" style="background-color: #fff9c4;">
-                    <a href="./rewards.html"><i class="bi bi-shop text-success"></i></a>
-                </div>
-                <p class="small">Shopping</p>
+                <p class="small">Facture d'eau</p>
             </div>
             <div class="col category-item">
-                <div class="delete-badge" style="display: none;">
-                    <i class="bi bi-x-circle-fill text-danger"></i>
+                <div class="category-icon" style="background-color: #d5c4bc;">
+                    <a href="./rewards.html"><i class="bi bi-wallet2 text-danger"></i></a>
                 </div>
+                <p class="small">Réductions</p>
+            </div>
+            <div class="col category-item">
                 <div class="category-icon" style="background-color: #e0ecf3;">
-                    <a href="./banque.html"><i class="bi bi-bank text-success"></i></a>
+                    <a href="./market.html"><i class="bi bi-cart2 text-danger"></i></a>
                 </div>
-                <p class="small">Banque</p>
+                <p class="small">Marchés</p>
             </div>
         </div>
-
     </div>
 
     <!-- FOOTER -->
@@ -402,7 +225,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- 1. FONCTIONNALITÉ DE RECHERCHE ---
+            const searchInput = document.querySelector('input[placeholder="Rechercher une facture"]');
 
+            searchInput.addEventListener('input', function (e) {
+                const term = e.target.value.toLowerCase();
+
+                // Filtrer les factures enregistrées
+                const bills = document.querySelectorAll('.bg-white.rounded-3 .d-flex.align-items-center');
+                bills.forEach(bill => {
+                    const text = bill.innerText.toLowerCase();
+                    bill.style.display = text.includes(term) ? 'flex' : 'none';
+                });
+
+                // Filtrer la liste des services
+                const services = document.querySelectorAll('.category-item');
+                services.forEach(service => {
+                    const text = service.innerText.toLowerCase();
+                    service.style.display = text.includes(term) ? 'block' : 'none';
+                });
+            });
+
+            // --- 2. GESTION DU SCAN QR ---
+            const qrBtn = document.querySelector('.bi-qr-code-scan').parentElement;
+            qrBtn.addEventListener('click', function () {
+                alert("Ouverture de l'appareil photo pour scanner le code QR...");
+                // Ici, vous pourriez intégrer une bibliothèque comme Instascan ou html5-qrcode
+            });
+
+        });
     </script>
 </body>
 
