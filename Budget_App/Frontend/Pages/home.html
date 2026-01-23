@@ -28,8 +28,11 @@
                     <a href="#offcanvasMenu" class="menu-link text-white" data-bs-toggle="offcanvas" role="button">
                         <i class="bi bi-grid fs-4 me-2"></i>
                     </a>
+                    <!-- Offcanvas Menu ouverture gauche -->
                     <div class="offcanvas Menu offcanvas-start" tabindex="-1" id="offcanvasMenu">
-                        <div class="offcanvas-header bg-primary text-white d-flex justify-content-between">
+                        <div class="offcanvas-header text-white d-flex justify-content-between"
+                            style="background: linear-gradient(135deg, #5e35b1, #4a3cc9); border-radius: 0 0 12px 0; padding: 10px;">
+                            <i class="bi bi-wallet fs-4 me-2"></i>
                             <span class="fw-bold fs-5">Budget App</span>
                             <button type="button" class="btn-close btn-close-white"
                                 data-bs-dismiss="offcanvas"></button>
@@ -340,7 +343,6 @@
         aria-hidden="true">
         <div class="modal-dialog m-0 shadow-lg">
             <div class="modal-content border-0 rounded-0 rounded-bottom-4">
-
                 <div class="modal-header border-0 align-items-center">
                     <button type="button" class="btn border-0 p-0" data-bs-dismiss="modal">
                         <i class="bi bi-chevron-left fs-4"></i>
@@ -379,7 +381,6 @@
                             </div>
                             <i class="bi bi-check-circle-fill active text-success fs-5"></i>
                         </div>
-
                         <div class="d-flex align-items-center py-3 border-bottom">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
                                 width="35" class="me-3" alt="Mastercard">
@@ -390,9 +391,10 @@
                             <i class="bi bi-check-circle-fill active text-success fs-5"></i>
                         </div>
                     </div>
-                    <button
-                        class="btn add-dashed btn-outline-info w-100 py-3 mb-4 text-center text-black opacity-75 fw-bold">Ajout
-                        nouvelle carte +</button>
+                    <a href="./addnewcard.html"><button
+                            class="btn add-dashed btn-outline-light w-100 py-3 mb-4 text-center text-black fw-bold rounded-3">Ajout
+                            nouvelle carte +</button>
+                    </a>
                 </div>
             </div>
         </div>

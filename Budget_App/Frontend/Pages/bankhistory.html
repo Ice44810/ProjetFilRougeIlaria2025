@@ -4,75 +4,420 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Historique - Budget App</title>
+    <title>Historique Bancaire - Budget App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../Pages/style.css">
+    <link rel="stylesheet" href="../Pages/style.css" />
 
+    <style>
+        .card-stats {
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .offcanvas-header {
+            background-color: #ffffff;
+        }
+
+        .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-filter {
+            border-radius: 12px;
+            border: 1px solid #eee;
+            background: white;
+            padding: 8px 20px;
+            color: #6c757d;
+        }
+
+        .btn-filter.active {
+            background: #5d5fef;
+            color: white;
+            border-color: #5d5fef;
+        }
+
+        /* Simulation du graphique */
+        .chart-container {
+            height: 200px;
+            display: flex;
+            gap: 160px;
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+
+        /* Échelle à gauche (400, 200, 0, -200, -400) */
+        .y-axis {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #999;
+            font-size: 10px;
+            padding-bottom: 20px;
+            /* Aligné avec les dates */
+        }
+
+        .chart-content {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            flex-grow: 1;
+            justify-content: space-around;
+            align-items: center;
+            /* Important : aligne les barres sur la ligne 0 */
+            border-left: 1px solid #eee;
+        }
+
+        .bar {
+            width: 40px;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .bar.up {
+            background-color: #43a047;
+        }
+
+        .bar.down {
+            background-color: #e53935;
+            align-self: flex-start;
+            margin-top: 100px;
+        }
+
+        .chart-line {
+            position: absolute;
+            top: 100px;
+            left: 0;
+            right: 0;
+            border-top: 1px solid #eee;
+            z-index: 0;
+        }
+
+        .transaction-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Styles Pour le Modal Filtre Bankhistory */
+        /* Style des boutons de filtre (Jan, Feb, etc.) */
+        .btn-filter {
+            background-color: #fff;
+            border: 1px solid #f0f0f0;
+            color: #333;
+            border-radius: 10px;
+            padding: 10px 5px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        /* État actif - Couleur violette de vos images */
+        .btn-filter.active {
+            background-color: #5d44f8 !important;
+            border-color: #5d44f8 !important;
+            color: #fff !important;
+        }
+
+        /* Le gros bouton Apply en bas */
+        .btn-primary-custom {
+            background-color: #5d44f8;
+            border: none;
+            color: white;
+        }
+
+        /* Animation au survol */
+        .btn-filter:hover:not(.active) {
+            background-color: #f8f9fa;
+            border-color: #ddd;
+        }
+
+        /* Supprime l'effet d'ombre Bootstrap par défaut */
+        .offcanvas {
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- HEADER AVEC BOUTON FILTRE BLANC -->
-    <header>
-        <div class="container-fluid bg-white mb-3 shadow-sm border-bottom">
-            <div class="d-flex align-items-center p-3">
-                <a href="home.html" class="text-dark text-decoration-none">
-                    <i class="bi bi-chevron-left fs-4"></i>
+    <!-- Header -->
+    <div class="container-fluid bg-white mb-2 shadow-sm border-bottom">
+        <div class="d-flex align-items-center justify-content-between p-3">
+            <a href="./home.html" class="text-dark text-decoration-none">
+                <i class="bi bi-chevron-left fs-6"></i>
+            </a>
+            <h6 class="mb-0 fw-bold flex-grow-1 text-center me-4">Historique bancaire</h5>
+                <a href="#" class="text-dark text-decoration-none" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+                    <i class="bi bi-sliders fs-4"></i>
                 </a>
-                <h5 class="mb-0 fw-bold flex-grow-1 text-center me-4">Historique Bancaire</h5>
-            </div>
-        </div>
-    </header>
-
-    <!-- Liste des transactions (Conteneur dynamique) -->
-    <div class="container mt-3">
-        <div id="transactionList">
         </div>
     </div>
-
-    <!-- MODAL DE FILTRE -->
-    <div class="modal fade" id="filterModal" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 shadow-lg">
-                <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title fw-bold" id="filterModalLabel">Filtrer l'Historique</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="row g-3 mb-2">
+        <div class="col-6">
+            <div class="card card-stats p-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-box bg-primary-subtle me-3">
+                        <i class="bi bi-arrow-up text-primary fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Entrées</div>
+                        <div class="fw-bold text-success">€778.35</div>
+                    </div>
                 </div>
-                <div class="modal-body pt-2">
-                    <form id="filterForm">
-                        <div class="mb-3">
-                            <label for="filterType" class="form-label">Type de Transaction</label>
-                            <select id="filterType" class="form-select rounded-3">
-                                <option value="Tous" selected>Tous</option>
-                                <option value="Revenus">Revenus</option>
-                                <option value="Dépenses">Dépenses</option>
-                                <option value="Factures">Factures</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="filterPeriod" class="form-label">Période</label>
-                            <select id="filterPeriod" class="form-select rounded-3">
-                                <option value="all" selected>Toutes les périodes</option>
-                                <option value="30days">Les 30 derniers jours</option>
-                                <option value="currentMonth">Ce mois</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 rounded-3 mt-3">Appliquer les
-                            Filtres</button>
-                    </form>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card card-stats p-3">
+                <div class="d-flex align-items-center">
+                    <div class="icon-box bg-danger-subtle me-3">
+                        <i class="bi bi-arrow-down text-danger fs-4"></i>
+                    </div>
+                    <div>
+                        <div class="text-muted small">Sorties</div>
+                        <div class="fw-bold text-danger">€878.35</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    <div class="d-flex justify-content-center gap-2 mb-2 px-2 mt-2">
+        <button class="btn btn-filter active">7 derniers jours</button>
+        <button class="btn btn-filter">30 derniers jours</button>
+        <button class="btn btn-filter">Personnaliser</button>
+    </div>
 
+    <!-- Echelle à gauche (400, 200, 0, -200, -400) -->
+    <div class="mb-5 px-4 p-3">
+        <div class="chart-container">
+            <div class="y-axis fs-6 small">
+                <span>400</span>
+                <span>200</span>
+                <span>0</span>
+                <span>-200</span>
+                <span>-400</span>
+            </div>
+            <div class="chart-content">
+                <div class="grid-lines">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+                <div class="d-flex gap-3">
+                    <div class="bar up" style="height: 80px; margin-bottom: 40px;"></div>
+                    <div class="bar down" style="height: 80px; margin-top: 80px;"></div>
+                    <div class="bar up" style="height: 110px; margin-bottom: 40px;"></div>
+                    <div class="bar down" style="height: 60px; margin-top: 80px;"></div>
+                    <div class="bar down" style="height: 90px; margin-top: 80px;"></div>
+                    <div class="bar up" style="height: 70px; margin-bottom: 40px"></div>
+                    <div class="bar down" style="height: 40px; margin-top: 80px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between text-muted small mt-2 mb-2" style="margin-left: 180px;">
+            <span>29-06</span>
+            <span>05-07</span>
+        </div>
+    </div>
+    <div class="container-fluid mb-3">
+        <h6 class="mb-3">Novembre</h6>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <div class="transaction-icon bg-primary-subtle me-3">
+                    <i class="bi bi-lightning-charge-fill text-primary"></i>
+                </div>
+                <div>
+                    <a href="./electricity.html">
+                        <div class="fw-bold">Facture électricité</div>
+                    </a>
+                    <div class="text-muted small">aujourd'hui 10:27</div>
+                </div>
+            </div>
+            <div class="fw-bold text-danger">- €307</div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <img src="../Assets/images/esther.jpg" class="avatar me-3" alt="Esther">
+                <div>
+                    <a href="./bankhistory.html">
+                        <div class="fw-bold">Esther</div>
+                    </a>
+                    <div class="text-muted small">aujourd'hui 7:30</div>
+                </div>
+            </div>
+            <div class="fw-bold text-success">+ €50</div>
+        </div>
+    </div>
+
+    <div class="container-fluid mb-3 mt-2">
+        <h6 class="mb-3">Octobre</h6>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <div class="transaction-icon bg-primary-subtle me-3">
+                    <i class="bi bi-phone text-primary-emphasis"></i>
+                </div>
+                <div>
+                    <a href="./mobile.html">
+                        <div class="fw-bold">Mobile</div>
+                    </a>
+                    <div class="text-muted small">Hier 17:27</div>
+                </div>
+            </div>
+            <div class="fw-bold text-danger">- €25</div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <div class="transaction-icon bg-primary-subtle me-3">
+                    <i class="bi bi-wifi text-primary fw-bold fs-4"></i>
+                </div>
+                <div>
+                    <a href="./wifi.html">
+                        <div class="fw-bold">Wifi</div>
+                    </a>
+                    <div class="text-muted small">Hier 13:27</div>
+                </div>
+            </div>
+            <div class="fw-bold text-danger">- €25</div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <div class="transaction-icon bg-primary-subtle me-3">
+                    <i class="bi bi-droplet-fill text-primary"></i>
+                </div>
+                <div>
+                    <a href="./waterbill.html">
+                        <div class="fw-bold">Eau</div>
+                    </a>
+                    <div class="text-muted small">Hier 10:27</div>
+                </div>
+            </div>
+            <div class="fw-bold text-danger">- €10</div>
+        </div>
+    </div>
+    <div class="container-fluid mb-5 mt-2">
+        <!-- Ici il faut ajouter (<a href="./waterbill.html"></a>) à steam, appstore, et leslie -->
+        <h6 class=" mb-3">Septembre</h6>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <div class="transaction-icon bg-primary-subtle me-3">
+                    <i class="bi bi-steam text-primary"></i>
+                </div>
+                <div>
+                    <div class="fw-bold">Steam</div>
+                    <div class="text-muted small">20/11/2026 17:27</div>
+                </div>
+            </div>
+            <div class="fw-bold text-danger">- €25</div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <div class="transaction-icon bg-primary-subtle me-3">
+                    <i class="bi bi-google-play text-primary"></i>
+                </div>
+                <div>
+                    <div class="fw-bold">App Store</div>
+                    <div class="text-muted small">20/11/2026 13:27 AM</div>
+                </div>
+            </div>
+            <div class="fw-bold text-danger">- €32</div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <img src="../Assets/images/Leslie.jpg" class="avatar me-3" alt="Esther">
+                <div>
+                    <div class="fw-bold">Leslie</div>
+                    <div class="text-muted small">Aujourd'hui 7:30</div>
+                </div>
+            </div>
+            <div class="fw-bold text-success">+ €10</div>
+        </div>
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <div class="d-flex align-items-center">
+                <img src="../Assets/images/Leslie.jpg" class="avatar me-3" alt="Esther">
+                <div>
+                    <div class="fw-bold">Leslie</div>
+                    <div class="text-muted small">Aujourd'hui 7:30</div>
+                </div>
+            </div>
+            <div class="fw-bold text-success">+ €10</div>
+        </div>
+    </div>
+
+    <!-- Modal Filtre -->
+    <div class="offcanvas offcanvas-start border-0" tabindex="-1" id="offcanvasFilter"
+        aria-labelledby="offcanvasFilterLabel" style="width: 65%;">
+        <div class="offcanvas-header border-bottom">
+            <button type="button" class="btn border-0 p-0" data-bs-dismiss="offcanvas" aria-label="Close">
+                <i class="bi bi-chevron-left fs-6"></i>
+            </button>
+            <h6 class="offcanvas-title fw-bold m-auto" id="offcanvasFilterLabel">Filtre</h6>
+            <div style="width: 24px;"></div>
+        </div>
+
+        <div class="offcanvas-body p-4">
+            <p class="fw-bold mb-3">Mensuel</p>
+            <div class="row g-2 mb-4">
+                <div class="col-4"><button class="btn btn-filter active w-100">Tout</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Jan</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Fev</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Mar</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Avr</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Mai</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Jun</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Juil</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Aou</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Sep</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Oct</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Nov</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100">Dec</button></div>
+            </div>
+
+            <p class="fw-bold mb-3">Statut</p>
+            <div class="row g-2 mb-5">
+                <div class="col-6"><button class="btn btn-filter active w-100">Tout</button></div>
+                <div class="col-6"><button class="btn btn-filter w-100">Réussi</button></div>
+                <div class="col-6"><button class="btn btn-filter w-100">En cours</button></div>
+                <div class="col-6"><button class="btn btn-filter w-100">Échoué</button></div>
+            </div>
+
+            <div class="mt-auto pt-4">
+                <button class="btn btn-primary-custom w-100 py-3 fw-bold shadow-sm"
+                    style="border-radius: 12px;">Appliquer</button>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal Filtre -->
+
+    <!-- FOOTER -->
     <footer class="footer py-2">
         <div class="d-flex justify-content-around align-items-center">
-            <a href="./home.html" class="footer-link">
+            <a href="./home.html" class="active-link">
                 <i class="bi bi-house-door-fill"></i>
                 <span>Accueil</span>
             </a>
-            <a href="./bankhistory.html" class="active-link">
+            <a href="./bankhistory.html" class="footer-link">
                 <i class="bi bi-clock-history"></i>
                 <span>Historique</span>
             </a>
@@ -92,114 +437,6 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // Tableau de données vide. Les données devront être chargées ici.
-        const allTransactions = [];
-
-        const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-
-        /**
-         Formate un montant en EUR.
-         param {number} amount Le montant de la transaction.
-         @returns {string} Le montant formaté.
-         */
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('fr-FR', {
-                style: 'currency',
-                currency: 'EUR',
-                signDisplay: 'always'
-            }).format(amount);
-        }
-
-        /**
-         Rend et injecte la liste des transactions dans le DOM, regroupées par mois.
-         param {Array<Object>} transactionsToRender Les transactions filtrées.
-         */
-        function renderTransactions(transactionsToRender) {
-            const listContainer = document.getElementById('transactionList');
-            let htmlContent = '';
-            let currentMonth = '';
-
-            if (transactionsToRender.length === 0) {
-                listContainer.innerHTML = '<p class="text-center text-muted mt-5 p-4 border rounded-3 bg-white">Aucune transaction trouvée pour les filtres sélectionnés.</p>';
-                return;
-            }
-
-            // Tri par date descendante (s'assurer que les données sont triées avant le rendu)
-            transactionsToRender.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-            transactionsToRender.forEach(transaction => {
-                const dateObj = new Date(transaction.date);
-                const monthYear = `${months[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
-
-                // Si le mois change, ajouter un nouvel en-tête de mois
-                if (monthYear !== currentMonth) {
-                    htmlContent += `<h5 class="text-muted mb-3 mt-4 fw-semibold">${monthYear}</h5>`;
-                    currentMonth = monthYear;
-                }
-
-                const amountClass = transaction.type === 'credit' ? 'amount-positive' : 'amount-negative';
-                const sign = transaction.type === 'credit' ? '+' : '';
-
-                htmlContent += `
-                        <div class="d-flex justify-content-between align-items-center transaction-item">
-                            <div class="d-flex align-items-center">
-                                <i class="bi bi-${transaction.icon} fs-4 me-3 ${transaction.color}"></i>
-                                <div>
-                                    <h6 class="mb-0 fw-bold">${transaction.description}</h6>
-                                    <small class="text-muted">${transaction.source}</small>
-                                </div>
-                            </div>
-                            <div class="text-end">
-                                <span class="${amountClass} fw-bold">${sign}${formatCurrency(Math.abs(transaction.amount))}</span>
-                                <small class="d-block text-muted">${dateObj.toLocaleDateString('fr-FR')}</small>
-                            </div>
-                        </div>
-                    `;
-            });
-
-            listContainer.innerHTML = htmlContent;
-        }
-
-        //Applique les filtres sélectionnés et met à jour la liste.
-
-        function applyFilters() {
-
-            const filterType = document.getElementById('filterType').value;
-            const filterPeriod = document.getElementById('filterPeriod').value;
-            let filtered = [...allTransactions];
-            const today = new Date();
-
-            // 1. Filtrage par Type
-            if (filterType !== 'Tous') {
-                filtered = filtered.filter(t => t.category === filterType);
-            }
-
-            // 2. Filtrage par Période
-            if (filterPeriod !== 'all') {
-                const startDate = new Date(); // Date de début pour la période
-
-                if (filterPeriod === '30days') {
-                    // Les 30 derniers jours
-                    startDate.setDate(today.getDate() - 30);
-                } else if (filterPeriod === 'currentMonth') {
-                    // Le début du mois actuel
-                    startDate.setDate(1);
-                }
-
-                filtered = filtered.filter(t => new Date(t.date) >= startDate);
-            }
-
-            renderTransactions(filtered);
-            // Cacher le modale après le filtrage
-            const filterModal = bootstrap.Modal.getInstance(document.getElementById('filterModal'));
-            if (filterModal) {
-                filterModal.hide();
-            }
-        }
-
-    </script>
 
 </body>
 
