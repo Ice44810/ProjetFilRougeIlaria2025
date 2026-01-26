@@ -19,8 +19,33 @@
             </a>
             <h5 class="mb-0 fw-bold flex-grow-1 text-center me-4">Profil</h5>
             <span class="small"></span>
-            <i class="bi bi-three-dots-vertical fs-4"></i>
-            <!-- ajouter le bouton du modal-->
+            <a href="javascript:void(0);" class="text-dark" data-bs-toggle="offcanvas"
+                data-bs-target="#actionSheetAccount">
+                <i class="bi bi-three-dots-vertical fs-4"></i>
+            </a>
+
+            <div class="offcanvas offcanvas-bottom action-sheet-ios" tabindex="-1" id="actionSheetAccount">
+                <div class="offcanvas-body p-3">
+
+                    <div class="list-group shadow-sm mb-2 rounded-4">
+                        <a href="#" class="list-group-item list-group-item-action text-center py-3"
+                            data-bs-dismiss="offcanvas">
+                            Editer <!-- data-bs-dismiss="offcanvas" renvoie à la page detailcontact -->
+                        </a>
+                        <a href="#"
+                            class="list-group-item list-group-item-action text-center py-3 text-danger fw-semibold"
+                            data-bs-dismiss="offcanvas">
+                            Supprimer
+                        </a>
+                    </div>
+
+                    <button type="button" class="btn btn-white w-100 py-3 shadow-sm rounded-4 fw-bold text-primary-ios"
+                        data-bs-dismiss="offcanvas">
+                        Annuler
+                    </button>
+
+                </div>
+            </div>
         </div>
     </div>
 
@@ -34,8 +59,8 @@
         </div>
         <h5 class="mt-2 fw-bold">Themesflat</h5>
         <div class="d-flex justify-content-center align-items-center gap-2 text-muted mt-1">
-            <span id="accountNumber small">0321 0000 2342 2424</span>
-            <i class="bi bi-clipboard copy-icon" id="copyBtn" style="cursor:pointer;"></i>
+            <span id="accountNumber" class="small">0321 0000 2342 2424</span>
+            <i class="bi bi-clipboard copy-icon" id="copyBtn" style="cursor:pointer; font-size: 0.9rem;"></i>
         </div>
     </div>
 
@@ -90,16 +115,7 @@
                 alert("numéro copié!");
             });
         });
-        document.getElementById("sendMoneyBtn").addEventListener("click", () => {
-            alert("Send Money clicked");
-        });
-        document.getElementById("requestBtn").addEventListener("click", () => {
-            alert("Request Money clicked");
-        });
 
-        document.getElementById("shareBtn").addEventListener("click", () => {
-            alert("Share clicked");
-        });
     </script>
 
 </body>

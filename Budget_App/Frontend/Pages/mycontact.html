@@ -23,12 +23,12 @@
     </div>
 
     <div class="container-fluid mb-2">
-        <div class="p-3 bg-white">
-            <div class="input-group align-items-center bg-light rounded-3 px-2">
+        <div class="p-3 rounded-3 bg-secondary-subtle">
+            <div class="input-group align-items-center rounded-3 px-2">
                 <span class="bg-transparent border-0 pe-1" id="searchicon">
                     <i class="bi bi-search text-muted fs-6"></i>
                 </span>
-                <input type="text" class="form-control border-0 bg-transparent shadow-none fs-6" id="searchInput"
+                <input type="text" class="form-control border-0 shadow-none fs-6" id="searchInput"
                     placeholder="Rechercher un destinataire" style="height: 45px;" />
                 <button class="btn border-0 p-1" type="button" id="clearSearch">
                     <i class="bi bi-x-circle-fill text-muted fs-6" role="clear-button" aria-label="Clear Search"></i>
@@ -108,27 +108,6 @@
                     style="width: 50px; height: 50px; object-fit: cover;" />
                 <div>
                     <strong>Themesflat</strong><br /><small>FR76 1234 5678 9012</small>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Détails du contact -->
-    <div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Recipient Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <img id="contactImage" src="" alt="Contact" class="rounded-circle mb-3" width="80" height="80" />
-                    <h6 id="contactName"></h6>
-                    <p class="text-muted mb-1" id="contactNumber"></p>
-                    <p class="text-muted small" id="contactEmail"></p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary">Request</button><button
-                        class="btn btn-primary">Share</button><button class="btn btn-primary">Send Money</button>
                 </div>
             </div>
         </div>

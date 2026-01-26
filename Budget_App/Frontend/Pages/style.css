@@ -118,7 +118,7 @@ a {
     line-height: 1;
 }
 
-/* Animation légère quand on clique sur modifier */
+/* Animation légère quand on clique sur modifier (animation en flottement)*/
 .category-item.edit-mode {
     animation: shake 0.3s infinite;
 }
@@ -321,6 +321,7 @@ a {
     align-items: center;
     justify-content: center;
     z-index: 1050;
+    /* Permet à ce bouton de se placer Au-dessus des autres éléments */
     text-decoration: none;
 
 }
@@ -479,6 +480,45 @@ a {
     align-items: center;
     justify-content: center;
     font-size: 22px;
+}
+
+/* Rend l'arrière-plan de l'offcanvas invisible pour ne voir que les blocs */
+.action-sheet-ios {
+    background-color: transparent !important;
+    border: none !important;
+    height: auto !important;
+}
+
+/* Style des blocs blancs arrondis */
+.action-sheet-ios .list-group,
+.action-sheet-ios .btn-white {
+    background-color: white;
+    border: none;
+}
+
+.action-sheet-ios .list-group-item {
+    border-color: #f2f2f2;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Couleur bleue spécifique iOS pour le bouton Cancel */
+.text-primary-ios {
+    color: #007aff !important;
+}
+
+/* Animation : l'action sheet ne doit pas toucher les bords sur les côtés */
+@media (max-width: 576px) {
+    .action-sheet-ios.offcanvas-bottom {
+        padding: 0 10px 20px 10px;
+        /* Espace en bas et sur les côtés */
+    }
+}
+
+/* Optionnel : Flou d'arrière-plan */
+.offcanvas-backdrop.show {
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* Partie Shopping / market */
@@ -942,6 +982,123 @@ Banner & Header */
 
 .border-secondary-subtle {
     border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Partie bankhistory */
+/* Cartes de statistiques */
+.card-stats {
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
+}
+
+.icon-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Unification des boutons de filtre */
+.btn-filter {
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    color: #6c757d;
+    border-radius: 12px;
+    padding: 8px 15px;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.btn-filter.active {
+    background-color: #5d44f8 !important;
+    border-color: #5d44f8 !important;
+    color: #fff !important;
+}
+
+.btn-filter:hover:not(.active) {
+    background-color: #f8f9fa;
+    border-color: #ddd;
+}
+
+/* Correction du Graphique */
+.chart-container {
+    display: grid;
+    grid-template-columns: 45px 1fr;
+    height: 230px;
+    margin-top: 10px;
+    position: relative;
+}
+
+.y-axis {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #999;
+    font-size: 11px;
+    padding-bottom: 30px;
+    position: absolute;
+}
+
+.chart-content {
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* Aligné sur le 0 */
+    border-left: 1px solid #eee;
+}
+
+.bar {
+    width: 30px;
+    border-radius: 4px;
+    z-index: 1;
+    position: relative;
+}
+
+.bar.up {
+    background-color: #43a047;
+    margin-bottom: 95px;
+    align-items: flex-end;
+    align-items: flex-bottom;
+}
+
+/* Monte depuis le centre */
+.bar.down {
+    background-color: #e53935;
+    margin-top: 95px;
+    align-items: flex-start;
+    align-items: flex-top;
+}
+
+.grid-lines {
+    position: absolute;
+}
+
+/* Descend depuis le centre */
+.transaction-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.btn-primary-custom {
+    background-color: #5d44f8;
+    border: none;
+    color: white;
+    border-radius: 12px;
 }
 
 /* FOOTER */

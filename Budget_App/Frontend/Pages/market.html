@@ -112,6 +112,12 @@
             </div>
         </div>
     </div>
+    <!-- Scroll ... -->
+    <div class="scroll-dots d-flex justify-content-center gap-2">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
 
     <!-- A VOIR POURQOUI PAS METTRE D'AUTRES CHOSES ICI 
     <p>Catégories</p>
@@ -139,42 +145,64 @@
             </a>
         </div>
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">const slider = document.querySelector('.scroll-container');
-        let isDown = false;
-        let startX;
-        let scrollLeft;
-
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            slider.classList.add('active');
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
-        }
-
-        );
-
-        slider.addEventListener('mouseleave', () => {
-            isDown = false;
-        }
-
-        );
-
-        slider.addEventListener('mouseup', () => {
-            isDown = false;
-        }
-
-        );
-
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2; // Vitesse du scroll
-            slider.scrollLeft = scrollLeft - walk;
-        }
-
-        );
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
     </script>
+
+    <script>
+        // SCROLL DOTS
+        // On sélectionne tous les conteneurs de cartes et leurs groupes de points correspondants
+        const scrollContainers = document.querySelectorAll(".scroll-container");
+        const allDotsGroups = document.querySelectorAll(".scroll-dots");
+
+        scrollContainers.forEach((container, index) => {
+            const dots = allDotsGroups[index].querySelectorAll(".dot");
+
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            // --- 1. GESTION DES POINTS (SCROLL) ---
+            container.addEventListener("scroll", () => {
+                // On calcule la progression du scroll
+                const maxScroll = container.scrollWidth - container.offsetWidth;
+                if (maxScroll <= 0) return;
+
+                const scrollPercentage = container.scrollLeft / maxScroll;
+                // Détermine quel point doit être actif
+                let activeIndex = Math.round(scrollPercentage * (dots.length - 1));
+
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle("active", i === activeIndex);
+                });
+            });
+
+            // --- 2. GESTION DU GLISSEMENT A LA SOURIS ---
+            container.addEventListener("mousedown", (e) => {
+                isDown = true;
+                container.classList.add("active"); // Pour changer le curseur
+                startX = e.pageX - container.offsetLeft;
+                scrollLeft = container.scrollLeft;
+            });
+
+            container.addEventListener("mouseleave", () => {
+                isDown = false;
+            });
+
+            container.addEventListener("mouseup", () => {
+                isDown = false;
+            });
+
+            container.addEventListener("mousemove", (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - container.offsetLeft;
+                const walk = (x - startX) * 2; // Vitesse de défilement
+                container.scrollLeft = scrollLeft - walk;
+            });
+        });
+
+    </script>
+
 </body>
 
 </html>

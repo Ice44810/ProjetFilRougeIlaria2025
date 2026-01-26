@@ -9,12 +9,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="../Pages/style.css" />
-    <style>
-        /* S'assurer que le contenu n'est pas masqué par le footer fixe */
 
-
-        /* Couleur primaire Bootstrap */
-    </style>
 </head>
 
 <body>
@@ -60,14 +55,44 @@
             </ul>
         </div>
 
-        <div class="text-center rounded-3 shadow-sm">
-            <button class="btn w-75">
+        <div class="text-center">
+            <button class="btn btn-primary-custom btn-copy-iban w-75 py-3 shadow-sm" style="border-radius: 12px;">
                 <i class="bi bi-clipboard me-2"></i> Copier l'IBAN
             </button>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // 1. Gestion de la copie de l'IBAN
+            const copyBtn = document.querySelector('.btn-copy-iban'); // J'ai ajouté une classe spécifique ci-dessous
+            const ibanText = "FR76 xxxx xxxx xxxx xxxx"; // Ou récupéré dynamiquement via le DOM
+
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function () {
+                    // Copie dans le presse-papier
+                    navigator.clipboard.writeText(ibanText.replace(/\s/g, '')).then(() => {
+
+                        // Retour visuel sur le bouton
+                        const originalContent = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="bi bi-check2 me-2"></i> Copié !';
+                        copyBtn.classList.replace('btn-primary-custom', 'btn-success');
+
+                        // Remettre le bouton à l'état initial après 2 secondes
+                        setTimeout(() => {
+                            copyBtn.innerHTML = originalContent;
+                            copyBtn.classList.replace('btn-success', 'btn-primary-custom');
+                        }, 2000);
+
+                    }).catch(err => {
+                        console.error('Erreur lors de la copie : ', err);
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>

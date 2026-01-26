@@ -9,152 +9,6 @@
         crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../Pages/style.css" />
-
-    <style>
-        .card-stats {
-            border-radius: 20px;
-            border: none;
-            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .offcanvas-header {
-            background-color: #ffffff;
-        }
-
-        .icon-box {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-filter {
-            border-radius: 12px;
-            border: 1px solid #eee;
-            background: white;
-            padding: 8px 20px;
-            color: #6c757d;
-        }
-
-        .btn-filter.active {
-            background: #5d5fef;
-            color: white;
-            border-color: #5d5fef;
-        }
-
-        /* Simulation du graphique */
-        .chart-container {
-            height: 200px;
-            display: flex;
-            gap: 160px;
-            padding: 20px 0;
-            border-bottom: 1px solid #eee;
-            position: relative;
-        }
-
-        /* Échelle à gauche (400, 200, 0, -200, -400) */
-        .y-axis {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            color: #999;
-            font-size: 10px;
-            padding-bottom: 20px;
-            /* Aligné avec les dates */
-        }
-
-        .chart-content {
-            position: relative;
-            display: flex;
-            align-items: flex-end;
-            gap: 5px;
-            flex-grow: 1;
-            justify-content: space-around;
-            align-items: center;
-            /* Important : aligne les barres sur la ligne 0 */
-            border-left: 1px solid #eee;
-        }
-
-        .bar {
-            width: 40px;
-            border-radius: 4px;
-            position: relative;
-        }
-
-        .bar.up {
-            background-color: #43a047;
-        }
-
-        .bar.down {
-            background-color: #e53935;
-            align-self: flex-start;
-            margin-top: 100px;
-        }
-
-        .chart-line {
-            position: absolute;
-            top: 100px;
-            left: 0;
-            right: 0;
-            border-top: 1px solid #eee;
-            z-index: 0;
-        }
-
-        .transaction-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        /* Styles Pour le Modal Filtre Bankhistory */
-        /* Style des boutons de filtre (Jan, Feb, etc.) */
-        .btn-filter {
-            background-color: #fff;
-            border: 1px solid #f0f0f0;
-            color: #333;
-            border-radius: 10px;
-            padding: 10px 5px;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-
-        /* État actif - Couleur violette de vos images */
-        .btn-filter.active {
-            background-color: #5d44f8 !important;
-            border-color: #5d44f8 !important;
-            color: #fff !important;
-        }
-
-        /* Le gros bouton Apply en bas */
-        .btn-primary-custom {
-            background-color: #5d44f8;
-            border: none;
-            color: white;
-        }
-
-        /* Animation au survol */
-        .btn-filter:hover:not(.active) {
-            background-color: #f8f9fa;
-            border-color: #ddd;
-        }
-
-        /* Supprime l'effet d'ombre Bootstrap par défaut */
-        .offcanvas {
-            background-color: #ffffff;
-        }
-    </style>
 </head>
 
 <body>
@@ -164,11 +18,11 @@
             <a href="./home.html" class="text-dark text-decoration-none">
                 <i class="bi bi-chevron-left fs-6"></i>
             </a>
-            <h6 class="mb-0 fw-bold flex-grow-1 text-center me-4">Historique bancaire</h5>
-                <a href="#" class="text-dark text-decoration-none" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
-                    <i class="bi bi-sliders fs-4"></i>
-                </a>
+            <h6 class="mb-0 fw-bold flex-grow-1 text-center me-4">Historique bancaire</h6>
+            <a href="#" class="text-dark text-decoration-none" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasFilter" aria-controls="offcanvasFilter">
+                <i class="bi bi-sliders fs-4"></i>
+            </a>
         </div>
     </div>
     <div class="row g-3 mb-2">
@@ -179,8 +33,8 @@
                         <i class="bi bi-arrow-up text-primary fs-4"></i>
                     </div>
                     <div>
-                        <div class="text-muted small">Entrées</div>
-                        <div class="fw-bold text-success">€778.35</div>
+                        <div class="text-muted small text-center">Entrées</div>
+                        <div class="fw-bold text-success text-center">€778.35</div>
                     </div>
                 </div>
             </div>
@@ -199,56 +53,142 @@
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center gap-2 mb-2 px-2 mt-2">
-        <button class="btn btn-filter active">7 derniers jours</button>
-        <button class="btn btn-filter">30 derniers jours</button>
-        <button class="btn btn-filter">Personnaliser</button>
-    </div>
-
-    <!-- Echelle à gauche (400, 200, 0, -200, -400) -->
-    <div class="mb-5 px-4 p-3">
-        <div class="chart-container">
-            <div class="y-axis fs-6 small">
-                <span>400</span>
-                <span>200</span>
-                <span>0</span>
-                <span>-200</span>
-                <span>-400</span>
-            </div>
-            <div class="chart-content">
-                <div class="grid-lines">
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                    <div class="line"></div>
-                </div>
-                <div class="d-flex gap-3">
-                    <div class="bar up" style="height: 80px; margin-bottom: 40px;"></div>
-                    <div class="bar down" style="height: 80px; margin-top: 80px;"></div>
-                    <div class="bar up" style="height: 110px; margin-bottom: 40px;"></div>
-                    <div class="bar down" style="height: 60px; margin-top: 80px;"></div>
-                    <div class="bar down" style="height: 90px; margin-top: 80px;"></div>
-                    <div class="bar up" style="height: 70px; margin-bottom: 40px"></div>
-                    <div class="bar down" style="height: 40px; margin-top: 80px;">
+    <!-- Tableau -->
+    <ul class="nav nav-tabs nav-fill mb-3 d-flex justify-content-center mb-2 px-4 mt-2 shadow-sm" id="historyTabs"
+        role="tablist">
+        <li class="nav-item bg-primary-subtle rounded-3 me-2">
+            <button class="nav-link active" id="7days-tab" data-bs-toggle="tab" data-bs-target="#7days" type="button"
+                role="tab" aria-controls="7days" aria-selected="true">
+                <!-- aria pour une meilleure accessibilité -->
+                7 derniers jours </button>
+        </li>
+        <li class="nav-item bg-primary-subtle rounded-3 me-2">
+            <button class="nav-link" id="30days-tab" data-bs-toggle="tab" data-bs-target="#30days" type="button"
+                role="tab" aria-controls="30days" aria-selected="false">30 derniers jours </button>
+        </li>
+        <li class="nav-item bg-primary-subtle rounded-3 me-2">
+            <button class="nav-link" id="custom-tab" data-bs-toggle="tab" data-bs-target="#custom" type="button"
+                role="tab" aria-controls="custom" aria-selected="false">Personnaliser </button>
+        </li>
+    </ul>
+    <div class="tab-content px-3" id="historyTabsContent">
+        <!-- Tableau téléphone -->
+        <div class="tab-pane fade show active" id="7days" role="tabpanel">
+            <div class="mb-3 px-2 p-3">
+                <div class="chart-container d-flex">
+                    <div class="y-axis fs-6 small d-flex flex-column justify-content-between"
+                        style="width: 50px; min-width: 50px; min-height: 230px; max-height: 230px; padding-bottom: 30px;">
+                        <span>400</span>
+                        <span>200</span>
+                        <span>0</span>
+                        <span>-200</span>
+                        <span>-400</span>
                     </div>
+                    <div class="chart-content flex-grow-1 position-relative">
+                        <div class="grid-lines position-absolute w-100 h-100">
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                        </div>
+                        <div class="d-flex justify-content-around align-items-center position-relative gap-4"
+                            style="height: 230px;">
+                            <div class="bar up bg-success" style="height: 80px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 80px; width: 30px;"></div>
+                            <div class="bar up bg-success" style="height: 110px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 60px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 90px; width: 30px;"></div>
+                            <div class="bar up bg-success" style="height: 70px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 40px; width: 30px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;">
+                    <span>29-06</span>
+                    <span>05-07</span>
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between text-muted small mt-2 mb-2" style="margin-left: 180px;">
-            <span>29-06</span>
-            <span>05-07</span>
+        <div class="tab-pane fade" id="30days" role="tabpanel">
+            <div class="mb-3 px-2 p-3">
+                <div class="chart-container d-flex">
+                    <div class="y-axis fs-6 small d-flex flex-column justify-content-between"
+                        style="width: 50px; min-width: 50px; min-height: 230px; max-height: 230px; padding-bottom: 30px;">
+                        <span>400</span>
+                        <span>200</span>
+                        <span>0</span>
+                        <span>-200</span>
+                        <span>-400</span>
+                    </div>
+                    <div class="chart-content flex-grow-1 position-relative">
+                        <div class="grid-lines position-absolute w-100 h-100">
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                        </div>
+                        <div class="d-flex justify-content-around align-items-center position-relative gap-4"
+                            style="height: 230px;">
+                            <div class="bar up bg-success" style="height: 80px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 80px; width: 30px;"></div>
+                            <div class="bar up bg-success" style="height: 110px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 60px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 90px; width: 30px;"></div>
+                            <div class="bar up bg-success" style="height: 70px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 40px; width: 30px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;">
+                    <span>29-06</span>
+                    <span>05-07</span>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="custom" role="tabpanel">
+            <div class="mb-3 px-2 p-3">
+                <div class="chart-container d-flex">
+                    <div class="y-axis fs-6 small d-flex flex-column justify-content-between"
+                        style="width: 50px; min-width: 50px; min-height: 230px; max-height: 230px; padding-bottom: 30px;">
+                        <span>400</span>
+                        <span>200</span>
+                        <span>0</span>
+                        <span>-200</span>
+                        <span>-400</span>
+                    </div>
+                    <div class="chart-content flex-grow-1 position-relative">
+                        <div class="grid-lines position-absolute w-100 h-100">
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                            <div class="line border-bottom" style="height: 25%;"></div>
+                        </div>
+                        <div class="d-flex justify-content-around align-items-center position-relative gap-4"
+                            style="height: 230px;">
+                            <div class="bar up bg-success" style="height: 80px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 80px; width: 30px;"></div>
+                            <div class="bar up bg-success" style="height: 110px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 60px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 90px; width: 30px;"></div>
+                            <div class="bar up bg-success" style="height: 70px; width: 30px;"></div>
+                            <div class="bar down bg-danger" style="height: 40px; width: 30px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;">
+                    <span>29-06</span>
+                    <span>05-07</span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="container-fluid mb-3">
         <h6 class="mb-3">Novembre</h6>
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div class="d-flex align-items-center">
-                <div class="transaction-icon bg-primary-subtle me-3">
-                    <i class="bi bi-lightning-charge-fill text-primary"></i>
-                </div>
-                <div>
-                    <a href="./electricity.html">
+                <div class="transaction-icon bg-primary-subtle me-3"><i
+                        class="bi bi-lightning-charge-fill text-primary"></i></div>
+                <div><a href="./electricity.html">
                         <div class="fw-bold">Facture électricité</div>
                     </a>
                     <div class="text-muted small">aujourd'hui 10:27</div>
@@ -256,30 +196,25 @@
             </div>
             <div class="fw-bold text-danger">- €307</div>
         </div>
-
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <div class="d-flex align-items-center">
-                <img src="../Assets/images/esther.jpg" class="avatar me-3" alt="Esther">
-                <div>
-                    <a href="./bankhistory.html">
+            <div class="d-flex align-items-center"><img src="../Assets/images/esther.jpg" class="avatar me-3"
+                    alt="Esther">
+                <div><a href="./bankhistory.html">
                         <div class="fw-bold">Esther</div>
                     </a>
                     <div class="text-muted small">aujourd'hui 7:30</div>
                 </div>
             </div>
-            <div class="fw-bold text-success">+ €50</div>
+            <div class="fw-bold text-success">+€50</div>
         </div>
     </div>
-
     <div class="container-fluid mb-3 mt-2">
         <h6 class="mb-3">Octobre</h6>
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div class="d-flex align-items-center">
-                <div class="transaction-icon bg-primary-subtle me-3">
-                    <i class="bi bi-phone text-primary-emphasis"></i>
+                <div class="transaction-icon bg-primary-subtle me-3"><i class="bi bi-phone text-primary-emphasis"></i>
                 </div>
-                <div>
-                    <a href="./mobile.html">
+                <div><a href="./mobile.html">
                         <div class="fw-bold">Mobile</div>
                     </a>
                     <div class="text-muted small">Hier 17:27</div>
@@ -289,11 +224,9 @@
         </div>
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div class="d-flex align-items-center">
-                <div class="transaction-icon bg-primary-subtle me-3">
-                    <i class="bi bi-wifi text-primary fw-bold fs-4"></i>
-                </div>
-                <div>
-                    <a href="./wifi.html">
+                <div class="transaction-icon bg-primary-subtle me-3"><i
+                        class="bi bi-wifi text-primary fw-bold fs-4"></i></div>
+                <div><a href="./internet.html">
                         <div class="fw-bold">Wifi</div>
                     </a>
                     <div class="text-muted small">Hier 13:27</div>
@@ -303,11 +236,9 @@
         </div>
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div class="d-flex align-items-center">
-                <div class="transaction-icon bg-primary-subtle me-3">
-                    <i class="bi bi-droplet-fill text-primary"></i>
+                <div class="transaction-icon bg-primary-subtle me-3"><i class="bi bi-droplet-fill text-primary"></i>
                 </div>
-                <div>
-                    <a href="./waterbill.html">
+                <div><a href="./waterbill.html">
                         <div class="fw-bold">Eau</div>
                     </a>
                     <div class="text-muted small">Hier 10:27</div>
@@ -317,13 +248,13 @@
         </div>
     </div>
     <div class="container-fluid mb-5 mt-2">
-        <!-- Ici il faut ajouter (<a href="./waterbill.html"></a>) à steam, appstore, et leslie -->
+        <!-- Ici il faut ajouter (<a href=""></a>) à steam,
+appstore,
+et leslie -->
         <h6 class=" mb-3">Septembre</h6>
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div class="d-flex align-items-center">
-                <div class="transaction-icon bg-primary-subtle me-3">
-                    <i class="bi bi-steam text-primary"></i>
-                </div>
+                <div class="transaction-icon bg-primary-subtle me-3"><i class="bi bi-steam text-primary"></i></div>
                 <div>
                     <div class="fw-bold">Steam</div>
                     <div class="text-muted small">20/11/2026 17:27</div>
@@ -333,8 +264,7 @@
         </div>
         <div class="d-flex align-items-center justify-content-between mb-4">
             <div class="d-flex align-items-center">
-                <div class="transaction-icon bg-primary-subtle me-3">
-                    <i class="bi bi-google-play text-primary"></i>
+                <div class="transaction-icon bg-primary-subtle me-3"><i class="bi bi-google-play text-primary"></i>
                 </div>
                 <div>
                     <div class="fw-bold">App Store</div>
@@ -344,38 +274,34 @@
             <div class="fw-bold text-danger">- €32</div>
         </div>
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <div class="d-flex align-items-center">
-                <img src="../Assets/images/Leslie.jpg" class="avatar me-3" alt="Esther">
+            <div class="d-flex align-items-center"><img src="../Assets/images/Leslie.jpg" class="avatar me-3"
+                    alt="Esther">
                 <div>
                     <div class="fw-bold">Leslie</div>
                     <div class="text-muted small">Aujourd'hui 7:30</div>
                 </div>
             </div>
-            <div class="fw-bold text-success">+ €10</div>
+            <div class="fw-bold text-success">+€10</div>
         </div>
         <div class="d-flex align-items-center justify-content-between mb-4">
-            <div class="d-flex align-items-center">
-                <img src="../Assets/images/Leslie.jpg" class="avatar me-3" alt="Esther">
+            <div class="d-flex align-items-center"><img src="../Assets/images/Leslie.jpg" class="avatar me-3"
+                    alt="Esther">
                 <div>
                     <div class="fw-bold">Leslie</div>
                     <div class="text-muted small">Aujourd'hui 7:30</div>
                 </div>
             </div>
-            <div class="fw-bold text-success">+ €10</div>
+            <div class="fw-bold text-success">+€10</div>
         </div>
     </div>
-
     <!-- Modal Filtre -->
     <div class="offcanvas offcanvas-start border-0" tabindex="-1" id="offcanvasFilter"
         aria-labelledby="offcanvasFilterLabel" style="width: 65%;">
-        <div class="offcanvas-header border-bottom">
-            <button type="button" class="btn border-0 p-0" data-bs-dismiss="offcanvas" aria-label="Close">
-                <i class="bi bi-chevron-left fs-6"></i>
-            </button>
+        <div class="offcanvas-header border-bottom"><button type="button" class="btn border-0 p-0"
+                data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-chevron-left fs-6"></i></button>
             <h6 class="offcanvas-title fw-bold m-auto" id="offcanvasFilterLabel">Filtre</h6>
             <div style="width: 24px;"></div>
         </div>
-
         <div class="offcanvas-body p-4">
             <p class="fw-bold mb-3">Mensuel</p>
             <div class="row g-2 mb-4">
@@ -392,52 +318,69 @@
                 <div class="col-4"><button class="btn btn-filter w-100">Oct</button></div>
                 <div class="col-4"><button class="btn btn-filter w-100">Nov</button></div>
                 <div class="col-4"><button class="btn btn-filter w-100">Dec</button></div>
-            </div>
-
-            <p class="fw-bold mb-3">Statut</p>
-            <div class="row g-2 mb-5">
-                <div class="col-6"><button class="btn btn-filter active w-100">Tout</button></div>
-                <div class="col-6"><button class="btn btn-filter w-100">Réussi</button></div>
-                <div class="col-6"><button class="btn btn-filter w-100">En cours</button></div>
-                <div class="col-6"><button class="btn btn-filter w-100">Échoué</button></div>
-            </div>
-
-            <div class="mt-auto pt-4">
-                <button class="btn btn-primary-custom w-100 py-3 fw-bold shadow-sm"
-                    style="border-radius: 12px;">Appliquer</button>
+                <p class="fw-bold mb-3">Statut</p>
+                <div class="row g-2 mb-5">
+                    <div class="col-6"><button class="btn btn-filter active w-100">Tout</button></div>
+                    <div class="col-6"><button class="btn btn-filter w-100">Réussi</button></div>
+                    <div class="col-6"><button class="btn btn-filter w-100">En cours</button></div>
+                    <div class="col-6"><button class="btn btn-filter w-100">Échoué</button></div>
+                </div>
+                <div class="mt-auto pt-4"><a href="./bankhistory.html"><button
+                            class="btn btn-primary-custom w-100 py-3 fw-bold shadow-sm"
+                            style="border-radius: 12px;">Appliquer</button></a></div>
             </div>
         </div>
-    </div>
-    <!-- End Modal Filtre -->
+        <!-- Fin Modal Filtre -->
+        <!-- FOOTER -->
+        <footer class="footer py-2">
+            <div class="d-flex justify-content-around align-items-center"><a href="./home.html" class="active-link"><i
+                        class="bi bi-house-door-fill"></i><span>Accueil</span></a><a href="./bankhistory.html"
+                    class="footer-link"><i class="bi bi-clock-history"></i><span>Historique</span></a><a
+                    href="./myqr.html" class="footer-link"><i class="bi bi-qr-code-scan"></i><span>QR</span></a><a
+                    href="./rewards.html" class="footer-link"><i class="bi bi-gift"></i><span>Récompenses</span></a><a
+                    href="./profile.html" class="footer-link"><i class="bi bi-person"></i><span>Profil</span></a></div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script>document.addEventListener('DOMContentLoaded', function () {
 
-    <!-- FOOTER -->
-    <footer class="footer py-2">
-        <div class="d-flex justify-content-around align-items-center">
-            <a href="./home.html" class="active-link">
-                <i class="bi bi-house-door-fill"></i>
-                <span>Accueil</span>
-            </a>
-            <a href="./bankhistory.html" class="footer-link">
-                <i class="bi bi-clock-history"></i>
-                <span>Historique</span>
-            </a>
-            <a href="./myqr.html" class="footer-link">
-                <i class="bi bi-qr-code-scan"></i>
-                <span>QR</span>
-            </a>
-            <a href="./rewards.html" class="footer-link">
-                <i class="bi bi-gift"></i>
-                <span>Récompenses</span>
-            </a>
-            <a href="./profile.html" class="footer-link">
-                <i class="bi bi-person"></i>
-                <span>Profil</span>
-            </a>
-        </div>
-    </footer>
+                // Gestion des boutons de filtre dans l'Offcanvas
+                // Permet de changer l'état actif visuel quand on clique sur un mois ou un statut
+                const filterButtons = document.querySelectorAll('.btn-filter');
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                filterButtons.forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        // Trouve le parent (le groupe de boutons) pour ne désactiver que les frères
+                        const parent = this.closest('.row');
+                        parent.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
 
+                        // Active le bouton cliqué
+                        this.classList.add('active');
+                    }
+
+                    );
+                }
+
+                );
+
+                // Logique du bouton "Appliquer" du filtre
+                const applyFilterBtn = document.querySelector('#offcanvasFilter .btn-primary-custom');
+
+                if (applyFilterBtn) {
+                    applyFilterBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        console.log("Filtres appliqués !");
+                        // Ferme l'offcanvas (si ce n'est pas géré par le lien href)
+                        const offcanvasElement = document.getElementById('offcanvasFilter');
+                        const modal = bootstrap.Offcanvas.getInstance(offcanvasElement);
+                        if (modal) modal.hide();
+                    }
+
+                    );
+                }
+            }
+
+            );
+        </script>
 </body>
 
 </html>
