@@ -4,10 +4,17 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Budget App</title>
+    <title>Home - Budget App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../Pages/style.css">
+
+    <style>
+        /* Taille de la largeur de l'offcanvas */
+        .offcanvas-custom-width {
+            width: 75% !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -46,7 +53,7 @@
                                     <i class="bi bi-chevron-right small text-muted"></i>
                                 </li>
                                 <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
-                                    <a href="pages.html">
+                                    <a href="ui-pages.html">
                                         <span><i class="bi bi-book me-3"></i>Pages</span></a>
                                     <i class="bi bi-chevron-right small text-muted"></i>
                                 </li>
@@ -136,8 +143,7 @@
         <div class="container-fluid service-header mt-4 px-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="service-title mb-0">Vos services</h4>
-                <a href="#collapseServices" id="toggleServices" class="view-all-link" data-bs-toggle="collapse"
-                    aria-expanded="false" aria-controls="collapseServices">
+                <a href="./bill.html" class="view-all-link">
                     Tout voir <!-- permet de cacher des élémets sur une page -->
                 </a>
             </div>
@@ -200,13 +206,14 @@
         <div class="container-fluid service-header mt-4 px-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="service-title mb-3">Contacts Récents</h4>
-                <a href="#collapseContactsRecents" id="toggleContactsRecents" class="view-all-link"
-                    data-bs-toggle="collapse" aria-expanded="false" aria-controls="collapseContactsRecents">
-                    Tout voir <!-- permet de cacher des élémets sur une page -->
+                <a href="javascript:void(0)" class="view-all-link" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasSavedRecipients" aria-controls="offcanvasSavedRecipients"
+                    aria-expanded="false">
+                    Tout voir
                 </a>
             </div>
         </div>
-        <div class="collapse" id="collapseContactsRecents">
+        <div class="scrolls container-fluid service-grid mt-3 px-4">
             <div class="row row-cols-3 row-cols-sm-4 row-cols-md-6 g-3      mb-4">
                 <div class="col text-center">
                     <img src="../Assets/images/esther.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
@@ -501,6 +508,209 @@
         </div>
     </div>
 
+    <!-- OFF CANVAS Saved Recipients -->
+    <div class="offcanvas offcanvas-start offcanvas-custom-width" tabindex="-1" id="offcanvasSavedRecipients"
+        aria-labelledby="offcanvasSavedRecipientsLabel">
+        <div class="offcanvas-header border-bottom shadow-sm py-3">
+            <div class="d-flex align-items-center w-100">
+                <button type="button" class="btn border-0 p-0" data-bs-dismiss="offcanvas" aria-label="Close">
+                    <i class="bi bi-chevron-left fs-6 text-dark"></i>
+                </button>
+                <h5 class="offcanvas-title mb-0 fw-bold flex-grow-1 text-center me-4"
+                    id="offcanvasSavedRecipientsLabel">
+                    Destinataires Sauvegardés
+                </h5>
+                <a href="addnewrecipient.html"><i class="bi bi-plus fs-4 text-dark"></i></a>
+            </div>
+        </div>
+
+        <div class="offcanvas-body p-0">
+            <div class="container-fluid my-3">
+                <div class="p-3 rounded-3 bg-secondary-subtle">
+                    <div class="input-group align-items-center rounded-3 px-2">
+                        <span class="bg-transparent border-0 pe-2">
+                            <i class="bi bi-search text-muted fs-6"></i>
+                        </span>
+                        <input type="text" class="form-control border-0 shadow-none fs-6 rounded-2" id="searchInput"
+                            placeholder="Rechercher un destinataire" style="height: 45px;" />
+                        <button class="btn border-0 p-2" type="button" id="clearSearch">
+                            <i class="bi bi-x-circle-fill text-muted fs-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs nav-fill mb-3" id="recipientTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" id="phone-tab" data-bs-toggle="tab" data-bs-target="#phone"
+                        type="button" role="tab">
+                        Phone
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="bank-tab" data-bs-toggle="tab" data-bs-target="#bank" type="button"
+                        role="tab">
+                        Bank Account
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content px-3" id="recipientTabsContent">
+                <div class="tab-pane fade show active" id="phone" role="tabpanel">
+                    <div class="contact-item d-flex align-items-center mb-3">
+                        <img src="../Assets/images/Andy Cody.jpg" alt="Andy" class="img-fluid rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
+                        <div>
+                            <a href="./detailcontact.html" class="text-decoration-none text-dark">
+                                <strong>Andy Cody</strong><br />
+                                <small class="text-muted">**** **** **** 0674</small>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
+                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
+                        data-email="alex.tran@email.com">
+                        <img src="../Assets/images/Alex Tran.jpg" alt="Alex Tran" class="img-fluid rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
+                        <div>
+                            <a href="./detailcontact.html">
+                                <strong>Alex Tran</strong><br />
+                                <small>**** **** **** 3216</small>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
+                        data-bs-target="#contactModal" data-name="Andy Cody" data-number="**** **** **** 0675"
+                        data-email="andy.cody@email.com">
+                        <img src="../Assets/images/Andy Cody.jpg" alt="Andy Cody" class="img-fluid rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
+                        <div>
+                            <a href="./detailcontact.html">
+                                <strong>Andy Cody</strong><br />
+                                <small>**** **** **** 0675</small>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
+                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
+                        data-email="kanope.francoise@email.com">
+                        <img src="../Assets/images/Kanope Francoise.jpg" alt="Kanope Francoise"
+                            class="img-fluid rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
+                        <div>
+                            <a href="./detailcontact.html">
+                                <strong>Kanope Francoise</strong><br />
+                                <small>**** **** **** 0543</small>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
+                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
+                        data-email="mallorie.jean@email.com">
+                        <img src="../Assets/images/Mallorie Jean.jpg" alt="Mallorie Jean"
+                            class="img-fluid rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
+                        <div>
+                            <a href="./detailcontact.html">
+                                <strong>Mallorie Jean</strong><br />
+                                <small>**** **** **** 3317</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="bank" role="tabpanel">
+                    <div class="contact-item d-flex align-items-center mb-3">
+                        <img src="../Assets/images/Andy Cody.jpg" alt="Andy" class="img-fluid rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
+                        <div>
+                            <a href="./detailcontact.html" class="text-decoration-none text-dark">
+                                <strong>Andy Cody</strong><br />
+                                <small class="text-muted">**** **** **** 0674</small>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
+                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
+                        data-email="alex.tran@email.com">
+                        <img src="../Assets/images/Alex Tran.jpg" alt="Alex Tran" class="img-fluid rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
+                        <div>
+                            <a href="./detailcontact.html">
+                                <strong>Alex Tran</strong><br />
+                                <small>**** **** **** 3216</small>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
+                        data-bs-target="#contactModal" data-name="Andy Cody" data-number="**** **** **** 0675"
+                        data-email="andy.cody@email.com">
+                        <img src="../Assets/images/Andy Cody.jpg" alt="Andy Cody" class="img-fluid rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
+                        <div>
+                            <a href="./detailcontact.html">
+                                <strong>Andy Cody</strong><br />
+                                <small>**** **** **** 0675</small>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
+                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
+                        data-email="kanope.francoise@email.com">
+                        <img src="../Assets/images/Kanope Francoise.jpg" alt="Kanope Francoise"
+                            class="img-fluid rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
+                        <div>
+                            <a href="./detailcontact.html">
+                                <strong>Kanope Francoise</strong><br />
+                                <small>**** **** **** 0543</small>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
+                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
+                        data-email="mallorie.jean@email.com">
+                        <img src="../Assets/images/Mallorie Jean.jpg" alt="Mallorie Jean"
+                            class="img-fluid rounded-circle me-3"
+                            style="width: 50px; height: 50px; object-fit: cover;" />
+                        <div>
+                            <a href="./detailcontact.html">
+                                <strong>Mallorie Jean</strong><br />
+                                <small>**** **** **** 3317</small>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Autorisation Notification -->
+    <div class="modal fade" id="notificationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered mx-auto" style="max-width: 300px;">
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-body p-4 text-center">
+                    <p class="fw-bold mb-0 text-dark fs-5">"Alipay" voudrais vous envoyer des Notifications</p><br>
+                    <p class="small text-muted">Les Notifications inclues, alertes, sons et icones. Elles sont réglables
+                        dans les Paramètres</p>
+                </div>
+                <div class="d-flex border-top border-secondary-subtle">
+                    <button type="button" class="btn btn-ios-action border-end text-muted" id="denyNotifications">
+                        Ne pas autoriser
+                    </button>
+                    <a href="./home.html">
+                        <button type="button" class="btn btn-ios-action text-primary-subtle fw-semibold me-2"
+                            id="allowNotifications" style="padding-left: 50px;">
+                            Autoriser
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="footer py-2">
         <div class="d-flex justify-content-around align-items-center">
@@ -552,47 +762,6 @@
                     window.location.href = notificationLink.getAttribute('href');
                 });
             }
-
-            // COLLAPSE SERVICES
-
-            const servicesCollapse = document.getElementById('collapseServices');
-            const toggleServices = document.getElementById('toggleServices');
-
-            if (servicesCollapse && toggleServices) {
-                servicesCollapse.addEventListener('shown.bs.collapse', () => {
-                    toggleServices.textContent = 'Réduire';
-                });
-
-                servicesCollapse.addEventListener('hidden.bs.collapse', () => {
-                    toggleServices.textContent = 'Tout voir';
-                });
-            }
-
-            // COLLAPSE CONTACTS RECENTS
-
-            const contactsRecentsCollapse = document.getElementById('collapseContactsRecents');
-            const toggleContactsRecents = document.getElementById('toggleContactsRecents');
-
-            if (contactsRecentsCollapse && toggleContactsRecents) {
-                contactsRecentsCollapse.addEventListener('shown.bs.collapse', () => {
-                    toggleContactsRecents.textContent = 'Réduire';
-                });
-
-                contactsRecentsCollapse.addEventListener('hidden.bs.collapse', () => {
-                    toggleContactsRecents.textContent = 'Tout voir';
-                });
-            }
-
-            //INTERACTION CONTACTS
-
-            const contacts = document.querySelectorAll('#collapseContactsRecents .col');
-
-            contacts.forEach(contact => {
-                contact.addEventListener('click', () => {
-                    contacts.forEach(c => c.classList.remove('active-contact'));
-                    contact.classList.add('active-contact');
-                });
-            });
 
         });
 
@@ -647,6 +816,35 @@
             });
         });
 
+        // MODAL AUTORISATION NOTIFICATIONS
+        //  On vérifie si l'utilisateur a déjà fait un choix
+        const hasMadeChoice = localStorage.getItem("notificationChoiceMade");
+
+        // On sélectionne le modal
+        const notificationModalElement = document.getElementById('notificationModal');
+        const modalInstance = new bootstrap.Modal(notificationModalElement);
+
+        // Si aucun choix n'est stocké en mémoire, on affiche le modal
+        if (!hasMadeChoice) {
+            modalInstance.show();
+        }
+
+        // On écoute le clic sur les boutons pour enregistrer le choix
+        const btnAutoriser = document.getElementById('allowNotifications');
+        const btnRefuser = document.getElementById("denyNotifications");
+
+        // Fonction pour enregistrer le choix et ne plus afficher le modal
+        function saveChoice() {
+            localStorage.setItem("notificationChoiceMade", "true");
+        }
+
+        if (btnAutoriser) {
+            btnAutoriser.addEventListener('click', saveChoice);
+        }
+
+        if (btnRefuser) {
+            btnRefuser.addEventListener('click', saveChoice);
+        }
 
     </script>
 

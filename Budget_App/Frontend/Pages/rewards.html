@@ -38,15 +38,15 @@
     </div>
 
     <!-- OFF CANVAS Notification -->
-    <div class="offcanvas offcanvas-start-lg top-0" tabindex="-1" id="offcanvasLeft">
+    <div class="offcanvas offcanvas-start top-0" tabindex="-1" id="offcanvasLeft" style=" width: 75% !important">
         <div class="offcanvas-header-rewards bg-white border-bottom">
             <div class="d-flex align-items-center">
                 <button type="button" class="btn-close border-0 p-2 me-2" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
-                <h5 class="mb-0 fw-bold flex-grow-1 text-center me-4">Notification</h5>
+                <h5 class="mb-1 fw-bold flex-grow-1 text-center me-4">Notification</h5>
             </div>
         </div>
-        <div class="offcanvas-body">
+        <div class="offcanvas-body" style=" width: 75% !important">
             <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="pills-allnotification-tab" data-bs-toggle="pill"
@@ -230,12 +230,12 @@
     <!-- 2ème partie tableau : catégories -->
     <div class="container-fluid service-header mt-4 px-4">
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="service-title mb-0">Catégories</h4>
-            <a href="#collapseCategories" id="toggleCategories" class="view-all-link" data-bs-toggle="collapse"
-                aria-expanded="false" aria-controls="collapseCategories">Tout voir</a>
+            <h4 class="service-title mb-2">Catégories</h4>
+            <a href="./servicemanagement2.html" id="toggleCategories" class="view-all-link" aria-expanded="false"
+                aria-controls="containerCategories">Tout voir</a>
         </div>
     </div>
-    <div class="collapse mt-2" id="collapseCategories">
+    <div class="container-fluid service-grid mt-2" id="containerCategories">
         <div class="row row-cols-4 row-cols-md-4 g-3 mb-5">
             <div class="col category-item">
                 <div class="category-icon" style="background-color: #e1f5fe;"><i
@@ -290,12 +290,12 @@
     <!-- 3ème partie tableau : A la Une -->
     <div class="container-fluid service-header mt-4 px-4">
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="service-title mb-0">A la Une</h4>
-            <a href="#collapseAlaUne" id="toggleAlaUne" class="view-all-link" data-bs-toggle="collapse"
-                aria-expanded="false" aria-controls="collapseAlaUne">Tout voir</a>
+            <h4 class="service-title mb-2">A la Une</h4>
+            <a href="./rewards.html" id="toggleOutstanding" class="view-all-link" aria-expanded="false"
+                aria-controls="containeroutstanding">Tout voir</a>
         </div>
     </div>
-    <div class="collapse mt-2" id="collapseAlaUne">
+    <div class="container-fluid service-grid mt-2" id="containeroutstanding">
         <div class="row text-center mb-5">
             <div class="col-3">
                 <a href="giftcardetail.html"><img src="../Assets/images/logobk.png" class="brand-logo"
@@ -321,9 +321,9 @@
     <!-- 4ème partie tableau : Coupons -->
     <div class="container-fluid service-header mt-4 px-4">
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="service-title mb-0">Coupons</h4>
-            <a href="#collapseCoupons" id="toggleCoupons" class="view-all-link" data-bs-toggle="collapse"
-                aria-expanded="false" aria-controls="collapseCoupons">Tout voir</a>
+            <h4 class="service-title mb-2">Coupons</h4>
+            <a href="#ContainerGiftcard" id="toggleContainerGiftcard" class="view-all-link mb-2" aria-expanded="false"
+                aria-controls="ContainerGiftcard">Tout voir</a>
         </div>
     </div>
     <div class="scroll-container px-2">
@@ -408,9 +408,9 @@
     <!-- 5e Partie du tableau : Proche de chez vous -->
     <div class="container-fluid service-header mt-4 px-4">
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="service-title mb-0">A proximité</h4>
-            <a href="#collapseAproximite" id="toggleAproximite" class="view-all-link" data-bs-toggle="collapse"
-                aria-expanded="false" aria-controls="collapseAproximite">Tout voir</a>
+            <h4 class="service-title mb-2">A proximité</h4>
+            <a href="./dealmanagement.html" id="toggleDealnearyou" class="view-all-link" aria-expanded="false"
+                aria-controls="containerDealnearyou">Tout voir</a>
         </div>
     </div> <!-- Revoir le scrollbar de cette section-->
     <div class="scroll-container px-2">
@@ -590,28 +590,6 @@
                     tabTrigger.show();
                 });
             });
-
-            // FONCTION GÉNÉRIQUE POUR LES BOUTONS "TOUT VOIR / RÉDUIRE"
-            // Cette fonction gère le changement de texte de tous vos liens de collapse
-            function setupToggleText(collapseId, linkId) {
-                const collapseEl = document.getElementById(collapseId);
-                const linkEl = document.getElementById(linkId);
-
-                if (collapseEl && linkEl) {
-                    collapseEl.addEventListener('shown.bs.collapse', () => {
-                        linkEl.textContent = 'Réduire';
-                    });
-                    collapseEl.addEventListener('hidden.bs.collapse', () => {
-                        linkEl.textContent = 'Tout voir';
-                    });
-                }
-            }
-
-            // Application aux 4 sections
-            setupToggleText('collapseCategories', 'toggleCategories');
-            setupToggleText('collapseAlaUne', 'toggleAlaUne');
-            setupToggleText('collapseCoupons', 'toggleCoupons');
-            setupToggleText('collapseAproximite', 'toggleAproximite');
 
             // BARRE DE RECHERCHE (FILTRE SIMPLE)
             // Permet de filtrer visuellement les titres des cartes
