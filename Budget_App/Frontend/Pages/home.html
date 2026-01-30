@@ -83,16 +83,26 @@
                 <div class="row g-0">
                     <div class="col-6 pe-2">
                         <p class="stat-label mb-1">Votre solde:</p>
-                        <p class="stat-value text-black">€3 466,9</p>
+                        <p class="stat-value text-black" id="balance">--</p>
                     </div>
                     <div class="col-6 ps-2 text-end">
                         <a href="./rewards.html" class="text-decoration-none text-dark">
                             <p class="stat-label mb-1">Vos recompenses:</p>
-                            <p class="stat-value"><i class="bi bi-gift-fill text-danger me-2"></i>307 Point</p>
+                            <p class="stat-value">
+                                <i class="bi bi-gift-fill text-danger me-2"></i>
+                                <span id="rewards">--</span> Point
+                            </p>
                         </a>
                     </div>
                 </div>
             </div>
+            <div class="container-fluid px-3 mb-4">
+                <h6 class="fw-bold mb-2">Dernières transactions</h6>
+                <ul class="list-group" id="last-transactions">
+                    <!-- Injecté par JS -->
+                </ul>
+            </div>
+
         </div>
     </header>
 
@@ -845,6 +855,50 @@
         if (btnRefuser) {
             btnRefuser.addEventListener('click', saveChoice);
         }
+        // lien de l'API backend
+        fetch("http://localhost:3000/api/home")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Données reçues :", data);
+
+                // Solde
+                const balanceEl = document.getElementById("balance");
+                if (balanceEl) {
+                    balanceEl.textContent = `${data.balance} ${data.currency}`;
+                }
+
+                // Récompenses
+                const rewardsEl = document.getElementById("rewards");
+                if (rewardsEl) {
+                    rewardsEl.textContent = data.rewards;
+                }
+
+                // Dernières transactions
+                const transactionsList = document.getElementById("last-transactions");
+
+                if (transactionsList && data.lastTransactions) {
+                    transactionsList.innerHTML = "";
+
+                    data.lastTransactions.forEach(tx => {
+                        const li = document.createElement("li");
+                        li.className = "list-group-item d-flex justify-content-between align-items-center";
+
+                        li.innerHTML = `
+            <span>${tx.title}</span>
+            <span class="${tx.amount < 0 ? 'text-danger' : 'text-success'}">
+                ${tx.amount} €
+            </span>
+        `;
+
+                        transactionsList.appendChild(li);
+                    });
+                }
+
+            })
+            .catch(error => {
+                console.error("Erreur API :", error);
+            });
+
 
     </script>
 
