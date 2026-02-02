@@ -296,9 +296,8 @@ a {
 .continue-btn,
 .btncontinue,
 .confirm-btn,
-.button,
 .btn-main,
-.btn-primary,
+.custom-primary-btn,
 #api-booking-btn,
 .btn-partner,
 .btn-checkout {
@@ -323,6 +322,14 @@ a {
     z-index: 1050;
     /* Permet à ce bouton de se placer Au-dessus des autres éléments */
     text-decoration: none;
+}
+
+.btn-primary {
+    background-color: #5a31cb;
+    color: white;
+    border: none;
+    font-size: 1rem !important;
+    justify-content: center;
 }
 
 /* Partie confirmation de transfert */
