@@ -7,7 +7,7 @@
     <title>Recharge</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="../Pages/style.css">
+    <link rel="stylesheet" href="../Public/Assets/style.css">
     <style>
         .pin-input {
             width: 60px;
@@ -26,47 +26,60 @@
 
 <body>
     <!-- HEADER -->
-    <div class="topup-header">
-        <div class="d-flex align-items-center justify-content-between">
-            <a href="./home.html">
-                <i class="bi bi-chevron-left fs-3 text-white"></i></a>
-            <h5 class="mb-5 fw-semibold">Recharger</h5>
-            <span></span>
+    <div class="container">
+        <div class="breadcrumb mt-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <span class="bi bi-receipt text-primary" style="font-size: 15px;"></span>
+                        Recharger
+                    </li>
+                </ol>
+            </nav>
         </div>
-    </div>
 
-    <div class="container-md mt--5 m-auto">
-        <div class="balance-card p-3 shadow-sm rounded-4 bg-white">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-muted small">Solde disponible:</span>
-                <span class="fw-bold fs-5">€3.466,9</span>
+        <div class="container py-3">
+            <div class="balance-card p-3 border shadow-sm rounded-4 bg-white">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted small">Solde disponible:</span>
+                    <span class="fw-bold fs-5">€3.466,9</span>
+                </div>
+                <label class="form-label text-muted small">Montant à recharger</label>
+                <div class="position-relative mb-4">
+                    <input type="text" class="form-control amount-input ps-3 py-2" placeholder="€0">
+                    <i class="bi bi-x-circle-fill position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
+                        id="clearAmount" style="cursor: pointer;"></i>
+                </div>
+                <!-- Montant à recharger -->
+                <p class="fw-bold mb-2">Montant</p>
+                <div class="row g-2 mb-2">
+                    <div class="col-4"><button type="button"
+                            class="btn btn-outline-primary w-100 amount-btn">€50</button>
+                    </div>
+                    <div class="col-4"><button type="button"
+                            class="btn btn-outline-primary w-100 amount-btn">€100</button>
+                    </div>
+                    <div class="col-4"><button type="button"
+                            class="btn btn-outline-primary w-100 amount-btn">€200</button>
+                    </div>
+                </div>
+                <div class="row g-2 mb-4">
+                    <div class="col-4"><button type="button"
+                            class="btn btn-outline-primary w-100 amount-btn">€500</button>
+                    </div>
+                    <div class="col-4"><button type="button"
+                            class="btn btn-outline-primary w-100 amount-btn">€1000</button>
+                    </div>
+                    <div class="col-4"><button type="button"
+                            class="btn btn-outline-primary w-100 amount-btn">€2000</button>
+                    </div>
+                </div>
             </div>
-            <label class="form-label text-muted small">Montant à recharger</label>
-            <div class="position-relative mb-4">
-                <input type="text" class="form-control amount-input ps-3 py-2" placeholder="€0">
-                <i class="bi bi-x-circle-fill position-absolute top-50 end-0 translate-middle-y me-3 text-muted"
-                    id="clearAmount" style="cursor: pointer;"></i>
+            <div class="d-flex justify-content-end mt-3" id="btnOpenConfirm">
+                <button class="btn btn-primary-custom" type="button">Continuer</button>
+                </a>
             </div>
-            <!-- Montant à recharger -->
-            <span class="fw-bold">Montant</span>
-            <div class="row g-2 mb-2">
-                <div class="col-4"><button type="button" class="btn btn-outline-primary w-100 amount-btn">€50</button>
-                </div>
-                <div class="col-4"><button type="button" class="btn btn-outline-primary w-100 amount-btn">€100</button>
-                </div>
-                <div class="col-4"><button type="button" class="btn btn-outline-primary w-100 amount-btn">€200</button>
-                </div>
-            </div>
-            <div class="row g-2 mb-4">
-                <div class="col-4"><button type="button" class="btn btn-outline-primary w-100 amount-btn">€500</button>
-                </div>
-                <div class="col-4"><button type="button" class="btn btn-outline-primary w-100 amount-btn">€1000</button>
-                </div>
-                <div class="col-4"><button type="button" class="btn btn-outline-primary w-100 amount-btn">€2000</button>
-                </div>
-            </div>
-
-            <button class="btncontinue btn-primary w-100 py-3 fw-bold text-white" id="btnOpenConfirm">Continuer</button>
         </div>
     </div>
     <!--Partie MODAL pour la CONFIRMATION -->
@@ -144,12 +157,12 @@
                         <i class="bi bi-check-lg fs-1"></i>
                     </div>
                     <h4 class="fw-bold">Succes!</h4>
-                    <p class="text-muted small">Votre transfert a été effectué!</p>
+                    <p class="text-muted small">Votre recharge a été effectuée!</p>
                     <div class="my-4">
                         <span class="text-muted small">Total Recharge</span>
                         <h2 class="fw-bold text-primary" id="successAmountDisplay">€0</h2>
                     </div>
-                    <button class="btn btn-primary w-100 py-3" id="btnDone">Terminer</button>
+                    <button class="btn btn-primary py-3" id="btnDone">Terminer</button>
                 </div>
             </div>
         </div>
@@ -212,7 +225,7 @@
 
             // Succès vers la page Home
             document.getElementById('btnDone').addEventListener('click', () => {
-                window.location.href = 'home.html';
+                window.location.href = 'index.html';
             });
 
             // --- BONUS : AUTO-FOCUS PIN ---

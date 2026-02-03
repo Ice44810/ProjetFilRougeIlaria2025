@@ -7,7 +7,7 @@
     <title>Home - Budget App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../Pages/style.css">
+    <link rel="stylesheet" href="../Public/Assets/style.css" />
 
     <style>
         /* Taille de la largeur de l'offcanvas */
@@ -22,7 +22,7 @@
         <div class="container-fluid">
             <div class="header-top d-flex justify-content-between align-items-center p-3">
                 <div class="user-info d-flex align-items-center">
-                    <img src="../Assets/images/profil.jpg" alt="Profile" class="rounded-circle me-3" width="50"
+                    <img src="../Public/Assets/images/profil.jpg" alt="Profile" class="rounded-circle me-3" width="50"
                         height="50">
                     <div>
                         <a href="./profile.html" class="text-decoration-none text-dark">
@@ -48,12 +48,12 @@
                             <p class="text-muted small fw-bold">MENU</p>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
-                                    <a href="home.html">
+                                    <a href="./index.html">
                                         <span><i class="bi bi-house me-3"></i>Accueil</span></a>
                                     <i class="bi bi-chevron-right small text-muted"></i>
                                 </li>
                                 <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
-                                    <a href="ui-pages.html">
+                                    <a href="./ui-pages.html">
                                         <span><i class="bi bi-book me-3"></i>Pages</span></a>
                                     <i class="bi bi-chevron-right small text-muted"></i>
                                 </li>
@@ -63,7 +63,7 @@
                                     <i class="bi bi-chevron-right small text-muted"></i>
                                 </li>
                                 <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
-                                    <a href="profile.html">
+                                    <a href="./profile.html">
                                         <span><i class="bi bi-person-circle me-3"></i>Profile</span></a>
                                     <i class="bi bi-chevron-right small text-muted"></i>
                                 </li>
@@ -111,7 +111,8 @@
         <div class="quick-actions-section container-fluid mt-4 mb-4">
             <div class="row text-center">
                 <div class="col-3">
-                    <a href="./transfert.html" class="action-item">
+                    <a href="javascript:void(0)" class="action-item" data-bs-toggle="modal"
+                        data-bs-target="#manageTransferModal">
                         <div class="action-icon-wrapper">
                             <i class="bi bi-currency-dollar fs-4"></i>
                             <i class="bi bi-arrow-down-up fs-6 transfer-arrow"></i>
@@ -226,37 +227,37 @@
         <div class="scrolls container-fluid service-grid mt-3 px-4">
             <div class="row row-cols-3 row-cols-sm-4 row-cols-md-6 g-3      mb-4">
                 <div class="col text-center">
-                    <img src="../Assets/images/esther.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                    <img src="../Public/Assets/images/esther.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
                 border: 3px solid transparent; padding: 2px;
                 box-shadow: 0 0 0 1px #d3d3d3;">
                     <p class="small text-truncate mb-0">Esther</p>
                 </div>
                 <div class="col text-center">
-                    <img src="../Assets/images/hawkins.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                    <img src="../Public/Assets/images/hawkins.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
                 border: 3px solid transparent; padding: 2px;
                 box-shadow: 0 0 0 1px #d3d3d3;">
                     <p class="small text-truncate mb-0">Hawkins</p>
                 </div>
                 <div class="col text-center">
-                    <img src="../Assets/images/jenny.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                    <img src="../Public/Assets/images/jenny.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
                 border: 3px solid transparent; padding: 2px;
                 box-shadow: 0 0 0 1px #d3d3d3;">
                     <p class="small text-truncate mb-0">Jenny</p>
                 </div>
                 <div class="col text-center">
-                    <img src="../Assets/images/leslie.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                    <img src="../Public/Assets/images/leslie.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
                 border: 3px solid transparent; padding: 2px;
                 box-shadow: 0 0 0 1px #d3d3d3;">
                     <p class="small text-truncate mb-0">Leslie</p>
                 </div>
                 <div class="col text-center">
-                    <img src="../Assets/images/jerome.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                    <img src="../Public/Assets/images/jerome.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
                 border: 3px solid transparent; padding: 2px;
                 box-shadow: 0 0 0 1px #d3d3d3;">
                     <p class="small text-truncate mb-0">Jerome</p>
                 </div>
                 <div class="col text-center">
-                    <img src="../Assets/images/betty.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
+                    <img src="../Public/Assets/images/betty.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
                     border: 3px solid transparent; padding: 2px;
                     box-shadow: 0 0 0 1px #d3d3d3;">
                     <p class="small text-truncate mb-0">Betty</p>
@@ -270,7 +271,7 @@
                     style="background-color: #68c0d1; min-height: 150px;">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="text-center">
-                            <img src="../Assets/images/iconeshopping.jpg" alt="Mode" class="rounded-3 bg-white"
+                            <img src="../Public/Assets/images/iconeshopping.jpg" alt="Mode" class="rounded-3 bg-white"
                                 style="width: 60px; height: 60px; object-fit: contain;">
                             <p class="small mb-0 fw-bold mt-1 text-dark">Mode</p>
                         </div>
@@ -302,7 +303,7 @@
                     style="background-color: #e1bc2a; min-height: 150px;">
                     <div class="d-flex justify-content-between align-items-center text-dark">
                         <div class="text-center">
-                            <img src="../Assets/images/logofnac.png" alt="FNAC" class="rounded-3 bg-white p-1"
+                            <img src="../Public/Assets/images/logofnac.png" alt="FNAC" class="rounded-3 bg-white p-1"
                                 style="width: 50px;">
                             <p class="small mb-0 fw-bold mt-1">FNAC</p>
                         </div>
@@ -318,7 +319,7 @@
                     style="background-color: #3142ac; min-height: 150px;">
                     <div class="d-flex justify-content-between align-items-center text-white">
                         <div class="text-center">
-                            <img src="../Assets/images/logocdiscount.png" alt="Cdiscount"
+                            <img src="../Public/Assets/images/logocdiscount.png" alt="Cdiscount"
                                 style="width: 100px; background-color: white;" class="rounded-3 p-1">
                             <p class="small mb-0 fw-bold mt-1">Cdiscount</p>
                         </div>
@@ -335,7 +336,7 @@
                     style="background-color: #e38556; min-height: 150px;">
                     <div class="d-flex justify-content-between align-items-center text-white">
                         <div class="text-center">
-                            <img src="../Assets/images/logoboulanger.png" alt="Boulanger"
+                            <img src="../Public/Assets/images/logoboulanger.png" alt="Boulanger"
                                 style="width: 100px; background-color: white;" class="rounded-3 p-1">
                             <p class="small mb-0 fw-bold mt-1">Boulanger</p>
                         </div>
@@ -355,7 +356,7 @@
             <div class="dot"></div>
         </div>
     </main>
-    <!-- Modal Carte bancaire ouverture vers le haut -->
+    <!-- Modal Carte chosir bancaire ouverture vers le haut -->
     <div class="modal fade modal-top" id="manageCardModal" tabindex="-1" aria-labelledby="manageCardModalLabel"
         aria-hidden="true">
         <div class="modal-dialog m-0 shadow-lg">
@@ -412,6 +413,56 @@
                             class="btn add-dashed btn-outline-light w-100 py-3 mb-4 text-center text-black fw-bold rounded-3">Ajout
                             nouvelle carte +</button>
                     </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal chosir Méthode de transfert -->
+    <div class="modal fade modal-top" id="manageTransferModal" tabindex="-1" aria-labelledby="manageTransferModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog m-0 shadow-lg" style="max-width: 100%;">
+            <div class="modal-content border-0 rounded-0 rounded-bottom-4">
+
+                <div class="modal-header border-0 d-flex align-items-center justify-content-between px-3">
+                    <button type="button" class="btn border-0 p-0" data-bs-dismiss="modal">
+                        <i class="bi bi-x-lg fs-5"></i>
+                    </button>
+                    <h6 class="modal-title fw-bold fs-6 text-dark" id="manageTransferModalLabel">Transfer Method</h6>
+                    <button class="btn border-0 p-0">
+                        <i class="bi bi-qr-code-scan fs-5"></i>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="transfer-options px-3 mb-4">
+                        <div class="d-flex align-items-center py-3 border-bottom" role="button">
+                            <div
+                                class="icon-circle bg-light-purple d-flex align-items-center justify-content-center me-3">
+                                <i class="bi bi-people-fill text-primary"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <p class="mb-0 fw-bold small text-dark">Transfert vers amis</p>
+                                <a href="./mycontact.html">
+                                    <p class="mb-0 text-muted extra-small" style="font-size: 0.75rem;">Gratuit, Numéro
+                                        de
+                                        téléphone</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center py-3 border-bottom" role="button">
+                            <div
+                                class="icon-circle bg-light-purple d-flex align-items-center justify-content-center me-3">
+                                <i class="bi bi-bank2 text-primary"></i>
+                            </div>
+                            <div class="flex-grow-1">
+                                <p class="mb-0 fw-bold small text-dark">Transfert vers banque</p>
+                                <a href="./card.html">
+                                    <p class="mb-0 text-muted extra-small" style="font-size: 0.75rem;">Transfert vers
+                                        compte bancaire, Carte bancaire</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -554,13 +605,13 @@
                 <li class="nav-item">
                     <button class="nav-link active" id="phone-tab" data-bs-toggle="tab" data-bs-target="#phone"
                         type="button" role="tab">
-                        Phone
+                        Téléphone
                     </button>
                 </li>
                 <li class="nav-item">
                     <button class="nav-link" id="bank-tab" data-bs-toggle="tab" data-bs-target="#bank" type="button"
                         role="tab">
-                        Bank Account
+                        Compte bancaire
                     </button>
                 </li>
             </ul>
@@ -568,7 +619,8 @@
             <div class="tab-content px-3" id="recipientTabsContent">
                 <div class="tab-pane fade show active" id="phone" role="tabpanel">
                     <div class="contact-item d-flex align-items-center mb-3">
-                        <img src="../Assets/images/Andy Cody.jpg" alt="Andy" class="img-fluid rounded-circle me-3"
+                        <img src="../Public/Assets/images/Andy Cody.jpg" alt="Andy"
+                            class="img-fluid rounded-circle me-3"
                             style="width: 50px; height: 50px; object-fit: cover;" />
                         <div>
                             <a href="./detailcontact.html" class="text-decoration-none text-dark">
@@ -581,7 +633,8 @@
                     <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
                         data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
                         data-email="alex.tran@email.com">
-                        <img src="../Assets/images/Alex Tran.jpg" alt="Alex Tran" class="img-fluid rounded-circle me-3"
+                        <img src="../Public/Assets/images/Alex Tran.jpg" alt="Alex Tran"
+                            class="img-fluid rounded-circle me-3"
                             style="width: 50px; height: 50px; object-fit: cover;" />
                         <div>
                             <a href="./detailcontact.html">
@@ -593,7 +646,8 @@
                     <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
                         data-bs-target="#contactModal" data-name="Andy Cody" data-number="**** **** **** 0675"
                         data-email="andy.cody@email.com">
-                        <img src="../Assets/images/Andy Cody.jpg" alt="Andy Cody" class="img-fluid rounded-circle me-3"
+                        <img src="../Public/Assets/images/Andy Cody.jpg" alt="Andy Cody"
+                            class="img-fluid rounded-circle me-3"
                             style="width: 50px; height: 50px; object-fit: cover;" />
                         <div>
                             <a href="./detailcontact.html">
@@ -605,7 +659,7 @@
                     <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
                         data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
                         data-email="kanope.francoise@email.com">
-                        <img src="../Assets/images/Kanope Francoise.jpg" alt="Kanope Francoise"
+                        <img src="../Public/Assets/images/Kanope Francoise.jpg" alt="Kanope Francoise"
                             class="img-fluid rounded-circle me-3"
                             style="width: 50px; height: 50px; object-fit: cover;" />
                         <div>
@@ -618,7 +672,7 @@
                     <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
                         data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
                         data-email="mallorie.jean@email.com">
-                        <img src="../Assets/images/Mallorie Jean.jpg" alt="Mallorie Jean"
+                        <img src="../Public/Assets/images/Mallorie Jean.jpg" alt="Mallorie Jean"
                             class="img-fluid rounded-circle me-3"
                             style="width: 50px; height: 50px; object-fit: cover;" />
                         <div>
@@ -632,7 +686,8 @@
 
                 <div class="tab-pane fade" id="bank" role="tabpanel">
                     <div class="contact-item d-flex align-items-center mb-3">
-                        <img src="../Assets/images/Andy Cody.jpg" alt="Andy" class="img-fluid rounded-circle me-3"
+                        <img src="../Public/Assets/images/Andy Cody.jpg" alt="Andy"
+                            class="img-fluid rounded-circle me-3"
                             style="width: 50px; height: 50px; object-fit: cover;" />
                         <div>
                             <a href="./detailcontact.html" class="text-decoration-none text-dark">
@@ -645,7 +700,8 @@
                     <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
                         data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
                         data-email="alex.tran@email.com">
-                        <img src="../Assets/images/Alex Tran.jpg" alt="Alex Tran" class="img-fluid rounded-circle me-3"
+                        <img src="../Public/Assets/images/Alex Tran.jpg" alt="Alex Tran"
+                            class="img-fluid rounded-circle me-3"
                             style="width: 50px; height: 50px; object-fit: cover;" />
                         <div>
                             <a href="./detailcontact.html">
@@ -657,7 +713,8 @@
                     <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
                         data-bs-target="#contactModal" data-name="Andy Cody" data-number="**** **** **** 0675"
                         data-email="andy.cody@email.com">
-                        <img src="../Assets/images/Andy Cody.jpg" alt="Andy Cody" class="img-fluid rounded-circle me-3"
+                        <img src="../Public/Assets/images/Andy Cody.jpg" alt="Andy Cody"
+                            class="img-fluid rounded-circle me-3"
                             style="width: 50px; height: 50px; object-fit: cover;" />
                         <div>
                             <a href="./detailcontact.html">
@@ -669,7 +726,7 @@
                     <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
                         data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
                         data-email="kanope.francoise@email.com">
-                        <img src="../Assets/images/Kanope Francoise.jpg" alt="Kanope Francoise"
+                        <img src="../Public/Assets/images/Kanope Francoise.jpg" alt="Kanope Francoise"
                             class="img-fluid rounded-circle me-3"
                             style="width: 50px; height: 50px; object-fit: cover;" />
                         <div>
@@ -682,7 +739,7 @@
                     <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
                         data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
                         data-email="mallorie.jean@email.com">
-                        <img src="../Assets/images/Mallorie Jean.jpg" alt="Mallorie Jean"
+                        <img src="../Public/Assets/images/Mallorie Jean.jpg" alt="Mallorie Jean"
                             class="img-fluid rounded-circle me-3"
                             style="width: 50px; height: 50px; object-fit: cover;" />
                         <div>
@@ -703,7 +760,8 @@
             <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="modal-body p-4 text-center">
                     <p class="fw-bold mb-0 text-dark fs-5">"Alipay" voudrais vous envoyer des Notifications</p><br>
-                    <p class="small text-muted">Les Notifications inclues, alertes, sons et icones. Elles sont réglables
+                    <p class="small text-muted">Les Notifications inclues, alertes, sons et icones. Elles sont
+                        réglables
                         dans les Paramètres</p>
                 </div>
                 <div class="d-flex border-top border-secondary-subtle">

@@ -1,3 +1,86 @@
+/* RESPONSIVE */
+/* BASE (MOBILE FIRST - Par défaut pour Smartphones)
+    */
+:root {
+    --container-padding: 15px;
+}
+
+body {
+    font-size: 14px;
+    /* Texte légèrement plus petit pour mobile */
+    line-height: 1.5;
+}
+
+.container-custom {
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
+    width: 100%;
+}
+
+/* Éléments qui prennent toute la largeur sur mobile */
+.responsive-card {
+    margin-bottom: 15px;
+    border-radius: 12px;
+}
+
+/* TABLETTES (min-width: 768px) Appareils type iPad, tablettes Android
+    */
+@media screen and (min-width: 768px) {
+    body {
+        font-size: 15px;
+    }
+
+    .container-custom {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+
+    /* Passage en grille de 2 colonnes pour les formulaires ou cartes */
+    .grid-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .grid-item {
+        flex: 0 0 calc(50% - 10px);
+    }
+}
+
+/* ORDINATEURS PORTABLES / LAPTOPS (min-width: 1024px)
+   Écrans 13 à 15 pouces */
+@media screen and (min-width: 1024px) {
+    body {
+        font-size: 16px;
+    }
+
+    .container-custom {
+        max-width: 960px;
+    }
+
+    /* On peut ici afficher des menus latéraux ou des grilles de 3/4 colonnes */
+    .grid-item {
+        flex: 0 0 calc(33.33% - 14px);
+    }
+
+    /* Navigation horizontale desktop */
+    .nav-mobile {
+        display: none;
+    }
+
+    .nav-desktop {
+        display: flex;
+    }
+}
+
+/*  GRANDS ÉCRANS / DESKTOP (min-width: 1440px)
+   Moniteurs de bureau */
+@media screen and (min-width: 1440px) {
+    .container-custom {
+        max-width: 1200px;
+    }
+}
+
 /* Sur tablette et PC, on réduit la taille des cartes pour en voir 3 d'un coup */
 @media (min-width: 768px) {
     .shopping-card-item {
@@ -14,14 +97,16 @@
 /* VARIABLES GLOBALES */
 :root {
     --primary-purple: #5e35b1;
+    /* couleur principale */
     --purple-accent: #673ab7;
+    /* couleur*/
     --light-text: #ffffff;
     --secondary-text: #e0e0e0;
     --card-background: #ffffff;
     --text-color: #333;
     --light-gray-icon: #888;
     --primary-color: #026cdf;
-    /* Bleu Ticketmaster */
+    /* Bleu siège */
     --pathe-yellow: #ffd400;
     --ugc-blue: #004a99;
 }
@@ -42,13 +127,7 @@ a {
 }
 
 /* HEADER GENERAL */
-.mobile-header,
-.transfer-header,
-.transferbank-header,
-.credit-card,
-.transferbybank-header,
-.topup-header,
-.transferconfirm-header {
+.mobile-header {
     background: linear-gradient(135deg, #5e35b1, #4a3cc9);
     color: var(--light-text);
     border-bottom-left-radius: 25px;
@@ -127,6 +206,8 @@ a {
     0% {
         transform: rotate(0deg);
     }
+
+    /* Position initiale */
 
     25% {
         transform: rotate(1deg);
@@ -220,7 +301,7 @@ a {
     justify-content: center;
 }
 
-/* NAV TABS */
+/* NAV TABLEAUX */
 .nav-tabs {
     border-bottom: 2px solid #eee;
 }
@@ -249,6 +330,8 @@ a {
     border-radius: 12px;
     height: 56px;
     font-size: 1.1rem;
+    justify-content: end;
+    display: flex;
 }
 
 .amount-btn {
@@ -257,18 +340,22 @@ a {
     background-color: #f1f1f1;
     border: none;
     font-weight: 500;
+    justify-content: end;
+    display: flex;
 }
 
 .amount-btn.active {
     background-color: rgba(94, 53, 177, .15);
     color: #4f23c8;
+    justify-content: end;
+    display: flex;
 }
 
 .transfer-card {
     background: white;
     border-radius: 18px;
     padding: 24px 16px;
-    margin-top: -30px;
+    margin-top: 10px;
     box-shadow: 0 6px 14px rgba(0, 0, 0, .08);
 }
 
@@ -282,7 +369,7 @@ a {
     margin: 20px 0;
 }
 
-/* Mode de Paiement */
+/* Mode de Paiement (paymentsource page)*/
 .payment-card {
     background: white;
     border-radius: 14px;
@@ -296,40 +383,27 @@ a {
 .continue-btn,
 .btncontinue,
 .confirm-btn,
-.btn-main,
 .custom-primary-btn,
 #api-booking-btn,
 .btn-partner,
 .btn-checkout {
     position: fixed;
-    bottom: 15px;
-    /* On définit la position par rapport aux bords gauche et droit */
-    left: 15px;
-    right: 15px;
-    /* On force la largeur à "auto" pour que left/right dictent la taille */
-    width: calc(100% - 30px) !important;
+    padding: 10px 10px;
+    right: 20px;
+    bottom: 20px;
     height: 48px;
     /* Augmenté légèrement pour un meilleur look mobile */
     border-radius: 14px;
-    font-size: 1rem;
     font-weight: 600;
-    background-color: #5a31cb;
+    background-color: #5c3eb1;
     color: white;
     border: none;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1050;
+    justify-content: end;
+    font-size: 1rem !important;
     /* Permet à ce bouton de se placer Au-dessus des autres éléments */
     text-decoration: none;
-}
-
-.btn-primary {
-    background-color: #5a31cb;
-    color: white;
-    border: none;
-    font-size: 1rem !important;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 /* Partie confirmation de transfert */
@@ -337,7 +411,7 @@ a {
 .card-custom {
     border-radius: 18px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-    margin-top: -70px;
+    margin-top: 10px;
 }
 
 /* List rows */
@@ -371,7 +445,8 @@ a {
 
 .otp-input:focus {
     outline: none;
-    border-color: #5e35b1;
+    background-color: #5c3eb1;
+    border-color: #5c3eb1;
 }
 
 .otp-btn {
@@ -380,6 +455,8 @@ a {
     padding: 14px;
     font-weight: 600;
     font-size: 1.1rem;
+    display: flex;
+    justify-content: end;
 }
 
 /* Partie TRANSFERT BANK */
@@ -445,18 +522,6 @@ a {
     border-radius: 14px;
     padding: 14px;
     margin-bottom: 14px;
-}
-
-.amount-btn {
-    border-radius: 25px;
-    padding: 8px 22px;
-    background: #f1f1f1;
-    border: none;
-}
-
-.amount-btn.active {
-    background: #5e35b1;
-    color: #fff;
 }
 
 /* Partie Détails de contact */
