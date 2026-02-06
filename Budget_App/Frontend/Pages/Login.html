@@ -19,8 +19,7 @@
 
     <form class="mb-3 mx-3 mt-5" id="loginForm">
         <div class="mb-4 position-relative">
-            <label class="position-absolute px-2 ms-3 text-muted fs-6 bg-white"
-                style="top: -13px; left: 0; z-index: 5;">
+            <label class="position-absolute px-2 ms-3 text-muted fs-6" style="top: -13px; left: 0;">
                 Email
             </label>
             <div class="border shadow-sm rounded-3 px-3 d-flex align-items-center" style="height: 50px;">
@@ -30,14 +29,13 @@
         </div>
 
         <div class="mb-4 position-relative">
-            <label class="position-absolute px-2 ms-3 text-muted fs-6 bg-white"
-                style="top: -13px; left: 0; z-index: 5;">
+            <label class="position-absolute px-2 ms-3 text-muted fs-6" style="top: -13px; left: 0; z-index: 5;">
                 Mot de passe
             </label>
             <div class="border shadow-sm rounded-3 px-3 d-flex align-items-center" style="height: 50px;">
                 <input type="password" id="passwordInput" class="form-control border-0 bg-transparent"
                     placeholder="Mot de passe" style="box-shadow: none;" required>
-                <i class="bi bi-eye text-muted" id="togglePassword"></i>
+                <i class="bi bi-eye text-muted" id="togglePassword" style="cursor: pointer;"></i>
             </div>
         </div>
 
@@ -45,13 +43,13 @@
             <a href="./resetpassword.html" class="text-decoration-none">
                 <p class="text-muted mb-0 fs-6">Mot de passe oublié ?</p>
             </a>
-            <button type="submit" id="btnLogin" class="btn btn-primary">Se connecter</button>
+            <button type="submit" id="btnLogin" class="btn custom-primary-btn">Se connecter</button>
         </div>
     </form>
 
     <div class="d-flex justify-content-center align-items-center my-4">
         <hr class="w-100 mx-3">
-        <p class="text-muted fs-6 mb-0 position-absolute bg-white px-2">Ou</p>
+        <p class="text-muted fs-6 mb-0 position-absolute px-2">Ou</p>
     </div>
 
     <div class="buttons-group px-3 mt-3">
@@ -95,6 +93,23 @@
             // Redirection via JS
             window.location.href = "./index.html";
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const passwordInput = document.getElementById('passwordInput');
+            const toggleIcon = document.getElementById('togglePassword');
+
+            if (!passwordInput || !toggleIcon) return;
+
+            toggleIcon.addEventListener('click', () => {
+                const isPassword = passwordInput.type === 'password';
+
+                passwordInput.type = isPassword ? 'text' : 'password';
+
+                toggleIcon.classList.toggle('bi-eye', !isPassword);
+                toggleIcon.classList.toggle('bi-eye-slash', isPassword);
+            });
+        });
+
     </script>
 </body>
 

@@ -23,13 +23,14 @@
                     </li>
                 </ol>
             </nav>
+            <!-- Notifications -->
             <div class="header-icons d-flex align-items-center gap-2">
                 <a href="#offcanvasLeft" class="menu-link position-relative" data-bs-toggle="offcanvas" role="button"
                     id="bellIcon">
                     <i class="bi bi-bell-fill text-black fs-4"></i>
                     <span id="notificationBadge"
                         class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
-                        <span class="visually-hidden">Nouveau</span>
+                        <span class="visually-hidden">Nouvelles notifications</span>
                     </span>
                 </a>
             </div>
@@ -235,7 +236,7 @@
     <!-- 2ème partie tableau : catégories -->
     <div class="container-fluid service-header mt-4 px-4 ms-3 mx-3">
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="service-title mb-2">Catégories</h4>
+            <h5 class="service-title mb-2">Catégories</h5>
             <a href="./servicemanagement2.html" id="toggleCategories" class="view-all-link" aria-expanded="false"
                 aria-controls="containerCategories">Tout voir</a>
         </div>
@@ -295,7 +296,7 @@
     <!-- 3ème partie tableau : A la Une -->
     <div class="container-fluid service-header mt-4 px-4 ms-3 mx-3">
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="service-title mb-2">A la Une</h4>
+            <h5 class="service-title mb-2">A la Une</h5>
             <a href="./rewards.html" id="toggleOutstanding" class="view-all-link" aria-expanded="false"
                 aria-controls="containeroutstanding">Tout voir</a>
         </div>
@@ -303,23 +304,27 @@
     <div class="container-fluid service-grid mt-2" id="containeroutstanding">
         <div class="row text-center mb-5">
             <div class="col-3">
-                <a href="giftcardetail.html"><img src="../public/Assets/images/logobk.png" class="brand-logo"
-                        alt="Burger King"></a>
+                <a href="giftcardetail.html">
+                    <img src="../public/Assets/images/logobk.png" class="brand-logo" alt="Burger King"
+                        style="height: 60px;"></a>
                 <p class="small">Burger King</p>
             </div>
             <div class="col-3">
-                <a href="giftcardetail.html"><img src="../public/Assets/images/logomadco.png" class="brand-logo"
-                        alt="MacDonald's"></a>
+                <a href="giftcardetail.html">
+                    <img src="../public/Assets/images/logomadco.png" class="brand-logo" alt="MacDonald's"
+                        style="height: 60px;"></a>
                 <p class="small">MacDonald's</p>
             </div>
             <div class="col-3">
-                <a href="giftcardetail.html"><img src="../public/Assets/images/logokfc.png" class="brand-logo"
-                        alt="KFC"></a>
+                <a href="giftcardetail.html">
+                    <img src="../public/Assets/images/logokfc.png" class="brand-logo" alt="KFC"
+                        style="height: 60px;"></a>
                 <p class="small">KFC</p>
             </div>
             <div class="col-3">
-                <a href="giftcardetail.html"><img src="../public/Assets/images/logosushishop.png" class="brand-logo"
-                        alt="Sushi Shop"></a>
+                <a href="giftcardetail.html">
+                    <img src="../public/Assets/images/logosushishop.png" class="brand-logo" alt="Sushi Shop"
+                        style="height: 60px;"></a>
                 <p class="small">Sushi Shop</p>
             </div>
         </div>
@@ -327,13 +332,13 @@
     <!-- 4ème partie tableau : Coupons -->
     <div class="container-fluid service-header mt-4 px-4 ms-3 mx-3">
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="service-title mb-2">Coupons</h4>
+            <h5 class="service-title mb-2">Coupons</h5>
             <a href="#ContainerGiftcard" id="toggleContainerGiftcard" class="view-all-link mb-2" aria-expanded="false"
                 aria-controls="ContainerGiftcard">Tout voir</a>
         </div>
     </div>
-    <div class="scroll-container px-2">
-        <div class="row px-2 mb-4" style="margin-right: -0.5rem; margin-left: -0.5rem;" class="col-md-4">
+    <div class="scroll-container px-3">
+        <div class="coupon-card px-2 mb-4" style="margin-right: -0.5rem; margin-left: -0.5rem;" class="col-md-4">
             <div class="coupon-card">
                 <div class="coupon-left">
                     <span class="d-block small text-muted">CUISINE TEST</span>
@@ -345,7 +350,7 @@
             </div>
         </div>
 
-        <div class="row px-2 mb-4">
+        <div class="coupon-card px-3 mb-4">
             <div class="coupon-card bg-dark text-white">
                 <div class="coupon-left">
                     <span class="d-block small text-light">CUISINE TEST
@@ -358,7 +363,7 @@
                 </div>
             </div>
         </div>
-        <div class="row px-2 mb-4" style="margin-right: -0.5rem; margin-left: -0.5rem;" class="col-md-4">
+        <div class="coupon-card px-3 mb-4" style="margin-right: -0.5rem; margin-left: -0.5rem;" class="col-md-4">
             <div class="coupon-card">
                 <div class="coupon-left">
                     <span class="d-block small text-muted">CUISINE TEST
@@ -370,7 +375,7 @@
                 </div>
             </div>
         </div>
-        <div class="row px-2 mb-4">
+        <div class="coupon-card px-3 mb-4">
             <div class="coupon-card bg-dark text-white">
                 <div class="coupon-left">
                     <span class="d-block small text-light">CUISINE TEST</span>
@@ -381,7 +386,7 @@
                 </div>
             </div>
         </div>
-        <div class="row px-2 mb-4" style="margin-right: -0.5rem; margin-left: -0.5rem;" class="col-md-4">
+        <div class="coupon-card px-3 mb-4" style="margin-right: -0.5rem; margin-left: -0.5rem;" class="col-md-4">
             <div class="coupon-card">
                 <div class="coupon-left">
                     <span class="d-block small text-muted">CUISINE TEST</span>
@@ -392,7 +397,7 @@
                 </div>
             </div>
         </div>
-        <div class="row px-2 mb-4">
+        <div class="coupon-card px-3 mb-4">
             <div class="coupon-card bg-dark text-white">
                 <div class="coupon-left">
                     <span class="d-block small text-light">CUISINE TEST</span>
@@ -414,7 +419,7 @@
     <!-- 5e Partie du tableau : Proche de chez vous -->
     <div class="container-fluid service-header mt-4 px-4 ms-3 mx-3">
         <div class="d-flex justify-content-between align-items-center">
-            <h4 class="service-title mb-2">A proximité</h4>
+            <h5 class="service-title mb-2">A proximité</h5>
             <a href="./dealmanagement.html" id="toggleDealnearyou" class="view-all-link" aria-expanded="false"
                 aria-controls="containerDealnearyou">Tout voir</a>
         </div>
@@ -617,61 +622,50 @@
         });
 
         // SCROLL DOTS
-        // On sélectionne tous les conteneurs de cartes et leurs groupes de points correspondants
+        // On sélectionne tous les conteneurs de cartes
         const scrollContainers = document.querySelectorAll(".scroll-container");
         const allDotsGroups = document.querySelectorAll(".scroll-dots");
 
-        scrollContainers.forEach((container, wrapper, index) => {
-            const dots = allDotsGroups[index].querySelectorAll(".dot");
-            const scrollingDiv = wrapper.querySelector(".overflow-auto");
+        scrollContainers.forEach((container, index) => {
+            const dotsGroup = allDotsGroups[index];
+            if (!dotsGroup) return;
+
+            const dots = dotsGroup.querySelectorAll(".dot");
+            if (!container || !dots.length) return;
 
             let isDown = false;
             let startX;
             let scrollLeft;
 
-            if (!scrollingDiv || !dots.length) return;
-
-            // --- 1. GESTION DES POINTS (SCROLL) ---
             container.addEventListener("scroll", () => {
-                // On calcule la progression du scroll
                 const maxScroll = container.scrollWidth - container.offsetWidth;
                 if (maxScroll <= 0) return;
 
                 const scrollPercentage = container.scrollLeft / maxScroll;
-                // Détermine quel point doit être actif
-                let activeIndex = Math.round(scrollPercentage * (dots.length - 1));
+                const activeIndex = Math.round(scrollPercentage * (dots.length - 1));
 
                 dots.forEach((dot, i) => {
                     dot.classList.toggle("active", i === activeIndex);
                 });
             });
 
-            // --- 2. GESTION DU GLISSEMENT A LA SOURIS ---
             container.addEventListener("mousedown", (e) => {
                 isDown = true;
-                container.classList.add("active"); // Pour changer le curseur
                 startX = e.pageX - container.offsetLeft;
                 scrollLeft = container.scrollLeft;
             });
 
-            container.addEventListener("mouseleave", () => {
-                isDown = false;
-            });
-
-            container.addEventListener("mouseup", () => {
-                isDown = false;
-            });
+            container.addEventListener("mouseleave", () => isDown = false);
+            container.addEventListener("mouseup", () => isDown = false);
 
             container.addEventListener("mousemove", (e) => {
                 if (!isDown) return;
                 e.preventDefault();
                 const x = e.pageX - container.offsetLeft;
-                const walk = (x - startX) * 2; // Vitesse de défilement
+                const walk = (x - startX) * 2;
                 container.scrollLeft = scrollLeft - walk;
             });
         });
 
     </script>
 </body>
-
-</html>
