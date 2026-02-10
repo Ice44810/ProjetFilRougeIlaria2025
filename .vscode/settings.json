@@ -1,4 +1,5 @@
 {
     "liveServer.settings.port": 5501,
-    "angular.enable-strict-mode-prompt": false
+    "angular.enable-strict-mode-prompt": false,
+    "sqltools.connections": []
 }

@@ -1,22 +1,7 @@
-Routes;
 const fs = require("fs");
 const path = require("path");
-const sendJson = require("../utils/sendJson");
-
-function sendJSON(res, fileName) {
-  const filePath = path.join(__dirname, "../data", fileName);
-
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "Data not found" }));
-      return;
-    }
-
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(data);
-  });
-}
+const url = require("url");
+const sendHtml = require("../utils/sendHtml");
 
 module.exports = function (req, res) {
   const parsedUrl = url.parse(req.url, true);
@@ -24,78 +9,78 @@ module.exports = function (req, res) {
 
   switch (pathname) {
     case "/api/addnewcard":
-      return sendJSON(res, "addnewcard.json");
+      return sendHtml(res, "addnewcard.html");
     case "/api/addnewrecipient":
-      return sendJSON(res, "addnewrecipient.json");
+      return sendHtml(res, "addnewrecipient.html");
     case "/api/auth":
-      return sendJSON(res, "auth.json");
+      return sendHtml(res, "auth.html");
     case "/api/bankhistory":
-      return sendJSON(res, "bankhistory.json");
+      return sendHtml(res, "bankhistory.html");
     case "/api/banque":
-      return sendJSON(res, "banque.json");
+      return sendHtml(res, "banque.html");
     case "/api/bill":
-      return sendJSON(res, "bill.json");
+      return sendHtml(res, "bill.html");
     case "/api/cardinfo":
-      return sendJSON(res, "cardinfo.json");
+      return sendHtml(res, "cardinfo.html");
     case "/api/cards":
-      return sendJSON(res, "cards.json");
+      return sendHtml(res, "cards.html");
     case "/api/changepw":
-      return sendJSON(res, "changepw.json");
+      return sendHtml(res, "changepw.html");
     case "/api/contacts":
-      return sendJSON(res, "contacts.json");
+      return sendHtml(res, "contacts.html");
     case "/api/creatnewpwd":
-      return sendJSON(res, "creatnewpwd.json");
+      return sendHtml(res, "creatnewpwd.html");
     case "/api/dealmanagement":
-      return sendJSON(res, "dealmanagement.json");
+      return sendHtml(res, "dealmanagement.html");
     case "/api/dealmanagement2":
-      return sendJSON(res, "dealmanagement2.json");
+      return sendHtml(res, "dealmanagement2.html");
     case "/api/detailcontact":
-      return sendJSON(res, "detailcontact.json");
+      return sendHtml(res, "detailcontact.html");
     case "/api/editprofil":
-      return sendJSON(res, "editprofil.json");
+      return sendHtml(res, "editprofil.html");
     case "/api/electricity":
-      return sendJSON(res, "electricity.json");
+      return sendHtml(res, "electricity.html");
     case "/api/film":
-      return sendJSON(res, "film.json");
+      return sendHtml(res, "film.html");
     case "/api/giftcarddetail":
-      return sendJSON(res, "giftcarddetail.json");
+      return sendHtml(res, "giftcarddetail.html");
     case "/api/home":
-      return sendJSON(res, "home.json");
+      return sendHtml(res, "index.html");
     case "/api/inscription":
-      return sendJSON(res, "inscription.json");
+      return sendHtml(res, "inscription.html");
     case "/api/internet":
-      return sendJSON(res, "internet.json");
+      return sendHtml(res, "internet.html");
     case "/api/login":
-      return sendJSON(res, "login.json");
+      return sendHtml(res, "login.html");
     case "/api/mycontact":
-      return sendJSON(res, "mycontact.json");
+      return sendHtml(res, "mycontact.html");
     case "/api/resetpwd":
-      return sendJSON(res, "resetpwd.json");
+      return sendHtml(res, "resetpwd.html");
     case "/api/rewards":
-      return sendJSON(res, "rewards.json");
+      return sendHtml(res, "rewards.html");
     case "/api/securitycenter":
-      return sendJSON(res, "securitycenter.json");
+      return sendHtml(res, "securitycenter.html");
     case "/api/setting":
-      return sendJSON(res, "setting.json");
+      return sendHtml(res, "setting.html");
     case "/api/topup":
-      return sendJSON(res, "topup.json");
+      return sendHtml(res, "topup.html");
     case "/api/transactions":
-      return sendJSON(res, "transactions.json");
+      return sendHtml(res, "transactions.html");
     case "/api/transferbank":
-      return sendJSON(res, "transferbank.json");
+      return sendHtml(res, "transferbank.html");
     case "/api/transferbybank":
-      return sendJSON(res, "transferbybank.json");
+      return sendHtml(res, "transferbybank.html");
     case "/api/transferconfirm":
-      return sendJSON(res, "transferconfirm.json");
+      return sendHtml(res, "transferconfirm.html");
     case "/api/transfer":
-      return sendJSON(res, "transfer.json");
+      return sendHtml(res, "transfer.html");
     case "/api/user":
-      return sendJSON(res, "user.json");
+      return sendHtml(res, "user.html");
     case "/api/waterbill":
-      return sendJSON(res, "waterbill.json");
+      return sendHtml(res, "waterbill.html");
 
     default:
-      res.writeHead(404, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "Route not found" }));
+      res.writeHead(404, { "Content-Type": "text/html" });
+      res.end("<h1>404 - Page not found</h1>");
   }
 };
