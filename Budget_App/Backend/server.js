@@ -2,6 +2,12 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { parse } = require('querystring');
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 
 const server = http.createServer((req, res) => {
     const requestUrl = req.url;
@@ -9,10 +15,10 @@ const server = http.createServer((req, res) => {
 
     // --- 1. FICHIERS STATIQUES (CSS, Images, JS) ---
     // On vérifie si l'URL commence par /public/ (peu importe la casse)
-    if (requestUrl.toLowerCase().startsWith('/public/')) {
+    if (requestUrl.toLowerCase().startsWith('/Public/')) {
         
         // On force le chemin vers le dossier 'public' en minuscule 
-        const relativePath = requestUrl.replace(/^\/[Pp]ublic\//, 'public/');
+        const relativePath = requestUrl.replace(/^\/[Pp]ublic\//, 'Public/');
         const filePath = path.join(__dirname, relativePath);
 
         fs.readFile(filePath, (err, content) => {
@@ -40,7 +46,7 @@ const server = http.createServer((req, res) => {
     // --- 2. ROUTES ACTIONS ---
     if (requestUrl === '/login-action' && method === 'POST') {
         // ... (ton code de login)
-        return;
+
     }
 
     // --- 3. GESTION DYNAMIQUE DES PAGES HTML ---
