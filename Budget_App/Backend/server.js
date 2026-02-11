@@ -2,12 +2,6 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { parse } = require('querystring');
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 
 const server = http.createServer((req, res) => {
     const requestUrl = req.url;
@@ -15,10 +9,10 @@ const server = http.createServer((req, res) => {
 
     // --- 1. FICHIERS STATIQUES (CSS, Images, JS) ---
     // On vérifie si l'URL commence par /public/ (peu importe la casse)
-    if (requestUrl.toLowerCase().startsWith('/Public/')) {
+    if (requestUrl.toLowerCase().startsWith('/public/')) {
         
         // On force le chemin vers le dossier 'public' en minuscule 
-        const relativePath = requestUrl.replace(/^\/[Pp]ublic\//, 'Public/');
+        const relativePath = requestUrl.replace(/^\/[Pp]ublic\//, 'public/', 'assets');
         const filePath = path.join(__dirname, relativePath);
 
         fs.readFile(filePath, (err, content) => {
@@ -58,7 +52,7 @@ const server = http.createServer((req, res) => {
         pageName = pageName.slice(0, -5);
     }
 
-    const htmlFilePath = path.join(__dirname, 'Pages', `${pageName}.html`);
+    const htmlFilePath = path.join(__dirname, 'pages', `${pageName}.html`);
 
     fs.readFile(htmlFilePath, (err, data) => {
         if (err) {
