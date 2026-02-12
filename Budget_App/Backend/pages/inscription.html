@@ -19,18 +19,18 @@
         </div>
     </div>
 
-    <form id="registerForm" method="post" class="container-md shadow-sm p-4 rounded-3 border">
+    <form id="registerForm" action="/register" method="post" class="container-md shadow-sm p-4 rounded-3 border">
         <div class="mb-3 px-3">
             <label for="nom" class="form-label ">Nom complet</label>
             <input type="text" class="form-control" id="nom" placeholder="saisir votre nom" required />
         </div>
         <div class="mb-3 px-3">
             <label for="email" class="form-label">Adresse Mail</label>
-            <input type="email" class="form-control" id="email" placeholder="saisir adresse mail" required />
+            <input type="email" class="form-control" id="email" name="email" placeholder="saisir adresse mail" required />
         </div>
         <div class="mb-3 px-3">
             <label for="motdepasse" class="form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="motdepasse" placeholder="saisir mot de passe" required />
+            <input type="password" class="form-control" id="motdepasse" name="password" placeholder="saisir mot de passe" required />
         </div>
         <div class="mb-3 px-3">
             <label for="confirmmotdepasse" class="form-label">Confirmer Mot de passe</label>
@@ -43,13 +43,11 @@
     </form>
 
     <script>
-        //  Assurez-vous que l'ID dans le HTML correspond (registerForm)
         const registerForm = document.getElementById("registerForm");
 
         registerForm.addEventListener("submit", function (event) {
-            event.preventDefault();  // Empêche le rechargement de la page
+            event.preventDefault();
 
-            // Récupération des valeurs des champs
             const nom = document.getElementById("nom").value.trim();
             const email = document.getElementById("email").value.trim();
             const motdepasse = document.getElementById("motdepasse").value.trim();
@@ -60,39 +58,48 @@
                 return;
             }
 
-            // Validation de l'email
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 alert("Adresse mail invalide.");
                 return;
             }
 
-            // Validation de la longueur du mot de passe
             if (motdepasse.length < 6) {
                 alert("Le mot de passe doit contenir au moins 6 caractères.");
                 return;
             }
 
-            // Correction 4: Comparaison des deux mots de passe
             if (motdepasse !== confirmMotDePasse) {
                 alert("Les mots de passe ne correspondent pas.");
                 return;
             }
 
-            // Ou un simple log groupé
-            console.log("Données reçues :", { nom, email, motdepasse });
+            const formData = new URLSearchParams();
+            formData.append('email', email);
+            formData.append('password', motdepasse);
 
-            // Simulation d'une inscription réussie
-            alert("Compte créé avec succès pour " + nom + " !");
-
-            // Redirection possible
-            window.location.href = "login.html";
-
+            fetch('/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData
+            })
+            .then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    return response.json().then(data => {
+                        alert("L'inscription a échoué: " + data.message);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Erreur lors de l'inscription:", error);
+                alert("Une erreur est survenue lors de l'inscription.");
+            });
         });
-
-        // Fin du script
     </script>
-</body>
 </body>
 
 </html>

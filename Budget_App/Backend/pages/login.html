@@ -17,13 +17,13 @@
         <h5 class="text-center fw-semibold mb-4 fs-4 mt-5">Connexion</h5>
     </header>
 
-    <form class="mb-3 mx-3 mt-5" id="loginForm" method="post">
+    <form class="mb-3 mx-3 mt-5" id="loginForm" action="/login" method="post">
         <div class="mb-4 position-relative">
             <label class="position-absolute px-2 ms-3 text-muted fs-6" style="top: -13px; left: 0;">
                 Email
             </label>
             <div class="border shadow-sm rounded-3 px-3 d-flex align-items-center" style="height: 50px;">
-                <input type="email" id="userIdentifier" class="form-control small border-0 bg-transparent"
+                <input type="email" id="userIdentifier" name="email" class="form-control small border-0 bg-transparent"
                     placeholder="Exemple@gmail.com" style="box-shadow: none;" required>
             </div>
         </div>
@@ -33,7 +33,7 @@
                 Mot de passe
             </label>
             <div class="border shadow-sm rounded-3 px-3 d-flex align-items-center" style="height: 50px;">
-                <input type="password" id="passwordInput" class="form-control border-0 bg-transparent"
+                <input type="password" id="passwordInput" name="password" class="form-control border-0 bg-transparent"
                     placeholder="Mot de passe" style="box-shadow: none;" required>
                 <i class="bi bi-eye text-muted" id="togglePassword" style="cursor: pointer;"></i>
             </div>
@@ -90,7 +90,7 @@
             formData.append('email', email);
             formData.append('password', password);
 
-            fetch('/login-action', {
+            fetch('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

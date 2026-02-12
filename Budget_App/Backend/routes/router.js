@@ -44,7 +44,7 @@ module.exports = function (req, res) {
       return sendHtml(res, "film.html");
     case "/api/giftcarddetail":
       return sendHtml(res, "giftcarddetail.html");
-    case "/api/home":
+    case "/api/index":
       return sendHtml(res, "index.html");
     case "/api/inscription":
       return sendHtml(res, "inscription.html");
