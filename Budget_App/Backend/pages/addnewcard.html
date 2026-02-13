@@ -144,81 +144,64 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Initialisation des modals
-            const modalOtp = new bootstrap.Modal(document.getElementById('otpModal'));
             const modalLoading = new bootstrap.Modal(document.getElementById('loadingModal'));
             const modalSuccess = new bootstrap.Modal(document.getElementById('successModal'));
+            
+            const btnContinue = document.getElementById('btnToOTP');
+            const btnDone = document.getElementById('btnDone');
 
-            // 1. Ouvrir OTP au clic sur Confirmer
-            document.getElementById('btnToOTP').addEventListener('click', () => {
-                modalOtp.show();
-            });
+            // Logique d'ajout de la carte
+            btnContinue.addEventListener('click', function (e) {
+                e.preventDefault(); // Empêcher la soumission du formulaire
 
-            // 2. OTP -> Loading -> Succès
-            document.getElementById('btnToLoading').addEventListener('click', () => {
-                modalOtp.hide();
-                setTimeout(() => {
-                    modalLoading.show();
-                    // Simulation du traitement
-                    setTimeout(() => {
-                        modalLoading.hide();
-                        // Correction : on affiche le montant fixe ou récupéré
-                        document.getElementById('successAmountDisplay').textContent = "€70.0";
-                        setTimeout(() => modalSuccess.show(), 400);
-                    }, 2000);
-                }, 400);
-            });
+                // 1. Récupération des valeurs
+                const cardData = {
+                    cardNumber: document.getElementById('card-number').value,
+                    cardHolderName: document.getElementById('card-holder').value,
+                    expiryDate: document.querySelector('input[type="date"]').value,
+                    cvv: document.querySelector('input[placeholder="CVV"]').value
+                };
 
-            // 3. Redirection Home
-            document.getElementById('btnDone').addEventListener('click', () => {
-                window.location.href = 'home.html';
-            });
+                // Afficher le modal de chargement
+                modalLoading.show();
 
-            // 4. Auto-focus OTP inputs
-            const otpInputs = document.querySelectorAll('.otp-input');
-            otpInputs.forEach((input, index) => {
-                input.addEventListener('input', () => {
-                    if (input.value && index < otpInputs.length - 1) otpInputs[index + 1].focus();
+                // 2. Envoi au serveur
+                fetch('/api/cards', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(cardData)
+                })
+                .then(response => {
+                    modalLoading.hide();
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        // En cas d'erreur HTTP, lire le message d'erreur du corps de la réponse
+                        return response.json().then(err => { throw new Error(err.message || 'Une erreur est survenue'); });
+                    }
+                })
+                .then(data => {
+                    // Mettre à jour le modal de succès
+                    document.querySelector('#successModal .fw-bold').textContent = "Succès!";
+                    document.querySelector('#successModal .text-muted.small').textContent = "Votre carte a été ajoutée avec succès.";
+                    document.querySelector('#successModal #successAmountDisplay').style.display = 'none'; // Cacher le montant
+                    
+                    // Afficher le modal de succès après un court délai
+                    setTimeout(() => modalSuccess.show(), 400);
+                })
+                .catch(error => {
+                    modalLoading.hide();
+                    console.error('Erreur:', error);
+                    alert('Erreur lors de l\'ajout de la carte: ' + error.message);
                 });
             });
 
-            // 5. Timer OTP simplifié
-            let timeLeft = 60;
-            const timerElement = document.getElementById("timer");
-            const countdown = setInterval(() => {
-                let m = Math.floor(timeLeft / 60);
-                let s = timeLeft % 60;
-                timerElement.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
-                if (timeLeft <= 0) clearInterval(countdown);
-                timeLeft--;
-            }, 1000);
-        });
-
-        // Methode pour récupérer les données du formulaire carte bancaire et les envoyer au serveur
-        document.getElementById('btnToOTP').addEventListener('click', function (e) {
-            // 1. Récupération des valeurs
-            const cardData = {
-                cardNumber: document.getElementById('card_number').value,
-                cardHolder: document.getElementById('card_holder').value,
-                expiryDate: document.querySelector('input[type="date"]').value,
-                cvv: document.querySelector('input[placeholder="CVV"]').value
-            };
-
-            // 2. Envoi au serveur (exemple avec fetch)
-            fetch('enregistrer_carte.php', { // Remplacez par votre URL de traitement
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(cardData)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log("Enregistré avec succès !");
-                        // Rediriger vers la page OTP ici
-                    }
-                })
-                .catch(error => console.error('Erreur:', error));
+            // 3. Redirection après le succès
+            btnDone.addEventListener('click', () => {
+                window.location.href = 'card.html'; // Rediriger vers la page des cartes
+            });
         });
     </script>
 </body>

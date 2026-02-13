@@ -1,3 +1,4 @@
+
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -5,6 +6,11 @@ const { parse } = require('querystring');
 const bcrypt = require('bcrypt');
 const cookie = require('cookie');
 const db = require('./utils/db');
+const handleTransactions = require('./routes/transactions');
+const handleUsers = require('./routes/users');
+const handleCategories = require('./routes/categories');
+const handleCards = require('./routes/cards');
+const handleRecipients = require('./routes/recipients');
 
 const sessions = {}; // Stockage des sessions en mémoire
 
@@ -53,7 +59,7 @@ const server = http.createServer((req, res) => {
 
             try {
                 const hashedPassword = await bcrypt.hash(password, 10);
-                db.query('INSERT INTO users (email, password) VALUES (?, ?)', [email, hashedPassword], (err, result) => {
+                db.query('INSERT INTO users (email, password, role) VALUES (?, ?, ?)', [email, hashedPassword, 'user'], (err, result) => {
                     if (err) {
                         res.writeHead(500, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ message: 'Erreur lors de la création du compte' }));
@@ -86,7 +92,7 @@ const server = http.createServer((req, res) => {
                 const match = await bcrypt.compare(password, user.password);
                 if (match) {
                     const newSessionId = Date.now().toString();
-                    sessions[newSessionId] = { userId: user.id, email: user.email };
+                    sessions[newSessionId] = { userId: user.id, email: user.email, role: user.role };
                     res.setHeader('Set-Cookie', cookie.serialize('sessionId', newSessionId, { httpOnly: true, maxAge: 60 * 60 * 24 * 7, path: '/' }));
                     res.writeHead(302, { 'Location': '/index.html' });
                     res.end();
@@ -108,8 +114,132 @@ const server = http.createServer((req, res) => {
         return;
     }
 
+    // Password reset (public endpoint)
+    if (requestUrl === '/api/reset-password' && method === 'POST') {
+        const usersController = require('./controllers/usersController');
+        usersController.resetPassword(req, res);
+        return;
+    }
 
-    // --- 3. SERVIR LES PAGES HTML ---
+    // --- 3. GESTION DES ROUTES API ---
+    if (requestUrl.startsWith('/api/')) {
+        // Pour les routes API, on vérifie la session en premier
+        if (!userSession) {
+            res.writeHead(401, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ message: 'Non autorisé' }));
+            return;
+        }
+
+        // Route API pour les données de la page d'accueil
+        if (requestUrl === '/api/home' && method === 'GET') {
+            // Compute balance from transactions
+            db.query('SELECT SUM(CASE WHEN type="income" THEN amount ELSE -amount END) as balance FROM transactions WHERE user_id = ?',
+                [userSession.userId], (err, balanceResult) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    return res.end(JSON.stringify({ message: 'Erreur serveur' }));
+                }
+                const balance = balanceResult[0].balance || 0;
+
+                // Get last 5 transactions
+                db.query('SELECT id, title, amount, type, created_at FROM transactions WHERE user_id = ? ORDER BY created_at DESC LIMIT 5',
+                    [userSession.userId], (err, transactions) => {
+                    if (err) {
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        return res.end(JSON.stringify({ message: 'Erreur serveur' }));
+                    }
+
+                    // Static rewards for now, can be made dynamic later
+                    const rewards = 50;
+
+                    const responseData = {
+                        balance: balance.toFixed(2),
+                        currency: '€',
+                        rewards: rewards,
+                        lastTransactions: transactions.map(tx => ({
+                            title: tx.title,
+                            amount: tx.type === 'income' ? parseFloat(tx.amount) : -parseFloat(tx.amount)
+                        }))
+                    };
+
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify(responseData));
+                });
+            });
+            return;
+        }
+
+        // Transactions
+        if (requestUrl.startsWith('/api/transactions')) {
+            handleTransactions(req, res, userSession);
+            return;
+        }
+
+        // Users (profile management)
+        if (requestUrl.startsWith('/api/users')) {
+            handleUsers(req, res, userSession);
+            return;
+        }
+
+        // Categories
+        if (requestUrl.startsWith('/api/categories')) {
+            handleCategories(req, res, userSession);
+            return;
+        }
+
+        // Cards
+        if (requestUrl.startsWith('/api/cards')) {
+            handleCards(req, res, userSession);
+            return;
+        }
+
+        // Recipients
+        if (requestUrl.startsWith('/api/recipients')) {
+            handleRecipients(req, res, userSession);
+            return;
+        }
+
+        // Stats for visualization
+        if (requestUrl === '/api/stats' && method === 'GET') {
+            db.query(`
+                SELECT c.name as category, SUM(t.amount) as total, t.type
+                FROM transactions t
+                LEFT JOIN categories c ON t.category_id = c.id
+                WHERE t.user_id = ?
+                GROUP BY c.name, t.type
+            `, [userSession.userId], (err, results) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: 'Erreur serveur' }));
+                    return;
+                }
+                // Monthly evolution
+                db.query(`
+                    SELECT DATE_FORMAT(created_at, '%Y-%m') as month, SUM(CASE WHEN type='income' THEN amount ELSE 0 END) as income, SUM(CASE WHEN type='expense' THEN amount ELSE 0 END) as expense
+                    FROM transactions
+                    WHERE user_id = ?
+                    GROUP BY month
+                    ORDER BY month
+                `, [userSession.userId], (err, monthly) => {
+                    if (err) {
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ message: 'Erreur serveur' }));
+                        return;
+                    }
+                    res.writeHead(200, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ categoryTotals: results, monthlyEvolution: monthly }));
+                });
+            });
+            return;
+        }
+
+        // Si aucune autre route API ne correspond, renvoyer une 404
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Endpoint API non trouvé' }));
+        return;
+    }
+
+    // --- 4. SERVIR LES PAGES HTML ---
     const cleanPath = requestUrl.split('?')[0];
     
     // Pages publiques (accessibles sans connexion)
@@ -129,7 +259,7 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // Protection des routes : si pas de session, redirection vers login
+    // Protection pour les pages HTML : si pas de session, redirection
     if (!userSession) {
         res.writeHead(302, { 'Location': '/login.html' });
         res.end();

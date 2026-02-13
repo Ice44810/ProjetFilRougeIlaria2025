@@ -32,35 +32,88 @@
             </div>
         </div>
 
-        <form class="form-group" method="post">
+        <form class="form-group" id="add-recipient-form">
             <div class="form-floating mb-3">
-                <input type="text" class="form-control shadow-none border" id="recipientName"
-                    placeholder="Recipient Name" value="Themesflat">
-                <label for="recipientName" class="text-muted" style="top: -15px;">Nom du destinataire</label>
-            </div>
-
-            <div class="form-floating mb-3 position-relative">
-                <input type="text" class="form-control shadow-none border" id="accountNumber"
-                    placeholder="Account Number" value="0321 0000 2342 2424">
-                <label for="accountNumber" class="text-muted" style="top: -15px;">Numéro de compte</label>
-            </div>
-
-            <div class="form-floating mb-3 position-relative">
-                <input type="text" class="form-control shadow-none border" id="phoneNumber" placeholder="Phone Number"
-                    value="0922.342.23">
-                <label for="phoneNumber" class="text-muted" style="top: -15px;">Numéro de téléphone</label>
-                <i
-                    class="bi bi-x-circle-fill position-absolute top-50 end-0 translate-middle-y me-3 text-secondary opacity-50"></i>
+                <input type="text" class="form-control shadow-none border" id="recipientName" placeholder="Nom du destinataire" required>
+                <label for="recipientName">Nom du destinataire</label>
             </div>
 
             <div class="form-floating mb-3">
-                <input type="email" class="form-control shadow-none border" id="email" placeholder="Email"
-                    value="Example@gmail.com">
-                <label for="email" class="text-muted" style="top: -15px;">Email</label>
+                 <select class="form-select" id="recipientType">
+                    <option value="bank" selected>Compte Bancaire</option>
+                    <option value="phone">Téléphone</option>
+                </select>
+                <label for="recipientType">Type de contact</label>
+            </div>
+
+            <div class="form-floating mb-3 position-relative">
+                <input type="text" class="form-control shadow-none border" id="recipientIdentifier" placeholder="Numéro de compte" required>
+                <label for="recipientIdentifier" id="identifierLabel">Numéro de compte</label>
             </div>
         </form>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const recipientTypeSelect = document.getElementById('recipientType');
+            const identifierInput = document.getElementById('recipientIdentifier');
+            const identifierLabel = document.getElementById('identifierLabel');
+            const validateButton = document.querySelector('.btn-link.text-primary');
+
+            // Mettre à jour le libellé en fonction du type sélectionné
+            recipientTypeSelect.addEventListener('change', function() {
+                if (this.value === 'bank') {
+                    identifierLabel.textContent = 'Numéro de compte (IBAN)';
+                    identifierInput.placeholder = 'Numéro de compte (IBAN)';
+                } else {
+                    identifierLabel.textContent = 'Numéro de téléphone';
+                    identifierInput.placeholder = 'Numéro de téléphone';
+                }
+            });
+
+            // Gérer la soumission du formulaire
+            validateButton.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const recipientData = {
+                    name: document.getElementById('recipientName').value,
+                    type: recipientTypeSelect.value,
+                    identifier: identifierInput.value
+                };
+
+                if (!recipientData.name || !recipientData.identifier) {
+                    alert('Veuillez remplir tous les champs.');
+                    return;
+                }
+
+                fetch('/api/recipients', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(recipientData)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = 'mycontact.html';
+                    } else {
+                        return response.json().then(err => { throw new Error(err.message || 'Une erreur est survenue'); });
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Erreur lors de l\'ajout du bénéficiaire: ' + error.message);
+                });
+            });
+
+            // Annuler
+            const cancelButton = document.querySelector('.btn-link.text-dark');
+            cancelButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'mycontact.html';
+            })
+        });
+    </script>
 </body>
 
 </html>

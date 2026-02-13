@@ -4,7 +4,7 @@
     "sqltools.connections": [
         {
             "mysqlOptions": {
-                "authProtocol": "default",
+                "authProtocol": "xprotocol",
                 "enableSsl": "Disabled"
             },
             "ssh": "Disabled",
@@ -12,9 +12,10 @@
             "server": "localhost",
             "port": 33060,
             "driver": "MySQL",
+            "name": "Mysql",
             "database": "budget_app",
             "username": "issa",
-            "name": "issa"
+            "connectionTimeout": 60
         }
     ]
 }

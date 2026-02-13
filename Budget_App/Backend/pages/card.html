@@ -17,140 +17,129 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
-                    <li class="breadcrumb-item"><a href="./banque.html">Banque</a></li>
                     <li class="breadcrumb-item active" aria-current="page">
                         <span class="bi bi-credit-card text-primary" style="font-size: 15px;"></span>
-                        Carte Bancaire
+                        Mes Cartes
                     </li>
                 </ol>
             </nav>
         </div>
 
-        <div class="container">
-            <h6 class="fw-semibold mb-3">Banques populaires</h6>
-            <div class="row g-3 mb-4" id="creditcard">
-                <div class="col-6 col-md-3">
-                    <a href="./transferbybank.html" class="bank-card">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg">
-                        <span>Global card</span>
-                    </a>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <a href="./transferbybank.html" class="bank-card">
-                        <img src="../public/assets/images/Techcombank.png">
-                        <span>Techcombank</span>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3">
-                    <a href="./transferbybank.html" class="bank-card">
-                        <img src="../public/assets/images/acbbank.png">
-                        <span>ACB</span>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3">
-                    <a href="./transferbybank.html" class="bank-card">
-                        <img src="../public/assets/images/fivestarbank.jpeg">
-                        <span>Five star bank</span>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3">
-                    <a href="./transferbybank.html" class="bank-card">
-                        <img src="../public/Assets/images/citigroup.png">
-                        <span>Citibank</span>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3">
-                    <a href="./transferbybank.html" class="bank-card">
-                        <img src="../public/Assets/images/icbc.png">
-                        <span>ICBCBank</span>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3">
-                    <a href="./transferbybank.html" class="bank-card">
-                        <img src="../public/Assets/images/chasebank.jpeg">
-                        <span>Chasebank</span>
-                    </a>
-                </div>
-                <div class="col-6 col-md-3">
-                    <a href="./transferbybank.html" class="bank-card">
-                        <img src="../public/Assets/images/vietinbank.png">
-                        <span>Vietinbank</span>
-                    </a>
-                </div>
-            </div>
-            <!-- ALL BANK -->
-            <h6 class="fw-semibold mb-3">Toutes les banques (40)</h6>
-            <div class="bank-list">
-                <a href="./transferbybank.html" class="bank-item">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg">
-                    <span>Visa</span>
-                </a>
-
-                <a href="./transferbybank.html" class="bank-item">
-                    <img src="../public/assets/images/Techcombank.png">
-                    <span>Techcombank</span>
-                </a>
-
-                <a href="./transferbybank.html" class="bank-item">
-                    <img src="../public/assets/images/acbbank.png">
-                    <span>ACB</span>
-                </a>
-
-                <a href="./transferbybank.html" class="bank-item">
-                    <img src="../public/assets/images/fivestarbank.jpeg">
-                    <span>Five star bank</span>
-                </a>
-
-                <a href="./transferbybank.html" class="bank-item">
-                    <img src="../public/assets/images/citigroup.png">
-                    <span>Citibank</span>
-                </a>
-
-                <a href="./transferbybank.html" class="bank-item">
-                    <img src="../public/assets/images/ICBC.png">
-                    <span>ICBCBank</span>
-                </a>
-
-                <a href="./transferbybank.html" class="bank-item">
-                    <img src="../public/assets/images/chasebank.jpeg">
-                    <span>Chasebank</span>
-                </a>
-
-                <a href="./transferbybank.html" class="bank-item">
-                    <img src="../public/assets/images/vietinbank.png">
-                    <span>Vietinbank</span>
-                </a>
-            </div>
-
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-semibold">Mes Cartes Bancaires</h5>
+            <a href="addnewcard.html" class="btn btn-primary btn-sm">
+                <i class="bi bi-plus-circle"></i> Ajouter
+            </a>
         </div>
 
-        <!-- FOOTER -->
-        <footer class="footer py-2">
-            <div class="d-flex justify-content-around align-items-center">
-                <a href="./home.html" class="footer-link">
-                    <i class="bi bi-house-door-fill"></i>
-                    <span>Accueil</span>
-                </a>
-                <a href="./bankhistory.html" class="footer-link">
-                    <i class="bi bi-clock-history"></i>
-                    <span>Historique</span>
-                </a>
-                <a href="./myqr.html" class="active-link">
-                    <i class="bi bi-qr-code-scan"></i>
-                    <span>QR</span>
-                </a>
-                <a href="./rewards.html" class="footer-link">
-                    <i class="bi bi-gift"></i>
-                    <span>Récompenses</span>
-                </a>
-                <a href="./profile.html" class="footer-link">
-                    <i class="bi bi-person"></i>
-                    <span>Profil</span>
-                </a>
-            </div>
-        </footer>
+        <!-- Container pour la liste des cartes -->
+        <div id="cards-container" class="vstack gap-3">
+            <!-- Les cartes seront injectées ici par JavaScript -->
+        </div>
 
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer py-2">
+        <div class="d-flex justify-content-around align-items-center">
+            <a href="./index.html" class="footer-link">
+                <i class="bi bi-house-door-fill"></i>
+                <span>Accueil</span>
+            </a>
+            <a href="./transactions.html" class="footer-link">
+                <i class="bi bi-clock-history"></i>
+                <span>Historique</span>
+            </a>
+            <a href="./myqr.html" class="active-link">
+                <i class="bi bi-qr-code-scan"></i>
+                <span>QR</span>
+            </a>
+            <a href="./rewards.html" class="footer-link">
+                <i class="bi bi-gift"></i>
+                <span>Récompenses</span>
+            </a>
+            <a href="./Profile.html" class="footer-link">
+                <i class="bi bi-person"></i>
+                <span>Profil</span>
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const cardsContainer = document.getElementById('cards-container');
+
+            // --- Charger et afficher les cartes ---
+            fetch('/api/cards')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la récupération des cartes');
+                    }
+                    return response.json();
+                })
+                .then(cards => {
+                    if (cards.length === 0) {
+                        cardsContainer.innerHTML = '<p class="text-center text-muted">Aucune carte enregistrée.</p>';
+                        return;
+                    }
+                    cards.forEach(card => {
+                        const cardElement = document.createElement('div');
+                        cardElement.className = 'card-item p-3 border rounded d-flex justify-content-between align-items-center';
+                        cardElement.dataset.cardId = card.id;
+
+                        cardElement.innerHTML = `
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-credit-card-2-front-fill fs-2 text-primary"></i>
+                                <div>
+                                    <h6 class="mb-0">${card.card_brand} - **** ${card.last_4_digits}</h6>
+                                    <small class="text-muted">${card.card_holder_name} - Exp: ${card.expiry_date}</small>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger delete-btn">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        `;
+                        cardsContainer.appendChild(cardElement);
+                    });
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    cardsContainer.innerHTML = '<p class="text-center text-danger">Impossible de charger vos cartes.</p>';
+                });
+
+            // --- Gérer la suppression ---
+            cardsContainer.addEventListener('click', function(e) {
+                const deleteButton = e.target.closest('.delete-btn');
+                if (deleteButton) {
+                    const cardElement = deleteButton.closest('.card-item');
+                    const cardId = cardElement.dataset.cardId;
+                    
+                    if (confirm('Êtes-vous sûr de vouloir supprimer cette carte ?')) {
+                        fetch(`/api/cards/${cardId}`, {
+                            method: 'DELETE'
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('La suppression a échoué.');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            cardElement.remove(); // Supprimer l'élément du DOM
+                            // Afficher un message si la liste est vide
+                            if (cardsContainer.children.length === 0) {
+                                cardsContainer.innerHTML = '<p class="text-center text-muted">Aucune carte enregistrée.</p>';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erreur de suppression:', error);
+                            alert(error.message);
+                        });
+                    }
+                }
+            });
+        });
+    </script>
 </body>
-
 </html>

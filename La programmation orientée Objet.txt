@@ -1,0 +1,25 @@
+La programmation orientée objet (POO) : est un paradigme de programmation qui consiste à modéliser un système à l’aide d’objets, qui regroupent des données (attributs) et des comportements (méthodes).  Contrairement à la programmation procédurale, où l’accent est mis sur les fonctions et la logique, la POO se concentre sur les entités du monde réel (comme une voiture, une personne ou une page web), représentées par des classes (modèles) et leurs instances (objets concrets). 
+
+Principes fondamentaux de la POO
+Encapsulation : les données et méthodes d’un objet sont regroupées et protégées.  Seules les méthodes publiques permettent d’interagir avec l’objet, ce qui améliore la sécurité et la maintenabilité du code.
+Héritage : permet de créer de nouvelles classes à partir de classes existantes, réutilisant ainsi leur code et ajoutant ou modifiant des fonctionnalités. 
+Polymorphisme : un même message peut avoir des comportements différents selon l’objet qui le reçoit, facilitant la flexibilité et la réutilisation du code. 
+Abstraction : masque les détails complexes internes d’un objet, exposant uniquement les fonctionnalités essentielles à son utilisation. 
+Langages et applications
+La POO est utilisée dans de nombreux langages comme Python, Java, C++, Ruby, JavaScript, Swift et C#.  Elle est particulièrement adaptée aux projets complexes, évolutifs et collaboratifs, car elle favorise la réutilisation du code, la modularité et une meilleure organisation du développement. 
+
+Exemple simple en Python :
+
+class Animal:
+    def __init__(self, nom, espece):
+        self.nom = nom
+        self.espece = espece
+    
+    def faire_du_bruit(self):
+        if self.espece == "chien":
+            print(f"{self.nom} dit : Woof !")
+
+mon_chien = Animal("Rex", "chien")
+mon_chien.faire_du_bruit()  # Sortie : Rex dit : Woof !
+
+La POO a été formalisée dans les années 1970 par Alan Kay et Ole-Johan Dahl, et est aujourd’hui un pilier fondamental du développement logiciel moderne. 

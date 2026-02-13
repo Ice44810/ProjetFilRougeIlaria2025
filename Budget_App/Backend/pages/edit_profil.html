@@ -97,15 +97,24 @@
                     formData.append('user_id', userId);
 
                     try {
-                        const response = await fetch("../backend/update_profile.php", {
-                            method: "POST",
-                            body: formData
+                        const response = await fetch("/api/users", {
+                            method: "PUT",
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: new URLSearchParams({
+                                email: email,
+                                fullName: fullName,
+                                phone: phone,
+                                address: address,
+                                postcode: postcode,
+                                ville: ville
+                            })
                         });
 
-                        // Vérifie si la réponse est bien du JSON
                         const result = await response.json();
 
-                        if (result.status === "success") {
+                        if (response.ok) {
                             alert("Profil mis à jour !");
                         } else {
                             alert("Erreur : " + result.message);
