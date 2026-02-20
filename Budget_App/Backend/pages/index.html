@@ -8,7 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../public/assets/style.css" />
-    <script src="/public/js/dashboard.js"></script>
 
     <style>
         /* Taille de la largeur de l'offcanvas */
@@ -26,7 +25,7 @@
                     <img src="../public/assets/images/profil.jpg" alt="Profile" class="rounded-circle me-3" width="50"
                         height="50">
                     <div>
-                        <a href="./profile.html" class="text-decoration-none text-dark">
+                        <a href="./Profile.html" class="text-decoration-none text-dark">
                             <h6 class="username fw-bold mb-0 text-white">Themesflat</h6>
                         </a>
                         <p class="slogan mb-0">Economisons votre argent!</p>
@@ -64,7 +63,7 @@
                                     <i class="bi bi-chevron-right small text-muted"></i>
                                 </li>
                                 <li class="list-group-item border-0 d-flex justify-content-between align-items-center">
-                                    <a href="./profile.html">
+                                    <a href="./Profile.html">
                                         <span><i class="bi bi-person-circle me-3"></i>Profile</span></a>
                                     <i class="bi bi-chevron-right small text-muted"></i>
                                 </li>
@@ -97,12 +96,19 @@
                     </div>
                 </div>
             </div>
+            <div class="container-fluid px-3 mb-4">
+                <h6 class="fw-bold mb-2">Dernières transactions</h6>
+                <ul class="list-group" id="last-transactions">
+                    <!-- Injecté par JS -->
+                </ul>
+            </div>
+
         </div>
     </header>
 
     <main>
         <!-- Première partie tableau : Quick Actions -->
-        <div class=n"quick-actions-section container-fluid mt-4 mb-4">
+        <div class="quick-actions-section container-fluid mt-4 mb-4">
             <div class="row text-center">
                 <div class="col-3">
                     <a href="javascript:void(0)" class="action-item" data-bs-toggle="modal"
@@ -731,7 +737,7 @@
                         </div>
                     </div>
                     <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
-                        data-bs-target="#contactModal" data-name="Mallorie Jean" data-number="**** **** **** 3216"
+                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
                         data-email="mallorie.jean@email.com">
                         <img src="../public/assets/images/Mallorie Jean.jpg" alt="Mallorie Jean"
                             class="img-fluid rounded-circle me-3"
@@ -766,7 +772,8 @@
                         <button type="button" class="btn btn-ios-action text-primary-subtle fw-semibold me-2"
                             id="allowNotifications" style="padding-left: 50px;">
                             Autoriser
-                </button></a>
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -775,7 +782,7 @@
     <!-- FOOTER -->
     <footer class="footer py-2">
         <div class="d-flex justify-content-around align-items-center">
-            <a href="./index.html" class="active-link">
+            <a href="./home.html" class="active-link">
                 <i class="bi bi-house-door-fill"></i>
                 <span>Accueil</span>
             </a>
@@ -907,15 +914,27 @@
             btnRefuser.addEventListener('click', saveChoice);
         }
         // lien de l'API backend
-        fetch("/api/home")
+        // Essayer d'abord de récupérer le solde depuis le localStorage (mis à jour par topup)
+        const cachedBalance = localStorage.getItem('userBalance');
+        
+        fetch("http://localhost:3000/api/home")
             .then(response => response.json())
             .then(data => {
                 console.log("Données reçues :", data);
 
+                // Username
+                const usernameEl = document.querySelector(".username");
+                if (usernameEl && data.username) {
+                    usernameEl.textContent = data.username;
+                }
+
                 // Solde
                 const balanceEl = document.getElementById("balance");
                 if (balanceEl) {
-                    balanceEl.textContent = `${data.balance} ${data.currency}`;
+                    const displayBalance = data.balance;
+                    balanceEl.textContent = `${displayBalance} ${data.currency}`;
+                    // Mettre à jour le localStorage avec le nouveau solde
+                    localStorage.setItem('userBalance', displayBalance);
                 }
 
                 // Récompenses
@@ -935,11 +954,11 @@
                         li.className = "list-group-item d-flex justify-content-between align-items-center";
 
                         li.innerHTML = `
-            <span>${tx.title}</span>
-            <span class="${tx.amount < 0 ? 'text-danger' : 'text-success'}">
-                ${tx.amount} €
-            </span>
-        `;
+                            <span>${tx.title}</span>
+                            <span class="${tx.amount < 0 ? 'text-danger' : 'text-success'}">
+                                ${tx.amount} €
+                            </span>
+                        `;
 
                         transactionsList.appendChild(li);
                     });
@@ -956,3 +975,4 @@
 </body>
 
 </html>
+

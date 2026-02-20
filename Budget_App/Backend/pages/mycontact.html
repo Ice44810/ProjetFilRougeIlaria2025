@@ -72,9 +72,16 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        let allRecipients = {
+            phone: [],
+            bank: []
+        };
+
         document.addEventListener('DOMContentLoaded', function() {
             const phoneContainer = document.getElementById('phone');
             const bankContainer = document.getElementById('bank');
+            const searchInput = document.getElementById('searchInput');
+            const clearSearchBtn = document.getElementById('clearSearch');
 
             fetch('/api/recipients')
                 .then(response => response.json())
@@ -88,37 +95,92 @@
                         return;
                     }
 
-                    recipients.forEach(recipient => {
-                        const recipientHtml = `
-                            <div class="contact-item d-flex align-items-center mb-3">
-                                <img src="../public/assets/images/profil.jpg" alt="${recipient.name}" class="img-fluid rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;" />
-                                <div>
-                                    <a href="./detailcontact.html?id=${recipient.id}">
-                                        <strong>${recipient.name}</strong><br />
-                                        <small class="text-muted">${recipient.identifier}</small>
-                                    </a>
-                                </div>
-                            </div>
-                        `;
+                    // Stocker les destinataires par type
+                    allRecipients.phone = recipients.filter(r => r.type === 'phone');
+                    allRecipients.bank = recipients.filter(r => r.type === 'bank');
 
-                        if (recipient.type === 'phone') {
-                            phoneContainer.innerHTML += recipientHtml;
-                        } else if (recipient.type === 'bank') {
-                            bankContainer.innerHTML += recipientHtml;
-                        }
-                    });
-                     if (phoneContainer.innerHTML === '') {
-                        phoneContainer.innerHTML = '<p class="text-center text-muted">Aucun contact téléphonique.</p>';
-                    }
-                    if (bankContainer.innerHTML === '') {
-                        bankContainer.innerHTML = '<p class="text-center text-muted">Aucun compte bancaire enregistré.</p>';
-                    }
+                    // Afficher tous les contacts initialement
+                    displayRecipients(allRecipients.phone, allRecipients.bank);
                 })
                 .catch(error => {
                     console.error('Erreur:', error);
                     phoneContainer.innerHTML = '<p class="text-center text-danger">Impossible de charger les contacts.</p>';
                     bankContainer.innerHTML = '<p class="text-center text-danger">Impossible de charger les contacts.</p>';
                 });
+
+            // Fonction pour afficher les contacts
+            function displayRecipients(phoneRecipients, bankRecipients) {
+                // Afficher les contacts téléphone
+                if (phoneRecipients.length === 0) {
+                    phoneContainer.innerHTML = '<p class="text-center text-muted">Aucun contact téléphonique.</p>';
+                } else {
+                    phoneContainer.innerHTML = phoneRecipients.map(recipient => `
+                        <div class="contact-item d-flex align-items-center mb-3">
+                            <img src="../public/assets/images/profil.jpg" alt="${recipient.name}" class="img-fluid rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;" />
+                            <div>
+                                <a href="./detailcontact.html?id=${recipient.id}">
+                                    <strong>${recipient.name}</strong><br />
+                                    <small class="text-muted">${recipient.identifier}</small>
+                                </a>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                // Afficher les contacts bancaire
+                if (bankRecipients.length === 0) {
+                    bankContainer.innerHTML = '<p class="text-center text-muted">Aucun compte bancaire enregistré.</p>';
+                } else {
+                    bankContainer.innerHTML = bankRecipients.map(recipient => `
+                        <div class="contact-item d-flex align-items-center mb-3">
+                            <img src="../public/assets/images/profil.jpg" alt="${recipient.name}" class="img-fluid rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;" />
+                            <div>
+                                <a href="./detailcontact.html?id=${recipient.id}">
+                                    <strong>${recipient.name}</strong><br />
+                                    <small class="text-muted">${recipient.identifier}</small>
+                                </a>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            // Fonction de recherche
+            function filterRecipients(searchTerm) {
+                const term = searchTerm.toLowerCase().trim();
+
+                if (term === '') {
+                    displayRecipients(allRecipients.phone, allRecipients.bank);
+                    return;
+                }
+
+                const filteredPhone = allRecipients.phone.filter(r =>
+                    r.name.toLowerCase().includes(term) ||
+                    r.identifier.toLowerCase().includes(term)
+                );
+
+                const filteredBank = allRecipients.bank.filter(r =>
+                    r.name.toLowerCase().includes(term) ||
+                    r.identifier.toLowerCase().includes(term)
+                );
+
+                displayRecipients(filteredPhone, filteredBank);
+            }
+
+            // Écouter l'input de recherche
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    filterRecipients(this.value);
+                });
+            }
+
+            // Bouton pour effacer la recherche
+            if (clearSearchBtn) {
+                clearSearchBtn.addEventListener('click', function() {
+                    searchInput.value = '';
+                    displayRecipients(allRecipients.phone, allRecipients.bank);
+                });
+            }
         });
     </script>
 </body>

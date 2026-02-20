@@ -1,291 +1,314 @@
-
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { parse } = require('querystring');
 const bcrypt = require('bcrypt');
 const cookie = require('cookie');
+
 const db = require('./utils/db');
+const router = require('./routes/router');
+const logger = require('./utils/logger');
+
 const handleTransactions = require('./routes/transactions');
 const handleUsers = require('./routes/users');
 const handleCategories = require('./routes/categories');
 const handleCards = require('./routes/cards');
 const handleRecipients = require('./routes/recipients');
+const handleStats = require('./routes/stats');
 
-const sessions = {}; // Stockage des sessions en mémoire
+const sessions = {};
+
+// ================= HELPER FUNCTIONS =================
+
+function sendJson(res, statusCode, data) {
+    res.writeHead(statusCode, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(data));
+}
+
+function setSecurityHeaders(res) {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+}
+
+function requireAuth(req, res, userSession) {
+    if (!userSession) {
+        sendJson(res, 401, { message: 'Non autorisé' });
+        return false;
+    }
+    return true;
+}
+
+// Nettoyage automatique sessions expirées
+setInterval(() => {
+    const now = Date.now();
+    for (const sessionId in sessions) {
+        if (sessions[sessionId].expires < now) {
+            delete sessions[sessionId];
+        }
+    }
+}, 1000 * 60 * 60);
+
+// ================= SERVER =================
 
 const server = http.createServer((req, res) => {
+
+    const startTime = Date.now();
     const requestUrl = req.url;
     const method = req.method;
+
     const cookies = cookie.parse(req.headers.cookie || '');
     const sessionId = cookies.sessionId;
     const userSession = sessions[sessionId];
 
-    // --- 1. FICHIERS STATIQUES ---
+    logger.info('Incoming request', { method, url: requestUrl });
+
+    // ================= STATIC FILES =================
+
     if (requestUrl.toLowerCase().startsWith('/public/')) {
         const relativePath = requestUrl.replace(/^\/[Pp]ublic\//, 'public/');
         const filePath = path.join(__dirname, relativePath);
 
         fs.readFile(filePath, (err, content) => {
+
             if (err) {
+                logger.error('Static file not found', { path: filePath });
                 res.writeHead(404);
-                res.end('Static file not found');
-                return;
+                return res.end('Static file not found');
             }
+
             const ext = path.extname(filePath).toLowerCase();
             const mimeTypes = {
-                '.css': 'text/css', '.js': 'application/javascript', '.png': 'image/png',
-                '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml',
-                 '.gif': 'image/gif', '.ico': 'image/x-icon'
+                '.css': 'text/css',
+                '.js': 'application/javascript',
+                '.png': 'image/png',
+                '.jpg': 'image/jpeg',
+                '.jpeg': 'image/jpeg',
+                '.svg': 'image/svg+xml',
+                '.gif': 'image/gif',
+                '.ico': 'image/x-icon'
             };
+
+            const duration = Date.now() - startTime;
+            
             res.writeHead(200, { 'Content-Type': mimeTypes[ext] || 'text/plain' });
             res.end(content);
+            logger.logRequest(method, requestUrl, 200, duration);
         });
+
         return;
     }
 
-    // --- 2. ROUTES D'ACTIONS (API) ---
-    // Inscription
+    // ================= REGISTER =================
+
     if (requestUrl === '/register' && method === 'POST') {
+
         let body = '';
-        req.on('data', chunk => { body += chunk.toString(); });
+
+        req.on('data', chunk => {
+            body += chunk.toString();
+            if (body.length > 1e6) req.connection.destroy();
+        });
+
         req.on('end', async () => {
+
             const { email, password } = parse(body);
+
             if (!email || !password) {
-                res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Email et mot de passe requis' }));
-                return;
+                return sendJson(res, 400, { message: 'Email et mot de passe requis' });
             }
 
-            try {
-                const hashedPassword = await bcrypt.hash(password, 10);
-                db.query('INSERT INTO users (email, password, role) VALUES (?, ?, ?)', [email, hashedPassword, 'user'], (err, result) => {
-                    if (err) {
-                        res.writeHead(500, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ message: 'Erreur lors de la création du compte' }));
-                        return;
-                    }
-                    res.writeHead(302, { 'Location': '/login.html?message=registration_success' });
-                    res.end();
-                });
-            } catch (error) {
-                res.writeHead(500, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ message: 'Erreur de hachage de mot de passe' }));
-            }
+            db.query('SELECT id FROM users WHERE email = ?', [email], async (err, results) => {
+
+                if (err) {
+                    logger.error('Register check failed', { error: err.message });
+                    return sendJson(res, 500, { message: 'Erreur serveur' });
+                }
+
+                if (results.length > 0) {
+                    return sendJson(res, 409, { message: 'Email déjà utilisé' });
+                }
+
+                try {
+                    const hashedPassword = await bcrypt.hash(password, 12);
+
+                    db.query(
+                        'INSERT INTO users (email, password, role) VALUES (?, ?, ?)',
+                        [email, hashedPassword, 'user'],
+                        (err, result) => {
+
+                            if (err) {
+                                logger.error('Registration failed', { error: err.message });
+                                return sendJson(res, 500, { message: 'Erreur création compte' });
+                            }
+
+                            logger.info('User registered', { userId: result.insertId });
+                            res.writeHead(302, { Location: '/login.html?message=registration_success' });
+                            res.end();
+                        }
+                    );
+
+                } catch (error) {
+                    logger.error('Hash error', { error: error.message });
+                    return sendJson(res, 500, { message: 'Erreur serveur' });
+                }
+            });
         });
+
         return;
     }
 
-    // Connexion
+    // ================= LOGIN =================
+
     if (requestUrl === '/login' && method === 'POST') {
+
         let body = '';
-        req.on('data', chunk => { body += chunk.toString(); });
+
+        req.on('data', chunk => {
+            body += chunk.toString();
+            if (body.length > 1e6) req.connection.destroy();
+        });
+
         req.on('end', () => {
+
             const { email, password } = parse(body);
-            db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
-                if (err || results.length === 0) {
-                    res.writeHead(302, { 'Location': '/login.html?error=invalid_credentials' });
-                    res.end();
-                    return;
-                }
-                const user = results[0];
-                const match = await bcrypt.compare(password, user.password);
-                if (match) {
-                    const newSessionId = Date.now().toString();
-                    sessions[newSessionId] = { userId: user.id, email: user.email, role: user.role };
-                    res.setHeader('Set-Cookie', cookie.serialize('sessionId', newSessionId, { httpOnly: true, maxAge: 60 * 60 * 24 * 7, path: '/' }));
-                    res.writeHead(302, { 'Location': '/index.html' });
-                    res.end();
-                } else {
-                    res.writeHead(302, { 'Location': '/login.html?error=invalid_credentials' });
-                    res.end();
-                }
-            });
-        });
-        return;
-    }
-    
-    // Déconnexion
-    if (requestUrl === '/logout') {
-        if (sessionId) delete sessions[sessionId];
-        res.setHeader('Set-Cookie', cookie.serialize('sessionId', '', { httpOnly: true, expires: new Date(0), path: '/' }));
-        res.writeHead(302, { 'Location': '/login.html' });
-        res.end();
-        return;
-    }
 
-    // Password reset (public endpoint)
-    if (requestUrl === '/api/reset-password' && method === 'POST') {
-        const usersController = require('./controllers/usersController');
-        usersController.resetPassword(req, res);
-        return;
-    }
-
-    // --- 3. GESTION DES ROUTES API ---
-    if (requestUrl.startsWith('/api/')) {
-        // Pour les routes API, on vérifie la session en premier
-        if (!userSession) {
-            res.writeHead(401, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ message: 'Non autorisé' }));
-            return;
-        }
-
-        // Route API pour les données de la page d'accueil
-        if (requestUrl === '/api/home' && method === 'GET') {
-            // Compute balance from transactions
-            db.query('SELECT SUM(CASE WHEN type="income" THEN amount ELSE -amount END) as balance FROM transactions WHERE user_id = ?',
-                [userSession.userId], (err, balanceResult) => {
-                if (err) {
-                    res.writeHead(500, { 'Content-Type': 'application/json' });
-                    return res.end(JSON.stringify({ message: 'Erreur serveur' }));
-                }
-                const balance = balanceResult[0].balance || 0;
-
-                // Get last 5 transactions
-                db.query('SELECT id, title, amount, type, created_at FROM transactions WHERE user_id = ? ORDER BY created_at DESC LIMIT 5',
-                    [userSession.userId], (err, transactions) => {
-                    if (err) {
-                        res.writeHead(500, { 'Content-Type': 'application/json' });
-                        return res.end(JSON.stringify({ message: 'Erreur serveur' }));
-                    }
-
-                    // Static rewards for now, can be made dynamic later
-                    const rewards = 50;
-
-                    const responseData = {
-                        balance: balance.toFixed(2),
-                        currency: '€',
-                        rewards: rewards,
-                        lastTransactions: transactions.map(tx => ({
-                            title: tx.title,
-                            amount: tx.type === 'income' ? parseFloat(tx.amount) : -parseFloat(tx.amount)
-                        }))
-                    };
-
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify(responseData));
-                });
-            });
-            return;
-        }
-
-        // Transactions
-        if (requestUrl.startsWith('/api/transactions')) {
-            handleTransactions(req, res, userSession);
-            return;
-        }
-
-        // Users (profile management)
-        if (requestUrl.startsWith('/api/users')) {
-            handleUsers(req, res, userSession);
-            return;
-        }
-
-        // Categories
-        if (requestUrl.startsWith('/api/categories')) {
-            handleCategories(req, res, userSession);
-            return;
-        }
-
-        // Cards
-        if (requestUrl.startsWith('/api/cards')) {
-            handleCards(req, res, userSession);
-            return;
-        }
-
-        // Recipients
-        if (requestUrl.startsWith('/api/recipients')) {
-            handleRecipients(req, res, userSession);
-            return;
-        }
-
-        // Stats for visualization
-        if (requestUrl === '/api/stats' && method === 'GET') {
-            db.query(`
-                SELECT c.name as category, SUM(t.amount) as total, t.type
-                FROM transactions t
-                LEFT JOIN categories c ON t.category_id = c.id
-                WHERE t.user_id = ?
-                GROUP BY c.name, t.type
-            `, [userSession.userId], (err, results) => {
-                if (err) {
-                    res.writeHead(500, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ message: 'Erreur serveur' }));
-                    return;
-                }
-                // Monthly evolution
-                db.query(`
-                    SELECT DATE_FORMAT(created_at, '%Y-%m') as month, SUM(CASE WHEN type='income' THEN amount ELSE 0 END) as income, SUM(CASE WHEN type='expense' THEN amount ELSE 0 END) as expense
-                    FROM transactions
-                    WHERE user_id = ?
-                    GROUP BY month
-                    ORDER BY month
-                `, [userSession.userId], (err, monthly) => {
-                    if (err) {
-                        res.writeHead(500, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ message: 'Erreur serveur' }));
-                        return;
-                    }
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end(JSON.stringify({ categoryTotals: results, monthlyEvolution: monthly }));
-                });
-            });
-            return;
-        }
-
-        // Si aucune autre route API ne correspond, renvoyer une 404
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'Endpoint API non trouvé' }));
-        return;
-    }
-
-    // --- 4. SERVIR LES PAGES HTML ---
-    const cleanPath = requestUrl.split('?')[0];
-    
-    // Pages publiques (accessibles sans connexion)
-    const publicPages = ['/login.html', '/inscription.html', '/resetpassword.html'];
-    if (publicPages.includes(cleanPath)) {
-        const pageName = cleanPath.substring(1);
-        const filePath = path.join(__dirname, 'pages', pageName);
-        fs.readFile(filePath, (err, data) => {
-            if (err) {
-                res.writeHead(404);
-                res.end('Not Found');
-            } else {
-                res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-                res.end(data);
+            if (!email || !password) {
+                return sendJson(res, 400, { message: 'Email et mot de passe requis' });
             }
+
+            db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+
+                if (err) {
+                    logger.error('Login query failed', { error: err.message });
+                    return sendJson(res, 500, { message: 'Erreur serveur' });
+                }
+
+                if (!results.length) {
+                    return sendJson(res, 401, { message: 'Identifiants invalides' });
+                }
+
+                const user = results[0];
+                
+                let match = false;
+                try {
+                    match = await bcrypt.compare(password, user.password);
+                } catch (bcryptError) {
+                    logger.error('Bcrypt compare error', { error: bcryptError.message });
+                    return sendJson(res, 500, { message: 'Erreur serveur' });
+                }
+
+                if (!match) {
+                    return sendJson(res, 401, { message: 'Identifiants invalides' });
+                }
+
+                const newSessionId = crypto.randomBytes(32).toString('hex');
+
+                sessions[newSessionId] = {
+                    userId: user.id,
+                    email: user.email,
+                    role: user.role,
+                    expires: Date.now() + (1000 * 60 * 60 * 24 * 7)
+                };
+
+                res.setHeader('Set-Cookie',
+                    cookie.serialize('sessionId', newSessionId, {
+                        httpOnly: true,
+                        secure: process.env.NODE_ENV === 'production',
+                        sameSite: 'strict',
+                        maxAge: 60 * 60 * 24 * 7,
+                        path: '/'
+                    })
+                );
+
+                res.writeHead(302, { Location: '/index.html' });
+                res.end();
+            });
         });
+
         return;
     }
 
-    // Protection pour les pages HTML : si pas de session, redirection
-    if (!userSession) {
-        res.writeHead(302, { 'Location': '/login.html' });
+    // ================= LOGOUT =================
+
+    if (requestUrl === '/logout') {
+
+        if (sessionId) delete sessions[sessionId];
+
+        res.setHeader('Set-Cookie',
+            cookie.serialize('sessionId', '', {
+                httpOnly: true,
+                expires: new Date(0),
+                path: '/'
+            })
+        );
+
+        res.writeHead(302, { Location: '/login.html' });
         res.end();
         return;
     }
-    
-    // Pages protégées (nécessitent une connexion)
-    let pageName = cleanPath === '/' ? 'index.html' : cleanPath.substring(1);
-     if (!pageName.endsWith('.html')) {
-        pageName += '.html';
-    }
-    
-    const htmlFilePath = path.join(__dirname, 'pages', pageName);
 
-    fs.readFile(htmlFilePath, (err, data) => {
+    // ================= API =================
+
+    if (requestUrl.startsWith('/api/')) {
+
+        if (!requireAuth(req, res, userSession)) return;
+
+        if (requestUrl.startsWith('/api/transactions'))
+            return handleTransactions(req, res, userSession);
+
+        if (requestUrl.startsWith('/api/users'))
+            return handleUsers(req, res, userSession);
+
+        if (requestUrl.startsWith('/api/categories'))
+            return handleCategories(req, res, userSession);
+
+        if (requestUrl.startsWith('/api/cards'))
+            return handleCards(req, res, userSession);
+
+        if (requestUrl.startsWith('/api/recipients'))
+            return handleRecipients(req, res, userSession);
+
+        if (requestUrl.startsWith('/api/stats') || requestUrl.startsWith('/api/balance') || requestUrl.startsWith('/api/home') || requestUrl.startsWith('/api/topup'))
+            return handleStats(req, res, userSession);
+
+        return router(req, res);
+    }
+
+    // ================= HTML PAGES =================
+
+    const cleanPath = requestUrl.split('?')[0];
+    const publicPages = ['/login.html', '/inscription.html', '/resetpassword.html'];
+
+    if (!publicPages.includes(cleanPath) && !userSession) {
+        res.writeHead(302, { Location: '/login.html' });
+        return res.end();
+    }
+
+    let pageName = cleanPath === '/' ? 'index.html' : cleanPath.substring(1);
+    if (!pageName.endsWith('.html')) pageName += '.html';
+
+    const filePath = path.join(__dirname, 'pages', pageName);
+
+    fs.readFile(filePath, (err, data) => {
+
         if (err) {
-            console.error("Fichier non trouvé :", htmlFilePath);
-            res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-            res.end('<h1>404 - Page introuvable</h1>');
-        } else {
-            res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-            res.end(data);
+            res.writeHead(404);
+            return res.end('<h1>404 - Page introuvable</h1>');
         }
+
+        setSecurityHeaders(res);
+        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end(data);
     });
 });
 
+// ================= START SERVER =================
+
 server.listen(3000, () => {
-    console.log('Serveur lancé sur http://localhost:3000');
+    logger.info('========================================');
+    logger.info('Budget_App Server Started');
+    logger.info('Server running on http://localhost:3000');
+    logger.info('========================================');
 });

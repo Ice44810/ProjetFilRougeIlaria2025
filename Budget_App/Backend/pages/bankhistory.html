@@ -9,7 +9,8 @@
         crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../public/assets/style.css" />
-
+    <script src="/public/js/api.js"></script>
+    <script src="/public/js/charts.js"></script>
 </head>
 
 <body>
@@ -19,7 +20,6 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
-                    <li class="breadcrumb-item"><a href="./bill.html">Transactions</a></li>
                     <li class="breadcrumb-item active" aria-current="page">
                         <span class="bi bi-graph-up text-success" style="font-size: 15px;"></span>
                         Historique Bancaire
@@ -32,6 +32,38 @@
             </a>
         </div>
 
+        <!-- Filtres rapides -->
+        <div class="card p-3 rounded-4 border shadow-sm mb-3">
+            <div class="row g-2">
+                <div class="col-6 col-md-3">
+                    <select class="form-select" id="filterType">
+                        <option value="">Tous les types</option>
+                        <option value="income">Revenus</option>
+                        <option value="expense">Dépenses</option>
+                    </select>
+                </div>
+                <div class="col-6 col-md-3">
+                    <select class="form-select" id="filterCategory">
+                        <option value="">Toutes catégories</option>
+                    </select>
+                </div>
+                <div class="col-6 col-md-3">
+                    <select class="form-select" id="filterPeriod">
+                        <option value="">Toutes périodes</option>
+                        <option value="today">Aujourd'hui</option>
+                        <option value="week">Cette semaine</option>
+                        <option value="month">Ce mois</option>
+                        <option value="year">Cette année</option>
+                    </select>
+                </div>
+                <div class="col-6 col-md-3">
+                    <button class="btn btn-primary w-100" onclick="applyFilters()">
+                        <i class="bi bi-funnel"></i> Filtrer
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="row g-3 mb-2">
             <div class="col-6">
                 <div class="card card-stats p-3">
@@ -41,7 +73,7 @@
                         </div>
                         <div>
                             <div class="text-muted small text-center">Entrées</div>
-                            <div class="fw-bold text-success text-center">€778.35</div>
+                            <div class="fw-bold text-success text-center" id="totalIncome">€0.00</div>
                         </div>
                     </div>
                 </div>
@@ -54,19 +86,25 @@
                         </div>
                         <div>
                             <div class="text-muted small">Sorties</div>
-                            <div class="fw-bold text-danger">€878.35</div>
+                            <div class="fw-bold text-danger" id="totalExpense">€0.00</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Tableau -->
+        
+        <!-- Graphique interactif -->
+        <div class="card p-3 rounded-4 border shadow-sm mb-4">
+            <h6 class="fw-semibold mb-3">Répartition des transactions</h6>
+            <canvas id="transactionsChart" height="200"></canvas>
+        </div>
+
+        <!-- Tableau avec onglets périodes -->
         <ul class="nav nav-tabs nav-fill mb-3 d-flex justify-content-center mb-2 mt-2 shadow-sm" id="historyTabs"
             role="tablist">
             <li class="nav-item bg-primary-subtle rounded-3 me-2">
                 <button class="nav-link active" id="7days-tab" data-bs-toggle="tab" data-bs-target="#7days"
                     type="button" role="tab" aria-controls="7days" aria-selected="true">
-                    <!-- aria pour une meilleure accessibilité -->
                     7 derniers jours </button>
             </li>
             <li class="nav-item bg-primary-subtle rounded-3 me-2">
@@ -75,318 +113,320 @@
             </li>
             <li class="nav-item bg-primary-subtle rounded-3">
                 <button class="nav-link" id="custom-tab" data-bs-toggle="tab" data-bs-target="#custom" type="button"
-                    role="tab" aria-controls="custom" aria-selected="false">Personnaliser </button>
+                    role="tab" aria-controls="custom" aria-selected="false">Tout </button>
             </li>
         </ul>
-        <div class="tab-content px-3" id="historyTabsContent">
-            <!-- Tableau téléphone -->
-            <div class="tab-pane fade show active" id="7days" role="tabpanel">
-                <div class="mb-3 px-2 p-3">
-                    <div class="chart-container d-flex">
-                        <div class="y-axis fs-6 small d-flex flex-column justify-content-between"
-                            style="width: 50px; min-width: 50px; min-height: 230px; max-height: 230px; padding-bottom: 30px;">
-                            <span>400</span>
-                            <span>200</span>
-                            <span>0</span>
-                            <span>-200</span>
-                            <span>-400</span>
-                        </div>
-                        <div class="chart-content flex-grow-1 position-relative">
-                            <div class="grid-lines position-absolute w-100 h-100">
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                            </div>
-                            <div class="d-flex justify-content-around align-items-center position-relative gap-4"
-                                style="height: 230px;">
-                                <div class="bar up bg-success" style="height: 80px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 80px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 110px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 60px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 90px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 70px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 40px; width: 30px;"></div>
-                            </div>
-                        </div>
+        
+        <!-- Liste des transactions -->
+        <div class="card p-3 rounded-4 border shadow-sm mb-4">
+            <div id="transactionsList">
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Chargement...</span>
                     </div>
-                    <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;">
-                        <span>29-06</span>
-                        <span>05-07</span>
-                    </div>
+                    <p class="mt-2 text-muted">Chargement des transactions...</p>
                 </div>
-            </div>
-            <div class="tab-pane fade" id="30days" role="tabpanel">
-                <div class="mb-3 px-2 p-3">
-                    <div class="chart-container d-flex">
-                        <div class="y-axis fs-6 small d-flex flex-column justify-content-between"
-                            style="width: 50px; min-width: 50px; min-height: 230px; max-height: 230px; padding-bottom: 30px;">
-                            <span>400</span>
-                            <span>200</span>
-                            <span>0</span>
-                            <span>-200</span>
-                            <span>-400</span>
-                        </div>
-                        <div class="chart-content flex-grow-1 position-relative">
-                            <div class="grid-lines position-absolute w-100 h-100">
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                            </div>
-                            <div class="d-flex justify-content-around align-items-center position-relative gap-4"
-                                style="height: 230px;">
-                                <div class="bar up bg-success" style="height: 80px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 80px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 110px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 60px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 90px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 70px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 40px; width: 30px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;">
-                        <span>29-06</span>
-                        <span>05-07</span>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="custom" role="tabpanel">
-                <div class="mb-3 px-2 p-3">
-                    <div class="chart-container d-flex">
-                        <div class="y-axis fs-6 small d-flex flex-column justify-content-between"
-                            style="width: 50px; min-width: 50px; min-height: 230px; max-height: 230px; padding-bottom: 30px;">
-                            <span>400</span>
-                            <span>200</span>
-                            <span>0</span>
-                            <span>-200</span>
-                            <span>-400</span>
-                        </div>
-                        <div class="chart-content flex-grow-1 position-relative">
-                            <div class="grid-lines position-absolute w-100 h-100">
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                                <div class="line border-bottom" style="height: 25%;"></div>
-                            </div>
-                            <div class="d-flex justify-content-around align-items-center position-relative gap-4"
-                                style="height: 230px;">
-                                <div class="bar up bg-success" style="height: 80px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 80px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 110px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 60px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 90px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 70px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 40px; width: 30px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;">
-                        <span>29-06</span>
-                        <span>05-07</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid mb-3">
-            <h6 class="mb-3">Novembre</h6>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-lightning-charge-fill text-primary"></i></div>
-                    <div><a href="./electricity.html">
-                            <div class="fw-bold">Facture électricité</div>
-                        </a>
-                        <div class="text-muted small">aujourd'hui 10:27</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €307</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center"><img src="../public/assets/images/esther.jpg" class="avatar me-3"
-                        alt="Esther">
-                    <div><a href="./bankhistory.html">
-                            <div class="fw-bold">Esther</div>
-                        </a>
-                        <div class="text-muted small">aujourd'hui 7:30</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-success">+€50</div>
-            </div>
-        </div>
-        <div class="container-fluid mb-3 mt-2">
-            <h6 class="mb-3">Octobre</h6>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-phone text-primary-emphasis"></i>
-                    </div>
-                    <div><a href="./mobile.html">
-                            <div class="fw-bold">Mobile</div>
-                        </a>
-                        <div class="text-muted small">Hier 17:27</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €25</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-wifi text-primary fw-bold fs-4"></i></div>
-                    <div><a href="./internet.html">
-                            <div class="fw-bold">Wifi</div>
-                        </a>
-                        <div class="text-muted small">Hier 13:27</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €25</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-droplet-fill text-primary"></i>
-                    </div>
-                    <div><a href="./waterbill.html">
-                            <div class="fw-bold">Eau</div>
-                        </a>
-                        <div class="text-muted small">Hier 10:27</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €10</div>
-            </div>
-        </div>
-
-        <div class="container-fluid mb-5 mt-2">
-            <h6 class=" mb-3">Septembre</h6>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-steam text-primary"></i></div>
-                    <div>
-                        <div class="fw-bold">Steam</div>
-                        <div class="text-muted small">20/11/2026 17:27</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €25</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-google-play text-primary"></i>
-                    </div>
-                    <div>
-                        <div class="fw-bold">App Store</div>
-                        <div class="text-muted small">20/11/2026 13:27 AM</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €32</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center"><img src="../public/assets/images/Leslie.jpg" class="avatar me-3"
-                        alt="Esther">
-                    <div>
-                        <div class="fw-bold">Leslie</div>
-                        <div class="text-muted small">Aujourd'hui 7:30</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-success">+€10</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center"><img src="../public/assets/images/Leslie.jpg" class="avatar me-3"
-                        alt="Esther">
-                    <div>
-                        <div class="fw-bold">Leslie</div>
-                        <div class="text-muted small">Aujourd'hui 7:30</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-success">+€10</div>
             </div>
         </div>
     </div>
-    <!-- Modal Filtre -->
+    
+    <!-- Modal Filtre (Offcanvas) -->
     <div class="offcanvas offcanvas-start border-0" tabindex="-1" id="offcanvasFilter"
         aria-labelledby="offcanvasFilterLabel" style="width: 65%;">
-        <div class="offcanvas-header border-bottom"><button type="button" class="btn border-0 p-0"
-                data-bs-dismiss="offcanvas" aria-label="Close"><i class="bi bi-chevron-left fs-6"></i></button>
+        <div class="offcanvas-header border-bottom">
+            <button type="button" class="btn border-0 p-0" data-bs-dismiss="offcanvas" aria-label="Close">
+                <i class="bi bi-chevron-left fs-6"></i>
+            </button>
             <h6 class="offcanvas-title fw-bold m-auto" id="offcanvasFilterLabel">Filtre</h6>
             <div style="width: 24px;"></div>
         </div>
         <div class="offcanvas-body p-4">
-            <p class="fw-bold mb-3">Mensuel</p>
+            <p class="fw-bold mb-3">Type</p>
             <div class="row g-2 mb-4">
-                <div class="col-4"><button class="btn btn-filter active w-100">Tout</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Jan</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Fev</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Mar</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Avr</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Mai</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Jun</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Juil</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Aou</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Sep</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Oct</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Nov</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Dec</button></div>
-                <p class="fw-bold mb-3">Statut</p>
-                <div class="row g-2 mb-5">
-                    <div class="col-6"><button class="btn btn-filter active w-100">Tout</button></div>
-                    <div class="col-6"><button class="btn btn-filter w-100">Réussi</button></div>
-                    <div class="col-6"><button class="btn btn-filter w-100">En cours</button></div>
-                    <div class="col-6"><button class="btn btn-filter w-100">Échoué</button></div>
+                <div class="col-6">
+                    <button class="btn btn-filter w-100 active" data-filter="type" data-value="">Tout</button>
                 </div>
-                <div class="mt-auto pt-4"><a href="./bankhistory.html"><button
-                            class="btn btn-primary py-2 w-100">Appliquer</button></a></div>
+                <div class="col-6">
+                    <button class="btn btn-filter w-100" data-filter="type" data-value="income">Revenus</button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-filter w-100" data-filter="type" data-value="expense">Dépenses</button>
+                </div>
+            </div>
+            <p class="fw-bold mb-3">Période</p>
+            <div class="row g-2 mb-4">
+                <div class="col-4"><button class="btn btn-filter w-100" data-filter="period" data-value="">Tout</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100 active" data-filter="period" data-value="today">Aujourd'hui</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-filter="period" data-value="week">Semaine</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-filter="period" data-value="month">Mois</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-filter="period" data-value="year">Année</button></div>
+            </div>
+            <div class="mt-auto pt-4">
+                <button class="btn btn-primary py-2 w-100" onclick="applyOffcanvasFilters()">Appliquer</button>
             </div>
         </div>
-        <!-- Fin Modal Filtre -->
-        <!-- FOOTER -->
-        <footer class="footer py-2">
-            <div class="d-flex justify-content-around align-items-center">
-                <a href="./index.html" class="active-link">
-                    <i class="bi bi-house-door-fill">
-                    </i><span>Accueil</span></a><a href="./bankhistory.html" class="footer-link"><i
-                        class="bi bi-clock-history"></i><span>Historique</span></a><a href="./myqr.html"
-                    class="footer-link"><i class="bi bi-qr-code-scan"></i><span>QR</span></a><a href="./rewards.html"
-                    class="footer-link"><i class="bi bi-gift"></i><span>Récompenses</span></a><a href="./profile.html"
-                    class="footer-link"><i class="bi bi-person"></i><span>Profil</span></a>
-            </div>
-        </footer>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script>document.addEventListener('DOMContentLoaded', function () {
+    </div>
 
-                // Gestion des boutons de filtre dans l'Offcanvas
-                // Permet de changer l'état actif visuel quand on clique sur un mois ou un statut
-                const filterButtons = document.querySelectorAll('.btn-filter');
+    <!-- FOOTER -->
+    <footer class="footer py-2">
+        <div class="d-flex justify-content-around align-items-center">
+            <a href="./index.html" class="footer-link">
+                <i class="bi bi-house-door-fill"></i>
+                <span>Accueil</span>
+            </a>
+            <a href="./bankhistory.html" class="active-link">
+                <i class="bi bi-clock-history"></i>
+                <span>Historique</span>
+            </a>
+            <a href="./myqr.html" class="footer-link">
+                <i class="bi bi-qr-code-scan"></i>
+                <span>QR</span>
+            </a>
+            <a href="./rewards.html" class="footer-link">
+                <i class="bi bi-gift"></i>
+                <span>Récompenses</span>
+            </a>
+            <a href="./Profile.html" class="footer-link">
+                <i class="bi bi-person"></i>
+                <span>Profil</span>
+            </a>
+        </div>
+    </footer>
 
-                filterButtons.forEach(btn => {
-                    btn.addEventListener('click', function () {
-                        // Trouve le parent (le groupe de boutons) pour ne désactiver que les frères
-                        const parent = this.closest('.row');
-                        parent.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        let transactionsChart = null;
+        
+        // État des filtres
+        let currentFilters = {
+            type: '',
+            category: '',
+            period: 'today'
+        };
 
-                        // Active le bouton cliqué
-                        this.classList.add('active');
-                    }
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadCategories();
+            await loadTransactions();
+            await loadStats();
+            setupFilterButtons();
+        });
 
-                    );
+        // Charger les catégories
+        async function loadCategories() {
+            try {
+                const categories = await api.getCategories();
+                const filterCategory = document.getElementById('filterCategory');
+                
+                categories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat.id;
+                    option.textContent = cat.name;
+                    filterCategory.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Erreur chargement catégories:', error);
+            }
+        }
+
+        // Charger les transactions
+        async function loadTransactions() {
+            const filters = {
+                type: currentFilters.type || undefined,
+                categoryId: currentFilters.category || undefined,
+                period: currentFilters.period || undefined
+            };
+
+            try {
+                const transactions = await api.getTransactions(filters);
+                const container = document.getElementById('transactionsList');
+                
+                if (!transactions || transactions.length === 0) {
+                    container.innerHTML = '<p class="text-muted text-center py-4">Aucune transaction trouvée</p>';
+                    return;
                 }
 
-                );
-
-                // Logique du bouton "Appliquer" du filtre
-                const applyFilterBtn = document.querySelector('#offcanvasFilter .btn-primary-custom');
-
-                if (applyFilterBtn) {
-                    applyFilterBtn.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        console.log("Filtres appliqués !");
-                        // Ferme l'offcanvas (si ce n'est pas géré par le lien href)
-                        const offcanvasElement = document.getElementById('offcanvasFilter');
-                        const modal = bootstrap.Offcanvas.getInstance(offcanvasElement);
-                        if (modal) modal.hide();
+                // Grouper par mois
+                const grouped = {};
+                transactions.forEach(tx => {
+                    const date = new Date(tx.created_at);
+                    const monthYear = date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+                    if (!grouped[monthYear]) {
+                        grouped[monthYear] = [];
                     }
+                    grouped[monthYear].push(tx);
+                });
 
-                    );
+                let html = '';
+                for (const [month, txs] of Object.entries(grouped)) {
+                    html += `<h4 class="text-secondary fw-semibold mb-3 fs-6 mt-3">${month}</h4>`;
+                    txs.forEach(tx => {
+                        const iconClass = tx.type === 'income' ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger';
+                        const arrowIcon = tx.type === 'income' ? 'arrow-down' : 'arrow-up';
+                        const amountPrefix = tx.type === 'income' ? '+' : '-';
+                        
+                        html += `
+                            <div class="d-flex align-items-center justify-content-between mb-3 pb-3 border-bottom">
+                                <div class="d-flex align-items-center">
+                                    <div class="transaction-icon me-3">
+                                        <div class="${iconClass} p-2 rounded-circle">
+                                            <i class="bi bi-${arrowIcon}"></i>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold">${tx.title}</div>
+                                        <div class="text-muted small">${tx.category_name || 'Sans catégorie'} • ${formatDate(tx.created_at)}</div>
+                                    </div>
+                                </div>
+                                <div class="fw-bold ${tx.type === 'income' ? 'text-success' : 'text-danger'}">
+                                    ${amountPrefix}${parseFloat(tx.amount).toFixed(2)} €
+                                </div>
+                            </div>
+                        `;
+                    });
                 }
+
+                container.innerHTML = html;
+                
+                // Mettre à jour le graphique
+                updateChart(transactions);
+            } catch (error) {
+                console.error('Erreur chargement transactions:', error);
+                document.getElementById('transactionsList').innerHTML = '<p class="text-danger text-center py-4">Erreur de chargement</p>';
+            }
+        }
+
+        // Charger les statistiques
+        async function loadStats() {
+            try {
+                const stats = await api.getStats();
+                
+                document.getElementById('totalIncome').textContent = formatCurrency(stats.totalIncome || 0);
+                document.getElementById('totalExpense').textContent = formatCurrency(stats.totalExpense || 0);
+            } catch (error) {
+                console.error('Erreur chargement stats:', error);
+            }
+        }
+
+        // Mettre à jour le graphique
+        function updateChart(transactions) {
+            const ctx = document.getElementById('transactionsChart').getContext('2d');
+            
+            // Grouper les dépenses par catégorie
+            const categoryTotals = {};
+            transactions.forEach(tx => {
+                if (tx.type === 'expense') {
+                    const category = tx.category_name || 'Autre';
+                    categoryTotals[category] = (categoryTotals[category] || 0) + parseFloat(tx.amount);
+                }
+            });
+
+            const labels = Object.keys(categoryTotals);
+            const data = Object.values(categoryTotals);
+            
+            // Couleurs pour le graphique
+            const colors = [
+                '#5e35b1', '#43a047', '#e53935', '#fb8c00', 
+                '#1e88e5', '#8e24aa', '#00acc1', '#f4511e'
+            ];
+
+            if (transactionsChart) {
+                transactionsChart.destroy();
             }
 
-            );
-        </script>
+            transactionsChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels.length > 0 ? labels : ['Aucune donnée'],
+                    datasets: [{
+                        data: data.length > 0 ? data : [1],
+                        backgroundColor: labels.length > 0 ? colors.slice(0, labels.length) : ['#e0e0e0'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Appliquer les filtres depuis les selects
+        function applyFilters() {
+            currentFilters.type = document.getElementById('filterType').value;
+            currentFilters.category = document.getElementById('filterCategory').value;
+            currentFilters.period = document.getElementById('filterPeriod').value;
+            
+            loadTransactions();
+            loadStats();
+        }
+
+        // Appliquer les filtres depuis l'offcanvas
+        function applyOffcanvasFilters() {
+            const activeTypeBtn = document.querySelector('[data-filter="type"].active');
+            const activePeriodBtn = document.querySelector('[data-filter="period"].active');
+            
+            if (activeTypeBtn) {
+                currentFilters.type = activeTypeBtn.dataset.value;
+                document.getElementById('filterType').value = currentFilters.type;
+            }
+            
+            if (activePeriodBtn) {
+                currentFilters.period = activePeriodBtn.dataset.value;
+                document.getElementById('filterPeriod').value = currentFilters.period;
+            }
+            
+            // Fermer l'offcanvas
+            const offcanvasElement = document.getElementById('offcanvasFilter');
+            const modal = bootstrap.Offcanvas.getInstance(offcanvasElement);
+            if (modal) modal.hide();
+            
+            loadTransactions();
+            loadStats();
+        }
+
+        // Configurer les boutons de filtre
+        function setupFilterButtons() {
+            const filterButtons = document.querySelectorAll('.btn-filter');
+            
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const filterType = this.dataset.filter;
+                    const value = this.dataset.value;
+                    
+                    // Trouve le parent (le groupe de boutons) pour ne désactiver que les frères
+                    const parent = this.closest('.row');
+                    parent.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+                    
+                    // Active le bouton cliqué
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        // Formatage
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(amount);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR', { 
+                day: 'numeric', 
+                month: 'short', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+    </script>
 </body>
 
 </html>
+

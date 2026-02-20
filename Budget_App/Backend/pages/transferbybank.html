@@ -158,7 +158,7 @@
     </div>
 
     <div class="d-flex justify-content-end mt-3" id="btnOpenContinue">
-        <button class="btn custom-primary-btn mx-5" type="button">Continuer</button>
+        <button class="btn custom-primary-btn mx-5" type="button" id="btnContinue">Continuer</button>
         </a>
     </div>
 
@@ -188,6 +188,44 @@
                     console.log("Banque sélectionnée :", value);
                 });
             });
+
+            // Gestion du bouton Continuer
+            const btnContinue = document.getElementById('btnContinue');
+            if (btnContinue) {
+                btnContinue.addEventListener('click', function() {
+                    // Récupérer les valeurs du formulaire
+                    const amount = document.getElementById('amountInput').value.replace('€', '').trim();
+                    const message = document.getElementById('messageInput').value;
+                    const bankName = document.getElementById('selectedBankValue') ? 
+                        document.getElementById('selectedBankValue').value : '';
+                    const accountNumber = document.querySelector('input[type="text"][class*="form-control"]').value;
+                    const accountName = document.querySelectorAll('input[type="text"][class*="form-control"]')[1].value;
+                    
+                    // Valider le montant
+                    if (!amount || amount === '0') {
+                        alert('Veuillez entrer un montant');
+                        return;
+                    }
+
+                    // Stocker les données dans sessionStorage
+                    const transferData = {
+                        type: 'bank_transfer',
+                        amount: amount,
+                        message: message,
+                        bankName: bankName,
+                        recipientName: accountName,
+                        recipientIdentifier: accountNumber,
+                        fromMethod: 'wallet',
+                        timestamp: new Date().toISOString()
+                    };
+
+                    sessionStorage.setItem('transferData', JSON.stringify(transferData));
+                    console.log('Bank transfer data stored:', transferData);
+
+                    // Naviguer vers paymentsource
+                    window.location.href = './paymentsource.html';
+                });
+            }
         });
 
         // Script pour la selection du montant

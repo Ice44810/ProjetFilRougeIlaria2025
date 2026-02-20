@@ -80,6 +80,92 @@
     </div>
 
     <script>
+        // Stocker les données de paiement et naviguer vers transferconfirm
+        document.addEventListener("DOMContentLoaded", function() {
+            // Récupérer les données de transfert depuis sessionStorage
+            const transferDataStr = sessionStorage.getItem('transferData');
+            const billDataStr = sessionStorage.getItem('billData');
+            
+            let transferData = null;
+            let billData = null;
+            
+            if (transferDataStr) {
+                transferData = JSON.parse(transferDataStr);
+            }
+            
+            if (billDataStr) {
+                billData = JSON.parse(billDataStr);
+            }
+            
+            // Déterminer quelles données afficher
+            const data = transferData || billData;
+            const isBill = !!billData;
+            
+            if (data) {
+                // Mettre à jour le montant affiché
+                const amountSpan = document.querySelector('.amount');
+                if (amountSpan) {
+                    amountSpan.textContent = data.amount;
+                }
+                
+                // Mettre à jour le libellé
+                const transferCard = document.querySelector('.transfer-card');
+                if (transferCard) {
+                    const descElement = transferCard.querySelector('.text-muted');
+                    if (descElement) {
+                        if (isBill) {
+                            descElement.textContent = 'Paiement facture - ' + (billData.billType || 'Facture');
+                        } else {
+                            descElement.textContent = 'Montant transfert';
+                        }
+                    }
+                }
+                
+                console.log('Payment data loaded:', data);
+            }
+
+            // Gestion du bouton confirmer
+            const confirmBtn = document.querySelector('.confirm-btn');
+            
+            if (confirmBtn) {
+                confirmBtn.addEventListener('click', function(e) {
+                    // Récupérer la méthode de paiement sélectionnée
+                    const selectedPayment = document.querySelector('.clickable-payment.active');
+                    let paymentMethod = 'wallet';
+                    
+                    if (selectedPayment) {
+                        const methodText = selectedPayment.querySelector('strong');
+                        if (methodText) {
+                            const text = methodText.textContent.toLowerCase();
+                            if (text.includes('visa')) {
+                                paymentMethod = 'card';
+                            } else if (text.includes('alipay') || text.includes('wallet')) {
+                                paymentMethod = 'wallet';
+                            }
+                        }
+                    }
+                    
+                    // Mettre à jour les données avec la méthode de paiement
+                    if (transferData) {
+                        transferData.fromMethod = paymentMethod;
+                        transferData.timestamp = new Date().toISOString();
+                        sessionStorage.setItem('transferData', JSON.stringify(transferData));
+                    }
+                    
+                    if (billData) {
+                        billData.fromMethod = paymentMethod;
+                        billData.timestamp = new Date().toISOString();
+                        sessionStorage.setItem('billData', JSON.stringify(billData));
+                    }
+                    
+                    console.log('Payment method:', paymentMethod);
+                    
+                    // Naviguer vers transferconfirm
+                    window.location.href = './transferconfirm.html';
+                });
+            }
+        });
+
         function selectPayment(element) {
             //  On retire la classe 'active' de tous les blocs de paiement
             document.querySelectorAll('.clickable-payment').forEach(card => {

@@ -125,6 +125,33 @@
             }
         });
 
+        // Stocker les données de transfert et naviguer vers paymentsource
+        document.addEventListener("DOMContentLoaded", function () {
+            const continueBtn = document.querySelector('.continue-btn');
+            
+            if (continueBtn) {
+                continueBtn.addEventListener("click", function (e) {
+                    // Récupérer les valeurs
+                    const amount = document.getElementById('amountInput').value.replace('€', '').trim();
+                    const message = document.getElementById('message').value;
+                    
+                    // Stocker dans sessionStorage
+                    const transferData = {
+                        type: 'transfer',
+                        amount: amount,
+                        message: message,
+                        recipientName: 'Themesflat', // Par défaut, à récupérer depuis la page précédente
+                        recipientIdentifier: '**** **** **** 2424',
+                        fromMethod: 'wallet',
+                        timestamp: new Date().toISOString()
+                    };
+                    
+                    sessionStorage.setItem('transferData', JSON.stringify(transferData));
+                    console.log('Transfer data stored:', transferData);
+                });
+            }
+        });
+
 
 
 

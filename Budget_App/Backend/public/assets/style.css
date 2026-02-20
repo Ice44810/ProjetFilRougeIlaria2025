@@ -540,6 +540,13 @@ a {
     cursor: grab;
     user-select: none;
     scroll-behavior: smooth;
+    justify-content: flex-start; /* Alignement horizontal */
+}
+
+.scroll-container.rewards-center {
+    justify-content: center; /* Centre les éléments */
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
 .scroll-container::-webkit-scrollbar,

@@ -31,7 +31,7 @@
         <div class="container">
             <div class="text-center py-4 rounded-4 border shadow-sm mb-3">
                 <div class="bill-icon mb-2">
-                    <img src="../public/assets/images/icons8-vérifier.gif" alt="bill icon">
+                    <img src="../public/assets/images/verifier.png" alt="bill icon">
                 </div>
                 <h3 class="fw-bold text-danger">€70.0</h3>
                 <p class="fs-5 fw-semibold">Montant à payer</p>
@@ -63,8 +63,22 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-
-        // Il faudra voir pour inserer des scripts si besoin plus tard pour récupérer des données dynamiques
+        document.addEventListener("DOMContentLoaded", function() {
+            // Stocker les données de la facture d'électricité
+            const billData = {
+                type: 'bill',
+                billType: 'electricity',
+                amount: '70.0',
+                clientCode: 'PD123456789',
+                clientName: 'Themesflat',
+                clientEmail: 'themesflat@gmail.com',
+                timestamp: new Date().toISOString()
+            };
+            
+            // Stocker dans sessionStorage pour la page paymentsource
+            sessionStorage.setItem('billData', JSON.stringify(billData));
+            console.log('Electricity bill data stored:', billData);
+        });
     </script>
 
 </body>

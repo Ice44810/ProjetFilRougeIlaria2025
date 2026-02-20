@@ -62,8 +62,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Script JavaScript si nécessaire 
-
+        document.addEventListener("DOMContentLoaded", function() {
+            // Stocker les données de la facture mobile
+            const billData = {
+                type: 'bill',
+                billType: 'mobile',
+                amount: '70.0',
+                clientCode: 'PD123456789',
+                clientName: 'Themesflat',
+                clientEmail: 'themesflat@gmail.com',
+                timestamp: new Date().toISOString()
+            };
+            
+            // Stocker dans sessionStorage pour la page paymentsource
+            sessionStorage.setItem('billData', JSON.stringify(billData));
+            console.log('Mobile bill data stored:', billData);
+        });
     </script>
 </body>
 

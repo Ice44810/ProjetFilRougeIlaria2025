@@ -1,18 +1,21 @@
 const mysql = require('mysql2');
 
+// Configuration id Mysql
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'issa',
-    password: 'Passer@123'
+    user: 'root',
+    password: 'Root@123'
 });
 
+// Connexion à MySQL
 db.connect((err) => {
     if (err) {
         console.error('Erreur de connexion à MySQL:', err);
         return;
     }
     console.log('Connecté à MySQL');
-
+ 
+    // Création de la base de données si elle n'existe pas
     db.query("CREATE DATABASE IF NOT EXISTS budget_app", (err, result) => {
         if (err) {
             console.error("Erreur lors de la création de la base de données:", err);
@@ -26,6 +29,8 @@ db.connect((err) => {
                 return;
             }
 
+            // Création des tables
+
             const createUsersTable = `
                 CREATE TABLE IF NOT EXISTS users (
                     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -34,6 +39,7 @@ db.connect((err) => {
                 )
             `;
 
+            // Gestion des erreurs 
             db.query(createUsersTable, (err, result) => {
                 if (err) {
                     console.error("Erreur lors de la création de la table 'users':", err);
@@ -128,7 +134,7 @@ db.connect((err) => {
                 console.log("Table 'recipients' prête.");
             });
 
-            // Add role column to users table
+            // Ajouter une colonne rôle à la table des utilisateurs
             db.query(`ALTER TABLE users ADD COLUMN role ENUM('admin', 'user') DEFAULT 'user'`, (err, result) => {
                 if (err && !err.message.includes('Duplicate column name')) {
                     console.error("Erreur lors de l'ajout de la colonne 'role' à 'users':", err);
@@ -137,7 +143,7 @@ db.connect((err) => {
                 }
             });
 
-            // Add additional profile columns to users table
+            // Ajouter des colonnes de profil supplémentaires à la table des utilisateurs
             const profileColumns = [
                 `ALTER TABLE users ADD COLUMN fullName VARCHAR(255) DEFAULT NULL`,
                 `ALTER TABLE users ADD COLUMN phone VARCHAR(20) DEFAULT NULL`,
@@ -145,6 +151,9 @@ db.connect((err) => {
                 `ALTER TABLE users ADD COLUMN postcode VARCHAR(10) DEFAULT NULL`,
                 `ALTER TABLE users ADD COLUMN ville VARCHAR(100) DEFAULT NULL`
             ];
+
+            // ALTER TABLE ADD COLUMN : est une instruction SQL utilisée pour ajouter une nouvelle colonne à une table 
+            // existante sans perdre les données existantes.
 
             profileColumns.forEach(query => {
                 db.query(query, (err, result) => {
@@ -155,6 +164,69 @@ db.connect((err) => {
                     }
                 });
             });
+
+            // ================= CRÉATION DES INDEXES =================
+            
+            // Index pour les transactions (recherche par utilisateur et date)
+            const createTransactionIndexes = [
+                'CREATE INDEX idx_transactions_user_id ON transactions(user_id)',
+                'CREATE INDEX idx_transactions_created_at ON transactions(created_at)',
+                'CREATE INDEX idx_transactions_type ON transactions(type)',
+                'CREATE INDEX idx_transactions_category_id ON transactions(category_id)',
+                'CREATE INDEX idx_transactions_user_type_date ON transactions(user_id, type, created_at)'
+            ];
+
+            createTransactionIndexes.forEach(query => {
+                db.query(query, (err, result) => {
+                    if (err && !err.message.includes('Duplicate key name')) {
+                        console.error("Erreur lors de la création d'un index sur transactions:", err);
+                    }
+                });
+            });
+            console.log("Indexes transactions créés.");
+
+            // Index pour les catégories
+            const createCategoryIndexes = [
+                'CREATE INDEX idx_categories_user_id ON categories(user_id)'
+            ];
+
+            createCategoryIndexes.forEach(query => {
+                db.query(query, (err, result) => {
+                    if (err && !err.message.includes('Duplicate key name')) {
+                        console.error("Erreur lors de la création d'un index sur categories:", err);
+                    }
+                });
+            });
+            console.log("Indexes categories créés.");
+
+            // Index pour les cartes
+            const createCardIndexes = [
+                'CREATE INDEX idx_cards_user_id ON cards(user_id)'
+            ];
+
+            createCardIndexes.forEach(query => {
+                db.query(query, (err, result) => {
+                    if (err && !err.message.includes('Duplicate key name')) {
+                        console.error("Erreur lors de la création d'un index sur cards:", err);
+                    }
+                });
+            });
+            console.log("Indexes cards créés.");
+
+            // Index pour les bénéficiaires
+            const createRecipientIndexes = [
+                'CREATE INDEX idx_recipients_user_id ON recipients(user_id)',
+                'CREATE INDEX idx_recipients_identifier ON recipients(identifier)'
+            ];
+
+            createRecipientIndexes.forEach(query => {
+                db.query(query, (err, result) => {
+                    if (err && !err.message.includes('Duplicate key name')) {
+                        console.error("Erreur lors de la création d'un index sur recipients:", err);
+                    }
+                });
+            });
+            console.log("Indexes recipients créés.");
         });
     });
 });
