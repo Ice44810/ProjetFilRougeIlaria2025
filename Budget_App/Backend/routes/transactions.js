@@ -3,6 +3,7 @@
  */
 const TransactionService = require('../services/TransactionService');
 
+// Fonction pour gérer les routes liées aux transactions
 function handleTransactions(req, res, userSession) {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const path = url.pathname;
@@ -29,7 +30,7 @@ function handleTransactions(req, res, userSession) {
         return;
     }
 
-    // ================= POST /api/transactions =================
+    // ================ POST /api/transactions ================
     if (path === '/api/transactions' && method === 'POST') {
         let body = '';
         req.on('data', chunk => { body += chunk.toString(); });
@@ -50,11 +51,12 @@ function handleTransactions(req, res, userSession) {
         return;
     }
 
-    // ================= GET /api/transactions/:id =================
+    // ================= GET /api/transactions/:id ================
     const transactionIdMatch = path.match(/^\/api\/transactions\/(\d+)$/);
     if (transactionIdMatch && method === 'GET') {
         const transactionId = parseInt(transactionIdMatch[1]);
 
+        // Vérification de l'existence de la transaction et de l'appartenance à l'utilisateur
         TransactionService.getTransactionById(transactionId, userSession.userId)
             .then(transaction => {
                 if (!transaction) {
@@ -73,15 +75,16 @@ function handleTransactions(req, res, userSession) {
         return;
     }
 
-    // ================= PUT /api/transactions/:id =================
+    // =========== PUT /api/transactions/:id ==========
     if (transactionIdMatch && method === 'PUT') {
         const transactionId = parseInt(transactionIdMatch[1]);
+        // Récupération des données du corps de la requête pour la mise à jour de la transaction
         let body = '';
         req.on('data', chunk => { body += chunk.toString(); });
         req.on('end', async () => {
             const { parse } = require('querystring');
             const data = parse(body);
-
+        
             const result = await TransactionService.updateTransaction(transactionId, userSession.userId, data);
 
             if (result.success) {
@@ -95,10 +98,10 @@ function handleTransactions(req, res, userSession) {
         return;
     }
 
-    // ================= DELETE /api/transactions/:id =================
+    // ============ DELETE /api/transactions/:id =============
     if (transactionIdMatch && method === 'DELETE') {
         const transactionId = parseInt(transactionIdMatch[1]);
-
+        // Supprimer la transaction en vérifiant qu'elle appartient à l'utilisateur connecté
         TransactionService.deleteTransaction(transactionId, userSession.userId)
             .then(result => {
                 if (result.success) {

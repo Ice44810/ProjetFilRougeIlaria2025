@@ -14,6 +14,7 @@ class APIClient {
      * @param {Object} data - Données à envoyer
      * @returns {Promise<Object>}
      */
+    // 
     async request(endpoint, method = 'GET', data = null) {
         const options = {
             method,
@@ -47,7 +48,7 @@ class APIClient {
         }
     }
 
-    // =================== UTILISATEURS ===================
+    // ===== UTILISATEURS ======
 
     /**
      * Obtenir le profil de l'utilisateur connecté
@@ -60,7 +61,7 @@ class APIClient {
     /**
      * Mettre à jour le profil
      * @param {Object} data - Données du profil
-     * @returns {Promise<Object>}
+     * @returns {Promise<Object>} - Résultat de la mise à jour
      */
     async updateProfile(data) {
         return this.request('/users/profile', 'PUT', data);
@@ -95,7 +96,7 @@ class APIClient {
         return this.request('/users/reset-password/confirm', 'POST', { token, newPassword });
     }
 
-    // =================== TRANSACTIONS ===================
+    // ===== TRANSACTIONS =====
 
     /**
      * Obtenir toutes les transactions
@@ -144,7 +145,7 @@ class APIClient {
         return this.request(`/transactions/${id}`, 'DELETE');
     }
 
-    // =================== CATÉGORIES ===================
+    // ====== CATÉGORIES =======
 
     /**
      * Obtenir toutes les catégories
@@ -182,14 +183,16 @@ class APIClient {
         return this.request(`/categories/${id}`, 'DELETE');
     }
 
-    // =================== STATISTIQUES ===================
+    // ======= STATISTIQUES ========
 
     /**
      * Obtenir les statistiques globales
+     * @param {Object} filters - Filtres optionnels (type, period)
      * @returns {Promise<Object>}
      */
-    async getStats() {
-        return this.request('/stats', 'GET');
+    async getStats(filters = {}) {
+        const params = new URLSearchParams(filters).toString();
+        return this.request(`/stats?${params}`, 'GET');
     }
 
     /**
@@ -228,14 +231,14 @@ class APIClient {
         return this.request('/stats/line', 'GET');
     }
 
-    // =================== HOMEPAGE ===================
+    // ========== HOMEPAGE ===========
 
     /**
      * Obtenir les données de la page d'accueil
-     * @returns {Promise<Object>}
+     * @returns {Promise<Object>} - Données globales pour l'accueil (solde, transactions récentes, etc.)
      */
     async getHomeData() {
-        return this.request('/home', 'GET');
+        return this.request('/home', 'GET'); // Point de terminaison pour les données globales de l'accueil
     }
 
     /**
@@ -255,7 +258,7 @@ class APIClient {
         return this.request('/topup', 'POST', { amount });
     }
 
-    // =================== DESTINATAIRES ===================
+    // =========== DESTINATAIRES =============
 
     /**
      * Obtenir tous les destinataires
@@ -338,7 +341,7 @@ const UI = {
     },
 
     /**
-     * Formater une date relative
+     * Formater une date relative (aujourd'hui, hier, il y a X jours)
      * @param {string|Date} date 
      * @returns {string}
      */
@@ -371,7 +374,7 @@ const UI = {
                 container.innerHTML = '<p class="text-muted text-center">Aucune transaction</p>';
                 return;
             }
-
+            // Afficher les transactions
             container.innerHTML = transactions.map(tx => `
                 <div class="transaction-item px-3 py-3 border-bottom">
                     <div class="d-flex justify-content-between align-items-center">

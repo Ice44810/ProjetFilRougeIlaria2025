@@ -298,6 +298,7 @@ const server = http.createServer((req, res) => {
             return res.end('<h1>404 - Page introuvable</h1>');
         }
 
+        // Sécurisation des en-têtes HTTP pour les pages HTML rendues dynamiquement (évite les attaques XSS, clickjacking, etc.)
         setSecurityHeaders(res);
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
         res.end(data);
@@ -307,8 +308,7 @@ const server = http.createServer((req, res) => {
 // ================= START SERVER =================
 
 server.listen(3000, () => {
-    logger.info('========================================');
     logger.info('Budget_App Server Started');
     logger.info('Server running on http://localhost:3000');
-    logger.info('========================================');
+    
 });

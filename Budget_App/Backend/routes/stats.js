@@ -61,7 +61,12 @@ function handleStats(req, res, userSession) {
 
     // ================= GET /api/stats =================
     if (path === '/api/stats' && method === 'GET') {
-        StatsService.getOverallStats(userSession.userId)
+        const filters = {
+            type: url.searchParams.get('type'),
+            period: url.searchParams.get('period')
+        };
+
+        StatsService.getOverallStats(userSession.userId, filters)
             .then(stats => {
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(stats));

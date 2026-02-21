@@ -9,15 +9,16 @@ class StatsService {
     /**
      * Obtenir les statistiques globales de l'utilisateur
      * @param {number} userId 
+     * @param {Object} filters - Filtres optionnels (type, period)
      * @returns {Promise<Object>}
      */
-    static async getOverallStats(userId) {
+    static async getOverallStats(userId, filters = {}) {
         try {
-            const balance = await this.getBalance(userId);
-            const totalIncome = await this.getTotalByType(userId, 'income');
-            const totalExpense = await this.getTotalByType(userId, 'expense');
-            const transactionCount = await this.getTransactionCount(userId);
-            const averageTransaction = await this.getAverageTransaction(userId);
+            const balance = await this.getBalance(userId, filters);
+            const totalIncome = await this.getTotalByType(userId, 'income', filters.period);
+            const totalExpense = await this.getTotalByType(userId, 'expense', filters.period);
+            const transactionCount = await this.getTransactionCount(userId, filters);
+            const averageTransaction = await this.getAverageTransaction(userId, filters);
 
             return {
                 balance: parseFloat(balance).toFixed(2),
@@ -36,19 +37,27 @@ class StatsService {
     /**
      * Calculer le solde
      * @param {number} userId 
+     * @param {Object} filters - Filtres optionnels (period)
      * @returns {Promise<number>}
      */
-    static getBalance(userId) {
+    static getBalance(userId, filters = {}) {
         return new Promise((resolve, reject) => {
+            let dateFilter = '';
+            if (filters.period) {
+                dateFilter = this.getPeriodFilter(filters.period);
+            }
+
             const query = `
                 SELECT 
                     COALESCE(SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END), 0) -
                     COALESCE(SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END), 0) as balance
                 FROM transactions
-                WHERE user_id = ?
+                WHERE user_id = ? ${dateFilter}
             `;
 
-            db.query(query, [userId], (err, results) => {
+            const params = filters.period ? [userId, ...this.getPeriodParams(filters.period)] : [userId];
+
+            db.query(query, params, (err, results) => {
                 if (err) {
                     reject(err);
                     return;
@@ -62,17 +71,26 @@ class StatsService {
      * Obtenir le total par type de transaction
      * @param {number} userId 
      * @param {string} type - 'income' ou 'expense'
+     * @param {string} period - Période optionnelle
      * @returns {Promise<number>}
      */
-    static getTotalByType(userId, type) {
+    static getTotalByType(userId, type, period = null) {
         return new Promise((resolve, reject) => {
+            let dateFilter = '';
+            let params = [userId, type];
+
+            if (period) {
+                dateFilter = this.getPeriodFilter(period);
+                params = [...params, ...this.getPeriodParams(period)];
+            }
+
             const query = `
                 SELECT COALESCE(SUM(amount), 0) as total
                 FROM transactions
-                WHERE user_id = ? AND type = ?
+                WHERE user_id = ? AND type = ? ${dateFilter}
             `;
 
-            db.query(query, [userId, type], (err, results) => {
+            db.query(query, params, (err, results) => {
                 if (err) {
                     reject(err);
                     return;
@@ -85,13 +103,22 @@ class StatsService {
     /**
      * Obtenir le nombre de transactions
      * @param {number} userId 
+     * @param {Object} filters - Filtres optionnels (period)
      * @returns {Promise<number>}
      */
-    static getTransactionCount(userId) {
+    static getTransactionCount(userId, filters = {}) {
         return new Promise((resolve, reject) => {
-            const query = `SELECT COUNT(*) as count FROM transactions WHERE user_id = ?`;
+            let dateFilter = '';
+            let params = [userId];
 
-            db.query(query, [userId], (err, results) => {
+            if (filters.period) {
+                dateFilter = this.getPeriodFilter(filters.period);
+                params = [...params, ...this.getPeriodParams(filters.period)];
+            }
+
+            const query = `SELECT COUNT(*) as count FROM transactions WHERE user_id = ? ${dateFilter}`;
+
+            db.query(query, params, (err, results) => {
                 if (err) {
                     reject(err);
                     return;
@@ -104,17 +131,26 @@ class StatsService {
     /**
      * Obtenir la moyenne des transactions
      * @param {number} userId 
+     * @param {Object} filters - Filtres optionnels (period)
      * @returns {Promise<number>}
      */
-    static getAverageTransaction(userId) {
+    static getAverageTransaction(userId, filters = {}) {
         return new Promise((resolve, reject) => {
+            let dateFilter = '';
+            let params = [userId];
+
+            if (filters.period) {
+                dateFilter = this.getPeriodFilter(filters.period);
+                params = [...params, ...this.getPeriodParams(filters.period)];
+            }
+
             const query = `
                 SELECT COALESCE(AVG(amount), 0) as average
                 FROM transactions
-                WHERE user_id = ?
+                WHERE user_id = ? ${dateFilter}
             `;
 
-            db.query(query, [userId], (err, results) => {
+            db.query(query, params, (err, results) => {
                 if (err) {
                     reject(err);
                     return;
@@ -122,6 +158,34 @@ class StatsService {
                 resolve(results[0].average || 0);
             });
         });
+    }
+
+    /**
+     * Générer le filtre de période SQL
+     * @param {string} period 
+     * @returns {string}
+     */
+    static getPeriodFilter(period) {
+        if (period === 'today') {
+            return 'AND DATE(created_at) = CURDATE()';
+        } else if (period === 'week') {
+            return 'AND created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)';
+        } else if (period === 'month') {
+            return 'AND MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE())';
+        } else if (period === 'year') {
+            return 'AND YEAR(created_at) = YEAR(CURDATE())';
+        }
+        return '';
+    }
+
+    /**
+     * Obtenir les paramètres pour le filtre de période
+     * @param {string} period 
+     * @returns {Array}
+     */
+    static getPeriodParams(period) {
+        // Pas de paramètres supplémentaires nécessaires pour les fonctions de date MySQL
+        return [];
     }
 
     /**

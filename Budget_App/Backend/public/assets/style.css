@@ -309,7 +309,7 @@ a {
 .amount-btn {
     border-radius: 20px;
     padding: 8px 20px;
-    background-color: #f1f1f1;
+    background-color: var(--primary-color);
     border: none;
     font-weight: 500;
     height: auto;
@@ -357,19 +357,18 @@ a {
 .btn-checkout,
 .btn-main {
     position: fixed;
-    padding: 10px;
-    right: 40px;
-    bottom: 20px;
+    padding: 20px;
+    bottom: 80px;
     height: 40px;
     border-radius: 14px;
     font-weight: 300;
-    background-color: #2a40a6;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 1rem !important;
+    font-size: 1,1rem !important;
     z-index: 1000;
 }
 
@@ -470,7 +469,49 @@ a {
     height: 26px;
 }
 
+/* Modal Notifications */
+#notificationModal {
+    z-index: 9999;
+}
+
+#notificationModal .modal-dialog {
+    margin: 1rem;
+}
+
+#notificationModal .modal-content {
+    background-color: #fff;
+}
+
+#notificationModal .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
 /* CONTACT & ACTIONS IOS (Style Appel) */
+.btn-ios-action {
+    flex: 1;
+    padding: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #007aff;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-ios-action:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btn-ios-action:active {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.btn-ios-action.border-end {
+    border-right: 1px solid #dee2e6 !important;
+}
+
 .profile-img {
     width: 110px;
     height: 110px;
