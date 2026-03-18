@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const logger = require('./logger');
 
 // Configuration id Mysql
@@ -17,14 +17,14 @@ db.connect((err) => {
     logger.info('Connected to MySQL');
  
     // Création de la base de données si elle n'existe pas
-db.query("CREATE DATABASE IF NOT EXISTS budget_app", (err, result) => {
+db.query("CREATE DATABASE IF NOT EXISTS Backend_node", (err, result) => {
         if (err) {
             logger.error('Database creation error', err);
             return;
         }
-        logger.info("Database 'budget_app' ready.");
+        logger.info("Database 'Backend_node' ready.");
 
-db.changeUser({ database: 'budget_app' }, (err) => {
+db.changeUser({ database: 'Backend_node' }, (err) => {
             if (err) {
                 logger.error("Database switch error", err);
                 return;

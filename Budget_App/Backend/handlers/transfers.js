@@ -21,7 +21,7 @@ async function handleTransfers(req, res, userSession) {
             }
 
             // Check balance
-            const balance = await StatsService.getBalance(userSession.userId);
+            const balance = await require('./stats').StatsService.getBalance(userSession.userId);
             if (parseFloat(balance) < amt) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 return res.end(JSON.stringify({ success: false, error: 'Insufficient balance' }));

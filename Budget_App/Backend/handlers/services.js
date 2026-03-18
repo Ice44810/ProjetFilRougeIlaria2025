@@ -18,7 +18,7 @@ async function handleServices(req, res, userSession) {
                 { id: 2, name: 'Internet', icon: 'wifi', providers: ['Free', 'SFR'] },
                 { id: 3, name: 'Électricité', icon: 'lightning', providers: ['EDF'] },
                 { id: 4, name: 'Eau', icon: 'droplet', providers: ['Veolia'] },
-                { id: 5, name: 'Film', icon: 'film', providers: ['Netflix', 'Disney+'] }
+                { id: 5, name: 'Film', icon: 'film', providers: ['Netflix', 'Disney+', 'Gaumont', 'Pathé'] }
             ];
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(services));

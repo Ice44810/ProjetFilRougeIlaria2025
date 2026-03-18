@@ -157,78 +157,67 @@ const server = http.createServer(async (req, res) => {
 
     // ================= LOGIN =================
 
-    if (requestUrl === '/login' && method === 'POST') {
+if (requestUrl === '/login' && method === 'POST') {
+    // 1. On laisse parseBody gérer la lecture du flux entièrement
+    parseBody(req, res).then(() => {
+        const { email, password } = req.body || {};
 
-        let body = '';
+        if (!email || !password) {
+            return sendJson(res, 400, { message: 'Email et mot de passe requis' });
+        }
 
-        req.on('data', chunk => {
-            body += chunk.toString();
-            if (body.length > 1e6) req.connection.destroy();
-        });
+        db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+            if (err) {
+                logger.error('Login query failed', { error: err.message });
+                return sendJson(res, 500, { message: 'Erreur serveur' });
+            }
 
-        req.on('end', async () => {
+            if (!results.length) {
+                return sendJson(res, 401, { message: 'Identifiants invalides' });
+            }
+
+            const user = results[0];
+            
+            let match = false;
             try {
-                await parseBody(req, res);
-                const { email, password } = req.body;
-            } catch(e) {
-                return sendJson(res, 400, { message: 'Bad request' });
+                // Utilisation de bcrypt comme dans ton code
+                match = await bcrypt.compare(password, user.password);
+            } catch (bcryptError) {
+                logger.error('Bcrypt compare error', { error: bcryptError.message });
+                return sendJson(res, 500, { message: 'Erreur serveur' });
             }
 
-            if (!email || !password) {
-                return sendJson(res, 400, { message: 'Email et mot de passe requis' });
+            if (!match) {
+                return sendJson(res, 401, { message: 'Identifiants invalides' });
             }
 
-            db.query('SELECT * FROM users WHERE email = ?', [email], async (err, results) => {
+            // ... Suite de ton code (création session, cookie, redirection) ...
+            const newSessionId = crypto.randomBytes(32).toString('hex');
+            sessions[newSessionId] = {
+                userId: user.id,
+                email: user.email,
+                role: user.role,
+                expires: Date.now() + (1000 * 60 * 60 * 24 * 7)
+            };
 
-                if (err) {
-                    logger.error('Login query failed', { error: err.message });
-                    return sendJson(res, 500, { message: 'Erreur serveur' });
-                }
+            res.setHeader('Set-Cookie', cookie.serialize('sessionId', newSessionId, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 60 * 60 * 24 * 7,
+                path: '/'
+            }));
 
-                if (!results.length) {
-                    return sendJson(res, 401, { message: 'Identifiants invalides' });
-                }
-
-                const user = results[0];
-                
-                let match = false;
-                try {
-                    match = await bcrypt.compare(password, user.password);
-                } catch (bcryptError) {
-                    logger.error('Bcrypt compare error', { error: bcryptError.message });
-                    return sendJson(res, 500, { message: 'Erreur serveur' });
-                }
-
-                if (!match) {
-                    return sendJson(res, 401, { message: 'Identifiants invalides' });
-                }
-
-                const newSessionId = crypto.randomBytes(32).toString('hex');
-
-                sessions[newSessionId] = {
-                    userId: user.id,
-                    email: user.email,
-                    role: user.role,
-                    expires: Date.now() + (1000 * 60 * 60 * 24 * 7)
-                };
-
-                res.setHeader('Set-Cookie',
-                    cookie.serialize('sessionId', newSessionId, {
-                        httpOnly: true,
-                        secure: process.env.NODE_ENV === 'production',
-                        sameSite: 'strict',
-                        maxAge: 60 * 60 * 24 * 7,
-                        path: '/'
-                    })
-                );
-
-                res.writeHead(302, { Location: '/index.html' });
-                res.end();
-            });
+            res.writeHead(302, { Location: '/index.html' });
+            res.end();
         });
+    }).catch(err => {
+        logger.error('Parse body error', err);
+        sendJson(res, 400, { message: 'Erreur lors de la lecture des données' });
+    });
 
-        return;
-    }
+    return; // Important pour ne pas continuer dans le reste du serveur
+}
 
     // ================= LOGOUT =================
 
@@ -258,64 +247,103 @@ const server = http.createServer(async (req, res) => {
 
         // API routes
         if (requestUrl.startsWith('/api/')) {
-            const cookies = cookie.parse(req.headers.cookie || '');
-            const sessionId = cookies.sessionId;
             logger.info('API request', { method, url: requestUrl });
 
-                try {
-                    await parseBody(req, res);
-                    const cookies = cookie.parse(req.headers.cookie || '');
-                    req.userSession = sessions[cookies.sessionId];
-                    requireAuth(req, res, () => {}); // Dummy next, handlers use userSession
+            try {
+                // Parse body first
+                await new Promise((resolve, reject) => {
+                    parseBody(req, res).then(resolve).catch((err) => {
+                        logger.error('ParseBody error', err);
+                        if (!res.headersSent) {
+                            res.writeHead(400, { 'Content-Type': 'application/json' });
+                            res.end(JSON.stringify({ error: 'Invalid request body' }));
+                        }
+                        reject(err);
+                    });
+                });
 
-                    if (requestUrl.startsWith('/api/transactions')) return handleTransactions(req, res, req.userSession);
-                    if (requestUrl.startsWith('/api/users')) return handleUsers(req, res, req.userSession);
-                    if (requestUrl.startsWith('/api/categories')) return handleCategories(req, res, req.userSession);
-                    if (requestUrl.startsWith('/api/cards')) return handleCards(req, res, req.userSession);
-                    if (requestUrl.startsWith('/api/recipients')) return handleRecipients(req, res, req.userSession);
-                    if (requestUrl.startsWith('/api/transfers')) return handleTransfers(req, res, req.userSession);
-                    if (requestUrl.startsWith('/api/services')) return handleServices(req, res, req.userSession);
-                    if (requestUrl.startsWith('/api/stats') || requestUrl.startsWith('/api/balance') || requestUrl.startsWith('/api/home') || requestUrl.startsWith('/api/topup')) return handleStats(req, res, req.userSession);
+                // Auth check
+                const cookies = cookie.parse(req.headers.cookie || '');
+                const sessionId = cookies.sessionId;
+                req.userSession = sessions[sessionId];
+                if (!req.userSession) {
+                    if (!res.headersSent) {
+                        res.writeHead(401, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ message: 'Non autorisé' }));
+                    }
+                    return;
+                }
 
+                // Route to handler
+                if (requestUrl.startsWith('/api/transactions')) return handleTransactions(req, res, req.userSession);
+                if (requestUrl.startsWith('/api/users')) return handleUsers(req, res, req.userSession);
+                if (requestUrl.startsWith('/api/categories')) return handleCategories(req, res, req.userSession);
+                if (requestUrl.startsWith('/api/cards')) return handleCards(req, res, req.userSession);
+                if (requestUrl.startsWith('/api/recipients')) return handleRecipients(req, res, req.userSession);
+                if (requestUrl.startsWith('/api/transfers')) return handleTransfers(req, res, req.userSession);
+                if (requestUrl.startsWith('/api/services')) return handleServices(req, res, req.userSession);
+                if (requestUrl.startsWith('/api/stats') || requestUrl.startsWith('/api/balance') || requestUrl.startsWith('/api/home') || requestUrl.startsWith('/api/topup')) return handleStats(req, res, req.userSession);
+
+                if (!res.headersSent) {
                     res.writeHead(404, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ message: 'Endpoint non trouvé' }));
-                } catch (err) {
-                    logger.error('API middleware error', err);
-                    res.writeHead(500);
-                    res.end('Erreur interne');
                 }
-                return;
+            } catch (err) {
+                logger.error('API middleware error', err);
+                if (!res.headersSent) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: 'Erreur interne' }));
+                }
             }
+            return;
+        }
 
     // ================= HTML PAGES =================
 
-const cleanPath = requestUrl.split('?')[0];
+    const cleanPath = requestUrl.split('?')[0];
     const cookies = cookie.parse(req.headers.cookie || '');
     const sessionId = cookies.sessionId;
     const userSession = sessions[sessionId];
-    const publicPages = ['/login.html', '/inscription.html', '/resetpassword.html'];
+    const publicPages = ['/login.html', '/inscription.html', '/resetpassword.html', '/resetpassword.html'];
 
     if (!publicPages.includes(cleanPath) && !userSession) {
         res.writeHead(302, { Location: '/login.html' });
         return res.end();
     }
 
+    // Alias & case-insensitive mapping
     let pageName = cleanPath === '/' ? 'index.html' : cleanPath.substring(1);
     if (!pageName.endsWith('.html')) pageName += '.html';
+
+    const aliases = {
+        'profile.html': 'Profile.html',
+        'home.html': 'index.html',
+        'bill.html': 'bill.html',
+        'tansfertbank.html': 'transferbybank.html',
+        'transfer-bank.html': 'transferbybank.html'
+    };
+
+    const lowerPageName = pageName.toLowerCase();
+    if (aliases[lowerPageName] && aliases[lowerPageName] !== pageName) {
+        logger.info('Page alias redirect', { from: pageName, to: aliases[lowerPageName] });
+        res.writeHead(302, { Location: '/' + aliases[lowerPageName] });
+        return res.end();
+    }
 
     const filePath = path.join(__dirname, 'pages', pageName);
 
     fs.readFile(filePath, (err, data) => {
-
         if (err) {
-            res.writeHead(404);
-            return res.end('<h1>404 - Page introuvable</h1>');
+            logger.error('Page not found', { path: filePath, pageName });
+            res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
+            return res.end(`<h1>404 - Page introuvable: ${pageName}</h1><p><a href="/index.html">Retour accueil</a></p>`);
         }
 
-        // Sécurisation des en-têtes HTTP pour les pages HTML rendues dynamiquement (évite les attaques XSS, clickjacking, etc.)
         setSecurityHeaders(res);
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
         res.end(data);
+        const duration = Date.now() - startTime;
+        logger.logRequest(method, requestUrl, 200, duration);
     });
 });
 
