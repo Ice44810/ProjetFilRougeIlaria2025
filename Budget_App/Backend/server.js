@@ -2,22 +2,24 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
-const { parse } = require('querystring');
 const bcrypt = require('bcrypt');
 const cookie = require('cookie');
 
 const db = require('./utils/db');
-const router = require('./routes/router');
 const logger = require('./utils/logger');
+const parseBody = require('./middleware/parseBody');
+const { requireAuth } = require('./middleware/auth');
 
-const handleTransactions = require('./routes/transactions');
-const handleUsers = require('./routes/users');
-const handleCategories = require('./routes/categories');
-const handleCards = require('./routes/cards');
-const handleRecipients = require('./routes/recipients');
-const handleStats = require('./routes/stats');
+const { handleTransactions } = require('./handlers/transactions');
+const handleUsers = require('./handlers/users');
+const handleCategories = require('./handlers/categories');
+const handleCards = require('./handlers/cards');
+const handleRecipients = require('./handlers/recipients');
+const handleStats = require('./handlers/stats');
+const handleTransfers = require('./handlers/transfers');
+const handleServices = require('./handlers/services');
 
-const sessions = {};
+const sessions = {}; 
 
 // ================= HELPER FUNCTIONS =================
 
@@ -32,13 +34,7 @@ function setSecurityHeaders(res) {
     res.setHeader('X-XSS-Protection', '1; mode=block');
 }
 
-function requireAuth(req, res, userSession) {
-    if (!userSession) {
-        sendJson(res, 401, { message: 'Non autorisé' });
-        return false;
-    }
-    return true;
-}
+
 
 // Nettoyage automatique sessions expirées
 setInterval(() => {
@@ -52,21 +48,17 @@ setInterval(() => {
 
 // ================= SERVER =================
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
 
     const startTime = Date.now();
     const requestUrl = req.url;
     const method = req.method;
 
-    const cookies = cookie.parse(req.headers.cookie || '');
-    const sessionId = cookies.sessionId;
-    const userSession = sessions[sessionId];
+        logger.info('Incoming request', { method, url: requestUrl });
 
-    logger.info('Incoming request', { method, url: requestUrl });
+        // ================= STATIC FILES =================
 
-    // ================= STATIC FILES =================
-
-    if (requestUrl.toLowerCase().startsWith('/public/')) {
+        if (requestUrl.toLowerCase().startsWith('/public/')) {
         const relativePath = requestUrl.replace(/^\/[Pp]ublic\//, 'public/');
         const filePath = path.join(__dirname, relativePath);
 
@@ -112,8 +104,12 @@ const server = http.createServer((req, res) => {
         });
 
         req.on('end', async () => {
-
-            const { email, password } = parse(body);
+            try {
+                await parseBody(req, res);
+                const { email, password } = req.body;
+            } catch(e) {
+                return sendJson(res, 400, { message: 'Bad request' });
+            }
 
             if (!email || !password) {
                 return sendJson(res, 400, { message: 'Email et mot de passe requis' });
@@ -170,9 +166,13 @@ const server = http.createServer((req, res) => {
             if (body.length > 1e6) req.connection.destroy();
         });
 
-        req.on('end', () => {
-
-            const { email, password } = parse(body);
+        req.on('end', async () => {
+            try {
+                await parseBody(req, res);
+                const { email, password } = req.body;
+            } catch(e) {
+                return sendJson(res, 400, { message: 'Bad request' });
+            }
 
             if (!email || !password) {
                 return sendJson(res, 400, { message: 'Email et mot de passe requis' });
@@ -233,12 +233,17 @@ const server = http.createServer((req, res) => {
     // ================= LOGOUT =================
 
     if (requestUrl === '/logout') {
-
-        if (sessionId) delete sessions[sessionId];
+        const cookies = cookie.parse(req.headers.cookie || '');
+        const sessionId = cookies.sessionId;
+        if (sessionId && sessions[sessionId]) {
+            delete sessions[sessionId];
+        }
 
         res.setHeader('Set-Cookie',
             cookie.serialize('sessionId', '', {
                 httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
                 expires: new Date(0),
                 path: '/'
             })
@@ -251,34 +256,43 @@ const server = http.createServer((req, res) => {
 
     // ================= API =================
 
-    if (requestUrl.startsWith('/api/')) {
+        // API routes
+        if (requestUrl.startsWith('/api/')) {
+            const cookies = cookie.parse(req.headers.cookie || '');
+            const sessionId = cookies.sessionId;
+            logger.info('API request', { method, url: requestUrl });
 
-        if (!requireAuth(req, res, userSession)) return;
+                try {
+                    await parseBody(req, res);
+                    const cookies = cookie.parse(req.headers.cookie || '');
+                    req.userSession = sessions[cookies.sessionId];
+                    requireAuth(req, res, () => {}); // Dummy next, handlers use userSession
 
-        if (requestUrl.startsWith('/api/transactions'))
-            return handleTransactions(req, res, userSession);
+                    if (requestUrl.startsWith('/api/transactions')) return handleTransactions(req, res, req.userSession);
+                    if (requestUrl.startsWith('/api/users')) return handleUsers(req, res, req.userSession);
+                    if (requestUrl.startsWith('/api/categories')) return handleCategories(req, res, req.userSession);
+                    if (requestUrl.startsWith('/api/cards')) return handleCards(req, res, req.userSession);
+                    if (requestUrl.startsWith('/api/recipients')) return handleRecipients(req, res, req.userSession);
+                    if (requestUrl.startsWith('/api/transfers')) return handleTransfers(req, res, req.userSession);
+                    if (requestUrl.startsWith('/api/services')) return handleServices(req, res, req.userSession);
+                    if (requestUrl.startsWith('/api/stats') || requestUrl.startsWith('/api/balance') || requestUrl.startsWith('/api/home') || requestUrl.startsWith('/api/topup')) return handleStats(req, res, req.userSession);
 
-        if (requestUrl.startsWith('/api/users'))
-            return handleUsers(req, res, userSession);
-
-        if (requestUrl.startsWith('/api/categories'))
-            return handleCategories(req, res, userSession);
-
-        if (requestUrl.startsWith('/api/cards'))
-            return handleCards(req, res, userSession);
-
-        if (requestUrl.startsWith('/api/recipients'))
-            return handleRecipients(req, res, userSession);
-
-        if (requestUrl.startsWith('/api/stats') || requestUrl.startsWith('/api/balance') || requestUrl.startsWith('/api/home') || requestUrl.startsWith('/api/topup'))
-            return handleStats(req, res, userSession);
-
-        return router(req, res);
-    }
+                    res.writeHead(404, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: 'Endpoint non trouvé' }));
+                } catch (err) {
+                    logger.error('API middleware error', err);
+                    res.writeHead(500);
+                    res.end('Erreur interne');
+                }
+                return;
+            }
 
     // ================= HTML PAGES =================
 
-    const cleanPath = requestUrl.split('?')[0];
+const cleanPath = requestUrl.split('?')[0];
+    const cookies = cookie.parse(req.headers.cookie || '');
+    const sessionId = cookies.sessionId;
+    const userSession = sessions[sessionId];
     const publicPages = ['/login.html', '/inscription.html', '/resetpassword.html'];
 
     if (!publicPages.includes(cleanPath) && !userSession) {

@@ -1,0 +1,7 @@
+{
+    "require": {
+        "laravel/jetstream": "^5.4",
+        "symfony/webapp-pack": "^1.4",
+        "symfony/uid": "^8.0"
+    }
+}

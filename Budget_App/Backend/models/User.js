@@ -12,8 +12,11 @@ class User {
         this.phone = data.phone || null;
         this.address = data.address || null;
         this.postcode = data.postcode || null;
-        this.ville = data.ville || null;
+this.ville = data.ville || null;
         this.avatar = data.avatar || null;
+        this.notifPrefs = data.notif_prefs || '{}';
+        this.twofaEnabled = data.twofa_enabled || false;
+        this.twofaSecret = data.twofa_secret || null;
         this.createdAt = data.created_at || new Date();
     }
 
@@ -49,6 +52,8 @@ class User {
             postcode: this.postcode,
             ville: this.ville,
             avatar: this.avatar,
+            notifPrefs: typeof this.notifPrefs === 'string' ? JSON.parse(this.notifPrefs) : this.notifPrefs,
+            twofaEnabled: this.twofaEnabled,
             createdAt: this.createdAt
         };
     }

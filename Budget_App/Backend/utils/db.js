@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const logger = require('./logger');
 
 // Configuration id Mysql
 const db = mysql.createConnection({
@@ -10,22 +11,22 @@ const db = mysql.createConnection({
 // Connexion à MySQL
 db.connect((err) => {
     if (err) {
-        console.error('Erreur de connexion à MySQL:', err);
+        logger.error('MySQL connection error', err);
         return;
     }
-    console.log('Connecté à MySQL');
+    logger.info('Connected to MySQL');
  
     // Création de la base de données si elle n'existe pas
-    db.query("CREATE DATABASE IF NOT EXISTS budget_app", (err, result) => {
+db.query("CREATE DATABASE IF NOT EXISTS budget_app", (err, result) => {
         if (err) {
-            console.error("Erreur lors de la création de la base de données:", err);
+            logger.error('Database creation error', err);
             return;
         }
-        console.log("Base de données 'budget_app' prête.");
+        logger.info("Database 'budget_app' ready.");
 
-        db.changeUser({ database: 'budget_app' }, (err) => {
+db.changeUser({ database: 'budget_app' }, (err) => {
             if (err) {
-                console.error("Erreur lors du changement vers la base de données 'budget_app':", err);
+                logger.error("Database switch error", err);
                 return;
             }
 
@@ -40,12 +41,12 @@ db.connect((err) => {
             `;
 
             // Gestion des erreurs 
-            db.query(createUsersTable, (err, result) => {
+db.query(createUsersTable, (err, result) => {
                 if (err) {
-                    console.error("Erreur lors de la création de la table 'users':", err);
+                    logger.error("Users table creation error", err);
                     return;
                 }
-                console.log("Table 'users' prête.");
+                logger.info("Users table ready.");
             });
 
             const createTransactionsTable = `
@@ -62,10 +63,10 @@ db.connect((err) => {
 
             db.query(createTransactionsTable, (err, result) => {
                 if (err) {
-                    console.error("Erreur lors de la création de la table 'transactions':", err);
+                    logger.error("Transactions table creation error", err);
                     return;
                 }
-                console.log("Table 'transactions' prête.");
+                logger.info("Transactions table ready.");
 
                 // Add category_id column to transactions table if it doesn't exist
                 db.query(`ALTER TABLE transactions ADD COLUMN category_id INT DEFAULT NULL`, (err, result) => {
@@ -87,10 +88,10 @@ db.connect((err) => {
 
             db.query(createCategoriesTable, (err, result) => {
                 if (err) {
-                    console.error("Erreur lors de la création de la table 'categories':", err);
+                    logger.error("Categories table creation error", err);
                     return;
                 }
-                console.log("Table 'categories' prête.");
+                logger.info("Categories table ready.");
             });
 
             const createCardsTable = `
@@ -230,5 +231,14 @@ db.connect((err) => {
         });
     });
 });
+
+db.queryPromise = (sql, params) => {
+    return new Promise((resolve, reject) => {
+        db.query(sql, params, (err, results) => {
+            if (err) reject(err);
+            else resolve(results);
+        });
+    });
+};
 
 module.exports = db;

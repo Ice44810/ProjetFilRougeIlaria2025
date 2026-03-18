@@ -575,6 +575,7 @@ a {
     flex-wrap: nowrap;
     /* Empêche le retour à la ligne */
     overflow-x: auto;
+    overflow-y: hidden;
     gap: 15px;
     scrollbar-width: none;
     padding-bottom: 10px;
@@ -582,6 +583,13 @@ a {
     user-select: none;
     scroll-behavior: smooth;
     justify-content: flex-start; /* Alignement horizontal */
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+    min-height: 100px;
+}
+
+.scroll-container.active {
+    cursor: grabbing;
 }
 
 .scroll-container.rewards-center {

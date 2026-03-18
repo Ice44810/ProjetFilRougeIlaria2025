@@ -534,12 +534,20 @@ a {
     flex-wrap: nowrap;
     /* Empêche le retour à la ligne */
     overflow-x: auto;
+    overflow-y: hidden;
     gap: 15px;
     scrollbar-width: none;
     padding-bottom: 10px;
     cursor: grab;
     user-select: none;
     scroll-behavior: smooth;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+    min-height: 100px;
+}
+
+.scroll-container.active {
+    cursor: grabbing;
 }
 
 .scroll-container::-webkit-scrollbar,
@@ -783,7 +791,9 @@ footer {
 
 .bar.down {
     background-color: #e53935;
-    margin-top: 95px;
+    margin-top: 95px;.offcanvas-custom-width {
+            width: 75% !important;
+        }
 }
 
 .avatar {
@@ -923,4 +933,8 @@ footer {
 [data-bs-theme="dark"] .action-sheet-ios .btn-white {
     background-color: var(--bs-secondary-bg);
     color: var(--bs-body-color);
+}
+/* Taille de la largeur de l'offcanvas */
+.offcanvas-custom-width {
+    width: 75% !important;
 }

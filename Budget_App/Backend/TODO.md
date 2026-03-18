@@ -1,27 +1,42 @@
-# Implementation TODO - Task from user
+# Backend Check-up & Fixes Progress
 
-## Phase 1: Contact Search (mycontact.html) - ✅ DONE
-- [x] Add search functionality to filter contacts in real-time
-- [x] Store fetched contacts and filter based on user input
+## Current Status
+✅ Plan approved by user. Starting step-by-step fixes.
 
-## Phase 2: Transfer Flow - ✅ DONE
-- [x] Update transfert.html - store amount and message in sessionStorage
-- [x] Update paymentsource.html - read from sessionStorage and display dynamically
-- [x] Update transferconfirm.html - read transfer details from sessionStorage
-- [x] Create transactions via API after successful payment
+## Detailed Steps from Plan:
 
-## Phase 3: Bank Transfer (transferbybank.html) - ✅ DONE
-- [x] Add functional link to paymentsource.html
-- [x] Store bank transfer details in sessionStorage
+### 1. Immediate Fixes (High Priority - Login/Runtime)
+- [✅] **server.js**: Fixed parse(body) → parseBody middleware, /logout, API middleware.
+- [✅] **handlers/users.js**: Moved Maps to top, console → logger, removed duplicates.
+- [ ] **handlers/transactions.js**: Replace TransactionService refs → direct DB/model calls (hoisted OK).
 
-## Phase 4: Bill Payments (mobile, internet, electricity, waterbill) - ✅ DONE
-- [x] Store bill details in sessionStorage (amount, bill type)
-- [x] Update paymentsource.html to handle bill payments
+### 1. Testing (High Priority)
+- [✅] `node server.js` → Starts clean, DB ready, no errors.
 
-## Phase 5: Password Reset - ✅ DONE
-- [x] Add message/notification after email validation
+### 2. Console Cleanup (All files)
+- [ ] Replace remaining ~50 console.* → logger.* across handlers/, utils/db.js, public/js/
+- [ ] handlers/cards.js, categories.js, etc.
 
-## Phase 6: Transactions in History - ✅ DONE
-- [x] Ensure transactions are created via API
-- [x] Verify bankhistory.html displays all transactions (already implemented)
+### 3. DB Improvements
+- [ ] utils/db.js: Ensure db.queryPromise works everywhere. Add pool?
+
+### 4. Globals Refactor
+- [ ] Create utils/sessions.js for shared sessions/otps/maps
+- [ ] Update server.js, auth.js, handlers/users.js
+
+### 5. Security & Polish
+- [ ] Remove sensitive console logs permanently
+- [ ] Add .env for DB creds
+- [ ] Add eslint + lint all
+
+### 6. Testing
+- [ ] `node server.js` → no crashes
+- [ ] Test login/register API with curl/Postman
+- [ ] Frontend login.html → redirects on success
+- [ ] Update this TODO.md after each major step
+
+### 7. Completion
+- [ ] attempt_completion with summary + run command
+
+**Next step: Fix server.js critical bugs**
 

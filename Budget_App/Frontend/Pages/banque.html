@@ -2,101 +2,100 @@
 <html lang="fr">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mon Compte Bancaire - Budget App</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="../Public/Assets/style.css" />
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mon Compte Bancaire - Budget App</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../Public/Assets/style.css" />
 </head>
 
 <body>
-    <!-- Header -->
-    <div class="container">
-        <div class="breadcrumb mt-3">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <span class="bi bi-bank text-primary" style="font-size: 15px;"></span>
-                        Compte Bancaire
-                    </li>
-                </ol>
-            </nav>
-        </div>
-
-        <div class="container-fluid">
-            <p class="mb-2">Détails de mon Compte</p>
-            <div class="card rounded-3 shadow-sm mb-2 bg-light-subtle">
-                <div class="card-body text-center">
-                    <p class="text-muted mb-1">Solde Actuel</p>
-                    <p class="fw-bold text-primary mb-2 fs-5">€3.466,90</p>
-                    <p class="mb-0 fs-6">Themesflat</p>
-                    <small class="text-muted">Titulaire du Compte</small>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <ul class="list-group list-group-flush rounded-3 shadow-sm">
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span><i class="bi bi-credit-card-fill me-2"></i>IBAN</span>
-                        <span class="fw-semibold text-break">FR76 xxxx xxxx xxxx xxxx</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span><i class="bi bi-bank me-2"></i>BIC/SWIFT</span>
-                        <span class="fw-semibold">BUDGETAPPXX</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span><i class="bi bi-person me-2"></i>Nom Complet</span>
-                        <span class="fw-semibold">THEMESFLAT DUPONT</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span><i class="bi bi-geo-alt me-2"></i>Banque</span>
-                        <span class="fw-semibold">Budget Banque Digitale</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="text-center">
-            <button class="btn btn-primary btn-copy-iban" id="btnCopyIban" style="border-radius: 12px;">
-                <i class="bi bi-clipboard me-2"></i> Copier l'IBAN
-            </button>
-        </div>
+  <!-- Header -->
+  <div class="container">
+    <div class="breadcrumb mt-3">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <span class="bi bi-bank text-primary" style="font-size: 15px;"></span>
+            Compte Bancaire
+          </li>
+        </ol>
+      </nav>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
+    <div class="container-fluid">
+      <p class="mb-2">Détails de mon Compte</p>
+      <div class="card rounded-3 shadow-sm mb-2 bg-light-subtle">
+        <div class="card-body text-center">
+          <p class="text-muted mb-1">Solde Actuel</p>
+          <p class="fw-bold text-primary mb-2 fs-5">€3.466,90</p>
+          <p class="mb-0 fs-6">Themesflat</p>
+          <small class="text-muted">Titulaire du Compte</small>
+        </div>
+      </div>
 
-            // 1. Gestion de la copie de l'IBAN
-            const copyBtn = document.querySelector('.btn-copy-iban'); // J'ai ajouté une classe spécifique ci-dessous
-            const ibanText = "FR76 xxxx xxxx xxxx xxxx"; // Ou récupéré dynamiquement via le DOM
+      <div class="card mb-4">
+        <ul class="list-group list-group-flush rounded-3 shadow-sm">
+          <li class="list-group-item d-flex justify-content-between">
+            <span><i class="bi bi-credit-card-fill me-2"></i>IBAN</span>
+            <span class="fw-semibold text-break">FR76 xxxx xxxx xxxx xxxx</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span><i class="bi bi-bank me-2"></i>BIC/SWIFT</span>
+            <span class="fw-semibold">BUDGETAPPXX</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span><i class="bi bi-person me-2"></i>Nom Complet</span>
+            <span class="fw-semibold">THEMESFLAT DUPONT</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span><i class="bi bi-geo-alt me-2"></i>Banque</span>
+            <span class="fw-semibold">Budget Banque Digitale</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-primary btn-copy-iban" id="btnCopyIban" style="border-radius: 12px;">
+        <i class="bi bi-clipboard me-2"></i> Copier l'IBAN
+      </button>
+    </div>
+  </div>
 
-            if (copyBtn) {
-                copyBtn.addEventListener('click', function () {
-                    // Copie dans le presse-papier
-                    navigator.clipboard.writeText(ibanText.replace(/\s/g, '')).then(() => {
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
 
-                        // Retour visuel sur le bouton
-                        const originalContent = copyBtn.innerHTML;
-                        copyBtn.innerHTML = '<i class="bi bi-check2 me-2"></i> Copié !';
-                        copyBtn.classList.replace('btn-primary-custom', 'btn-success');
+      // 1. Gestion de la copie de l'IBAN
+      const copyBtn = document.querySelector('.btn-copy-iban'); // J'ai ajouté une classe spécifique ci-dessous
+      const ibanText = "FR76 xxxx xxxx xxxx xxxx"; // Ou récupéré dynamiquement via le DOM
 
-                        // Remettre le bouton à l'état initial après 2 secondes
-                        setTimeout(() => {
-                            copyBtn.innerHTML = originalContent;
-                            copyBtn.classList.replace('btn-success', 'btn-primary-custom');
-                        }, 2000);
+      if (copyBtn) {
+        copyBtn.addEventListener('click', function () {
+          // Copie dans le presse-papier
+          navigator.clipboard.writeText(ibanText.replace(/\s/g, '')).then(() => {
 
-                    }).catch(err => {
-                        console.error('Erreur lors de la copie : ', err);
-                    });
-                });
-            }
+            // Retour visuel sur le bouton
+            const originalContent = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="bi bi-check2 me-2"></i> Copié !';
+            copyBtn.classList.replace('btn-primary-custom', 'btn-success');
+
+            // Remettre le bouton à l'état initial après 2 secondes
+            setTimeout(() => {
+              copyBtn.innerHTML = originalContent;
+              copyBtn.classList.replace('btn-success', 'btn-primary-custom');
+            }, 2000);
+
+          }).catch(err => {
+            console.error('Erreur lors de la copie : ', err);
+          });
         });
-    </script>
+      }
+    });
+  </script>
 </body>
 
 </html>
