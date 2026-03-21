@@ -14,6 +14,10 @@ class User {
         this.postcode = data.postcode || null;
 this.ville = data.ville || null;
         this.avatar = data.avatar || null;
+        this.iban = data.iban || null;
+        this.bicSwift = data.bic_swift || null;
+        this.bankName = data.bank_name || null;
+        this.balance = data.balance || 0.00;
         this.notifPrefs = data.notif_prefs || '{}';
         this.twofaEnabled = data.twofa_enabled || false;
         this.twofaSecret = data.twofa_secret || null;
@@ -41,7 +45,7 @@ this.ville = data.ville || null;
      * Retourne un objet utilisateur sans le mot de passe (pour l'affichage)
      * @returns {Object}
      */
-    toPublic() {
+toPublic() {
         return {
             id: this.id,
             email: this.email,
@@ -52,6 +56,10 @@ this.ville = data.ville || null;
             postcode: this.postcode,
             ville: this.ville,
             avatar: this.avatar,
+            iban: this.iban,
+            bicSwift: this.bicSwift,
+            bankName: this.bankName,
+            balance: this.balance,
             notifPrefs: typeof this.notifPrefs === 'string' ? JSON.parse(this.notifPrefs) : this.notifPrefs,
             twofaEnabled: this.twofaEnabled,
             createdAt: this.createdAt
@@ -90,12 +98,16 @@ this.ville = data.ville || null;
             email: row.email,
             password: row.password,
             role: row.role,
-            fullName: row.fullName,
+fullName: row.fullName,
             phone: row.phone,
             address: row.address,
             postcode: row.postcode,
             ville: row.ville,
             avatar: row.avatar,
+            iban: row.iban,
+            bic_swift: row.bic_swift,
+            bank_name: row.bank_name,
+            balance: row.balance,
             created_at: row.created_at
         });
     }

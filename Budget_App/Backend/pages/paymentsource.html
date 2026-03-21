@@ -71,11 +71,9 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-end">
-            <a href="./transferconfirm.html">
-                <button class="btn btn-primary confirm-btn mx-3">Confirmer
-                    Paiement</button>
-            </a>
+        <div class="d-flex justify-content-end mx-3">
+            <button class="btn btn-primary confirm-btn">
+                Payer</button>
         </div>
     </div>
 
@@ -129,6 +127,7 @@
             
             if (confirmBtn) {
                 confirmBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
                     // Récupérer la méthode de paiement sélectionnée
                     const selectedPayment = document.querySelector('.clickable-payment.active');
                     let paymentMethod = 'wallet';

@@ -219,42 +219,10 @@
             </div>
         </div>
         <div class="scrolls container-fluid service-grid mt-3 px-4">
-            <div class="row row-cols-3 row-cols-sm-4 row-cols-md-6 g-3      mb-4">
+            <div class="row row-cols-3 row-cols-sm-4 row-cols-md-6 g-3 mb-4" id="recent-contacts">
+                <!-- Dynamic recent contacts loaded here -->
                 <div class="col text-center">
-                    <img src="/public/assets/images/esther.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                border: 3px solid transparent; padding: 2px;
-                box-shadow: 0 0 0 1px #d3d3d3;">
-                    <p class="small text-truncate mb-0">Esther</p>
-                </div>
-                <div class="col text-center">
-                    <img src="/public/assets/images/hawkins.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                border: 3px solid transparent; padding: 2px;
-                box-shadow: 0 0 0 1px #d3d3d3;">
-                    <p class="small text-truncate mb-0">Hawkins</p>
-                </div>
-                <div class="col text-center">
-                    <img src="../public/assets/images/jenny.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                border: 3px solid transparent; padding: 2px;
-                box-shadow: 0 0 0 1px #d3d3d3;">
-                    <p class="small text-truncate mb-0">Jenny</p>
-                </div>
-                <div class="col text-center">
-                    <img src="../public/assets/images/Leslie.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                border: 3px solid transparent; padding: 2px;
-                box-shadow: 0 0 0 1px #d3d3d3;">
-                    <p class="small text-truncate mb-0">Leslie</p>
-                </div>
-                <div class="col text-center">
-                    <img src="../public/assets/images/jerome.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                border: 3px solid transparent; padding: 2px;
-                box-shadow: 0 0 0 1px #d3d3d3;">
-                    <p class="small text-truncate mb-0">Jerome</p>
-                </div>
-                <div class="col text-center">
-                    <img src="../public/assets/images/betty.jpg" alt="Esther" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover;
-                    border: 3px solid transparent; padding: 2px;
-                    box-shadow: 0 0 0 1px #d3d3d3;">
-                    <p class="small text-truncate mb-0">Betty</p>
+                    <div class="text-muted">Chargement...</div>
                 </div>
             </div>
         </div>
@@ -365,16 +333,20 @@
                 </div>
 
                 <div class="modal-body px-4 pt-0">
-                    <div class="card-selected p-3 mb-4 d-flex align-items-center shadow-sm">
-                        <div class="card-logo bg-white p-2 rounded me-3">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
-                                width="35" alt="Mastercard">
+                    <div class="card-selected p-3 mb-4 d-flex flex-column shadow-sm" style="cursor: pointer;" onclick="window.location.href='cardinfo.html'">
+                        <div class="d-flex align-items-center w-100">
+                            <div class="card-logo bg-white p-2 rounded me-3">
+                                <img src="../public/assets/images/icons8-visa-48.png" alt="Visa" width="40">
+                            </div>
+                            <div class="flex-grow-1">
+                                <p class="mb-0 fw-bold small">Mastercard</p>
+                                <p class="mb-0 text-muted extra-small">**** **** **** 7576</p>
+                            </div>
+                            <i class="bi bi-check-circle-fill text-success active fs-4"></i>
                         </div>
-                        <div class="flex-grow-1">
-                            <p class="mb-0 fw-bold small">Mastercard</p>
-                            <p class="mb-0 text-muted extra-small">**** **** **** 7576</p>
+                        <div class="info-row w-100 mt-2 pt-2" style="border-top: 1px solid #eee;">
+                            <span class="text-muted small">Transfert à partir</span><strong>Portefeuille</strong>
                         </div>
-                        <i class="bi bi-check-circle-fill text-success active fs-4"></i>
                     </div>
 
                     <div class="d-flex align-items-center my-4">
@@ -384,23 +356,23 @@
                     </div>
 
                     <div class="other-cards-list mb-4">
-                        <div class="d-flex align-items-center py-3 border-bottom">
+                        <div class="d-flex align-items-center py-3 border-bottom" style="cursor: pointer;" onclick="window.location.href='cardinfo.html'">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" width="35"
                                 class="me-3" alt="Visa">
                             <div class="flex-grow-1">
                                 <p class="mb-0 fw-bold small text-dark">Visacard</p>
                                 <p class="mb-0 text-muted extra-small">**** **** **** 3245</p>
                             </div>
-                            <i class="bi bi-check-circle-fill active text-success fs-5"></i>
+                            <i class="bi bi-check-circle-fill text-success fs-5"></i>
                         </div>
-                        <div class="d-flex align-items-center py-3 border-bottom">
+                        <div class="d-flex align-items-center py-3 border-bottom" style="cursor: pointer;" onclick="window.location.href='cardinfo.html'">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
                                 width="35" class="me-3" alt="Mastercard">
                             <div class="flex-grow-1">
                                 <p class="mb-0 fw-bold small text-dark">Mastercard</p>
                                 <p class="mb-0 text-muted extra-small">**** **** **** 7576</p>
                             </div>
-                            <i class="bi bi-check-circle-fill active text-success fs-5"></i>
+                            <i class="bi bi-check-circle-fill text-success fs-5"></i>
                         </div>
                     </div>
                     <a href="./addnewcard.html"><button
@@ -611,138 +583,12 @@
             </ul>
 
             <div class="tab-content px-3" id="recipientTabsContent">
-                <div class="tab-pane fade show active" id="phone" role="tabpanel">
-                    <div class="contact-item d-flex align-items-center mb-3">
-                        <img src="../public/assets/images/Andy Cody.jpg" alt="Andy"
-                            class="img-fluid rounded-circle me-3"
-                            style="width: 50px; height: 50px; object-fit: cover;" />
-                        <div>
-                            <a href="./detailcontact.html" class="text-decoration-none text-dark">
-                                <strong>Andy Cody</strong><br />
-                                <small class="text-muted">**** **** **** 0674</small>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
-                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
-                        data-email="alex.tran@email.com">
-                        <img src="../public/assets/images/Alex Tran.jpg" alt="Alex Tran"
-                            class="img-fluid rounded-circle me-3"
-                            style="width: 50px; height: 50px; object-fit: cover;" />
-                        <div>
-                            <a href="./detailcontact.html">
-                                <strong>Alex Tran</strong><br />
-                                <small>**** **** **** 3216</small>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
-                        data-bs-target="#contactModal" data-name="Andy Cody" data-number="**** **** **** 0675"
-                        data-email="andy.cody@email.com">
-                        <img src="../public/assets/images/Andy Cody.jpg" alt="Andy Cody"
-                            class="img-fluid rounded-circle me-3"
-                            style="width: 50px; height: 50px; object-fit: cover;" />
-                        <div>
-                            <a href="./detailcontact.html">
-                                <strong>Andy Cody</strong><br />
-                                <small>**** **** **** 0675</small>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
-                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
-                        data-email="kanope.francoise@email.com">
-                        <img src="../public/assets/images/Kanope Francoise.jpg" alt="Kanope Francoise"
-                            class="img-fluid rounded-circle me-3"
-                            style="width: 50px; height: 50px; object-fit: cover;" />
-                        <div>
-                            <a href="./detailcontact.html">
-                                <strong>Kanope Francoise</strong><br />
-                                <small>**** **** **** 0543</small>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
-                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
-                        data-email="mallorie.jean@email.com">
-                        <img src="../public/assets/images/Mallorie Jean.jpg" alt="Mallorie Jean"
-                            class="img-fluid rounded-circle me-3"
-                            style="width: 50px; height: 50px; object-fit: cover;" />
-                        <div>
-                            <a href="./detailcontact.html">
-                                <strong>Mallorie Jean</strong><br />
-                                <small>**** **** **** 3317</small>
-                            </a>
-                        </div>
-                    </div>
+                    <div class="tab-pane fade show active" id="phone" role="tabpanel">
+                    <!-- Dynamic phone recipients -->
                 </div>
 
-                <div class="tab-pane fade" id="bank" role="tabpanel">
-                    <div class="contact-item d-flex align-items-center mb-3">
-                        <img src="../public/assets/images/Andy Cody.jpg" alt="Andy"
-                            class="img-fluid rounded-circle me-3"
-                            style="width: 50px; height: 50px; object-fit: cover;" />
-                        <div>
-                            <a href="./detailcontact.html" class="text-decoration-none text-dark">
-                                <strong>Andy Cody</strong><br />
-                                <small class="text-muted">**** **** **** 0674</small>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
-                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
-                        data-email="alex.tran@email.com">
-                        <img src="../public/assets/images/Alex Tran.jpg" alt="Alex Tran"
-                            class="img-fluid rounded-circle me-3"
-                            style="width: 50px; height: 50px; object-fit: cover;" />
-                        <div>
-                            <a href="./detailcontact.html">
-                                <strong>Alex Tran</strong><br />
-                                <small>**** **** **** 3216</small>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
-                        data-bs-target="#contactModal" data-name="Andy Cody" data-number="**** **** **** 0675"
-                        data-email="andy.cody@email.com">
-                        <img src="../public/assets/images/Andy Cody.jpg" alt="Andy Cody"
-                            class="img-fluid rounded-circle me-3"
-                            style="width: 50px; height: 50px; object-fit: cover;" />
-                        <div>
-                            <a href="./detailcontact.html">
-                                <strong>Andy Cody</strong><br />
-                                <small>**** **** **** 0675</small>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
-                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
-                        data-email="kanope.francoise@email.com">
-                        <img src="../public/assets/images/Kanope Francoise.jpg" alt="Kanope Francoise"
-                            class="img-fluid rounded-circle me-3"
-                            style="width: 50px; height: 50px; object-fit: cover;" />
-                        <div>
-                            <a href="./detailcontact.html">
-                                <strong>Kanope Francoise</strong><br />
-                                <small>**** **** **** 0543</small>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="contact-item d-flex align-items-center mb-3" data-bs-toggle="modal"
-                        data-bs-target="#contactModal" data-name="Alex Tran" data-number="**** **** **** 3216"
-                        data-email="mallorie.jean@email.com">
-                        <img src="../public/assets/images/Mallorie Jean.jpg" alt="Mallorie Jean"
-                            class="img-fluid rounded-circle me-3"
-                            style="width: 50px; height: 50px; object-fit: cover;" />
-                        <div>
-                            <a href="./detailcontact.html">
-                                <strong>Mallorie Jean</strong><br />
-                                <small>**** **** **** 3317</small>
-                            </a>
-                        </div>
-                    </div>
+                    <div class="tab-pane fade" id="bank" role="tabpanel">
+                    <!-- Dynamic bank recipients -->
                 </div>
             </div>
         </div>
@@ -798,10 +644,11 @@
         </div>
     </footer>
 
+    <script src="/public/js/api.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             // NOTIFICATIONS
 
             const badge = document.querySelector('.notification-badge');
@@ -924,8 +771,14 @@
                 // Solde
                 const balanceEl = document.getElementById("balance");
                 if (balanceEl) {
-                    const displayBalance = data.balance;
-                    balanceEl.textContent = `${displayBalance} ${data.currency}`;
+                    let displayBalance = '0.00';
+                    if (data.balance !== undefined && data.balance !== null) {
+                        displayBalance = parseFloat(data.balance).toFixed(2);
+                    } else if (cachedBalance) {
+                        displayBalance = parseFloat(cachedBalance).toFixed(2);
+                    }
+                    const currency = data.currency || '€';
+                    balanceEl.textContent = `${displayBalance} ${currency}`;
                     // Mettre à jour le localStorage avec le nouveau solde
                     localStorage.setItem('userBalance', displayBalance);
                 }
@@ -962,10 +815,143 @@
                 console.error("Erreur API :", error);
             });
 
+        // Load dynamic contacts
+        async function loadRecentContacts() {
+            try {
+                const recipients = await api.getRecipients();
+                const recentContainer = document.getElementById('recent-contacts');
+                if (recentContainer && recipients && recipients.length > 0) {
+                    recentContainer.innerHTML = recipients.slice(0, 6).map(r => `
+                        <div class="col text-center">
+                            <img src="/public/assets/images/profil.jpg" alt="${r.name}" class="rounded-circle mb-1" style="width: 60px; height: 60px; object-fit: cover; border: 3px solid transparent; padding: 2px; box-shadow: 0 0 0 1px #d3d3d3;">
+                            <p class="small text-truncate mb-0">${r.name}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    recentContainer.innerHTML = '<div class="col-12 text-center text-muted py-3">Aucun contact récent</div>';
+                }
+            } catch (error) {
+                console.error('Error loading contacts:', error);
+            }
+        }
+
+        async function loadSavedRecipients() {
+            try {
+                const recipients = await api.getRecipients();
+                const phonePane = document.getElementById('phone');
+                const bankPane = document.getElementById('bank');
+                
+                const phoneContacts = recipients.filter(r => r.type === 'phone');
+                const bankContacts = recipients.filter(r => r.type === 'bank');
+
+                phonePane.innerHTML = phoneContacts.length ? phoneContacts.map(r => `
+                    <div class="contact-item d-flex align-items-center mb-3">
+                        <img src="/public/assets/images/profil.jpg" alt="${r.name}" class="img-fluid rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                        <div>
+                            <a href="./detailcontact.html?id=${r.id}">
+                                <strong>${r.name}</strong><br>
+                                <small class="text-muted">${r.identifier}</small>
+                            </a>
+                        </div>
+                    </div>
+                `).join('') : '<p class="text-muted p-3">Aucun contact téléphone</p>';
+
+                bankPane.innerHTML = bankContacts.length ? bankContacts.map(r => `
+                    <div class="contact-item d-flex align-items-center mb-3">
+                        <img src="/public/assets/images/profil.jpg" alt="${r.name}" class="img-fluid rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                        <div>
+                            <a href="./detailcontact.html?id=${r.id}">
+                                <strong>${r.name}</strong><br>
+                                <small class="text-muted">${r.identifier}</small>
+                            </a>
+                        </div>
+                    </div>
+                `).join('') : '<p class="text-muted p-3">Aucun contact bancaire</p>';
+            } catch (error) {
+                console.error('Error loading saved recipients:', error);
+            }
+        }
+
+        // Load data on page load
+        loadRecentContacts();
+        loadSavedRecipients();
+
+        // Listen for offcanvas open to refresh
+        document.getElementById('offcanvasSavedRecipients').addEventListener('shown.bs.offcanvas', loadSavedRecipients);
+
+        // Charger dynamiquement les cartes dans le modal "Cartes"
+        async function loadModalCards() {
+            try {
+                const response = await fetch('/api/cards');
+                const cards = await response.json();
+                
+                const cardSelectedContainer = document.querySelector('.card-selected');
+                const otherCardsList = document.querySelector('.other-cards-list');
+                
+                if (cards && cards.length > 0) {
+                    const primaryCard = cards[0];
+                    const otherCards = cards.slice(1);
+                    
+                    const primaryImg = primaryCard.card_brand === 'Visa' ? 
+                        'https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg' : 
+                        'https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg';
+                        
+                    cardSelectedContainer.className = 'card-selected p-3 mb-4 d-flex flex-column shadow-sm';
+                    cardSelectedContainer.style.cursor = 'pointer';
+                    cardSelectedContainer.onclick = () => window.location.href = 'cardinfo.html';
+                    
+                    cardSelectedContainer.innerHTML = `
+                        <div class="d-flex align-items-center w-100">
+                            <div class="card-logo bg-white p-2 rounded me-3">
+                                <img src="${primaryImg}" width="35" alt="${primaryCard.card_brand}">
+                            </div>
+                            <div class="flex-grow-1">
+                                <p class="mb-0 fw-bold small">${primaryCard.card_brand}</p>
+                                <p class="mb-0 text-muted extra-small">**** **** **** ${primaryCard.last_4_digits}</p>
+                            </div>
+                            <i class="bi bi-check-circle-fill text-success active fs-4"></i>
+                        </div>
+                        <div class="info-row w-100 mt-2 pt-2" style="border-top: 1px solid #eee;">
+                            <span class="text-muted small">Transfert à partir</span><strong>Portefeuille</strong>
+                        </div>
+                    `;
+                    
+                    if (otherCards.length > 0) {
+                        otherCardsList.innerHTML = otherCards.map(card => {
+                            const img = card.card_brand === 'Visa' ? 
+                                'https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg' : 
+                                'https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg';
+                            return `
+                                <div class="d-flex align-items-center py-3 border-bottom" style="cursor: pointer;" onclick="window.location.href='cardinfo.html?id=${card.id}'">
+                                    <img src="${img}" width="35" class="me-3" alt="${card.card_brand}">
+                                    <div class="flex-grow-1">
+                                        <p class="mb-0 fw-bold small text-dark">${card.card_brand}</p>
+                                        <p class="mb-0 text-muted extra-small">**** **** **** ${card.last_4_digits}</p>
+                                    </div>
+                                    <i class="bi bi-circle text-muted fs-5"></i>
+                                </div>
+                            `;
+                        }).join('');
+                    } else {
+                        otherCardsList.innerHTML = '<p class="text-center text-muted small mt-3">Aucune autre carte</p>';
+                    }
+                } else {
+                    cardSelectedContainer.innerHTML = `<p class="mb-0 text-muted mx-auto">Aucune carte enregistrée</p>`;
+                    otherCardsList.innerHTML = '';
+                }
+            } catch (error) {
+                console.error('Erreur chargement cartes:', error);
+            }
+        }
+
+        // Déclencher le chargement à l'ouverture du modal
+        const manageCardModal = document.getElementById('manageCardModal');
+        if (manageCardModal) {
+            manageCardModal.addEventListener('show.bs.modal', loadModalCards);
+        }
 
     </script>
 
 </body>
 
 </html>
-

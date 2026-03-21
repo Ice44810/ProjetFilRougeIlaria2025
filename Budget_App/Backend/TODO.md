@@ -1,11 +1,34 @@
-# TODO: Fix ERR_HTTP_HEADERS_SENT in stats.js
+# TODO: Rendre dynamique la page banque
 
-## Plan Implementation Steps
-- [x] Step 1: Refactor StatsService in handlers/stats.js to use db.queryPromise consistently
-- [x] Step 2: Add response sent guards (res.headersSent checks)
-- [x] Step 3: Update server.js API routing for better middleware handling + transfers.js StatsService import
-- [ ] Step 4: Test /api/topup, /api/stats endpoints
-- [ ] Step 5: Verify fix and complete
+## Étapes du plan approuvé (Option 1: champs directs dans users table)
 
-Current: Steps 1-3 complete. Restart server and test.
+### 1. ✅ Créer fichier TODO.md (fait)
+
+### 2. ✅ Créer script migration DB pour ajouter champs banque à users table
+- Fichier: migrations/add_bank_fields.sql (prêt, client DB install en cours)
+
+### 3. ✅ Exécuter migration DB (utiliser execute_command après install)
+
+### 4. ✅ Mettre à jour models/User.js (ajouter champs iban, bicSwift, bankName, balance)
+
+### 5. ✅ Mettre à jour handlers/users.js 
+- Étendre requête SELECT dans getProfile()
+- Ajouter logique balance si computed
+
+### 6. ✅ Mettre à jour public/js/api.js 
+- Étendre getProfile() ou ajouter getBankDetails() (getProfile prêt)
+
+### 7. ✅ Mettre à jour pages/banque.html
+- Ajouter fetch data on DOMContentLoaded
+- Remplacer static data par data.fields
+- Rendre copy IBAN dynamique
+
+### 8. Ajouter échantillon data test (INSERT user avec bank info)
+
+### 9. Tester:
+- API /api/users/profile
+- Page banque.html
+- Copy IBAN
+
+### 10. ✅ Marquer complet + attempt_completion
 

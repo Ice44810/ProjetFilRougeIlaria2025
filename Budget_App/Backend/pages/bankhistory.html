@@ -190,113 +190,9 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid mb-3">
-            <h6 class="mb-3">Novembre</h6>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-lightning-charge-fill text-primary"></i></div>
-                    <div><a href="./electricity.html">
-                            <div class="fw-bold">Facture électricité</div>
-                        </a>
-                        <div class="text-muted small">aujourd'hui 10:27</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €307</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center"><img src="../public/assets/images/esther.jpg" class="avatar me-3"
-                        alt="Esther">
-                    <div><a href="./bankhistory.html">
-                            <div class="fw-bold">Esther</div>
-                        </a>
-                        <div class="text-muted small">aujourd'hui 7:30</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-success">+€50</div>
-            </div>
-        </div>
-        <div class="container-fluid mb-3 mt-2">
-            <h6 class="mb-3">Octobre</h6>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-phone text-primary-emphasis"></i>
-                    </div>
-                    <div><a href="./mobile.html">
-                            <div class="fw-bold">Mobile</div>
-                        </a>
-                        <div class="text-muted small">Hier 17:27</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €25</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-wifi text-primary fw-bold fs-4"></i></div>
-                    <div><a href="./internet.html">
-                            <div class="fw-bold">Wifi</div>
-                        </a>
-                        <div class="text-muted small">Hier 13:27</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €25</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-droplet-fill text-primary"></i>
-                    </div>
-                    <div><a href="./waterbill.html">
-                            <div class="fw-bold">Eau</div>
-                        </a>
-                        <div class="text-muted small">Hier 10:27</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €10</div>
-            </div>
-        </div>
-
-        <div class="container-fluid mb-5 mt-2">
-            <h6 class=" mb-3">Septembre</h6>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-steam text-primary"></i></div>
-                    <div>
-                        <div class="fw-bold">Steam</div>
-                        <div class="text-muted small">20/11/2026 17:27</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €25</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center">
-                    <div class="transaction-icon me-3"><i class="bi bi-google-play text-primary"></i>
-                    </div>
-                    <div>
-                        <div class="fw-bold">App Store</div>
-                        <div class="text-muted small">20/11/2026 13:27 AM</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-danger">- €32</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center"><img src="../public/assets/images/Leslie.jpg" class="avatar me-3"
-                        alt="Esther">
-                    <div>
-                        <div class="fw-bold">Leslie</div>
-                        <div class="text-muted small">Aujourd'hui 7:30</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-success">+€10</div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <div class="d-flex align-items-center"><img src="../public/assets/images/Leslie.jpg" class="avatar me-3"
-                        alt="Esther">
-                    <div>
-                        <div class="fw-bold">Leslie</div>
-                        <div class="text-muted small">Aujourd'hui 7:30</div>
-                    </div>
-                </div>
-                <div class="fw-bold text-success">+€10</div>
-            </div>
+        <div id="transactionsListContainer" class="container-fluid mb-5 mt-2">
+            <!-- Les transactions seront chargées ici dynamiquement -->
+            <div class="text-center text-muted py-4">Chargement des transactions...</div>
         </div>
     </div>
     <!-- Modal Filtre -->
@@ -371,4 +267,3 @@
 </body>
 
 </html>
-

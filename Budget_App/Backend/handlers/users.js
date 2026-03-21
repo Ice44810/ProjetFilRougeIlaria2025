@@ -122,8 +122,8 @@ async function handleUsers(req, res, userSession) {
 // Fonctions utilitaires / service logic
 async function getProfile(userId) {
     return new Promise((resolve) => {
-        db.query(
-            'SELECT id, email, role, fullName, phone, address, postcode, ville, notif_prefs, twofa_enabled, twofa_secret FROM users WHERE id = ?',
+db.query(
+            'SELECT id, email, role, fullName, phone, address, postcode, ville, notif_prefs, twofa_enabled, twofa_secret, iban, bic_swift, bank_name, balance FROM users WHERE id = ?',
             [userId],
             (err, results) => {
                 if (err) return resolve(null);

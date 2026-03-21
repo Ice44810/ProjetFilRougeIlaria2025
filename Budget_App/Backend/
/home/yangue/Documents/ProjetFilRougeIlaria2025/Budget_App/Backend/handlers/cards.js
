@@ -1,3 +1,4 @@
+
 const logger = require('../utils/logger');
 const db = require('../utils/db');
 
@@ -91,37 +92,86 @@ class CardService {
         });
     }
 
-    // Extrait de CardService.createCard dans ton fichier cards.js
     static createCard(userId, data) {
-    return new Promise((resolve) => {
-        const { cardNumber, cardHolderName, expiryDate } = data;
-        
-        // Nettoyage final côté serveur par sécurité
-        const cleanNumber = cardNumber.replace(/[^0-9]/g, '');
+        return new Promise((resolve) => {
+            if (!userId) {
+                logger.warn('createCard called without userId - auth required', { userId });
+                return resolve({ success: false, error: 'Authentification requise - connexion nécessaire', status: 401 });
+            }
 
-        // Validation Luhn (Déjà présente dans ton code, c'est parfait)
-        if (!CardService.isValidLuhn(cleanNumber)) {
-            return resolve({ success: false, error: 'Numéro de carte invalide (Luhn)', status: 400 });
-        }
+            logger.info('createCard called', { userId, dataKeys: Object.keys(data) });
+            
+            const { cardNumber, cardHolderName, expiryDate } = data;
+            if (!cardNumber || !cardHolderName || !expiryDate) {
+                logger.warn('Missing required fields', { userId, hasCardNumber: !!cardNumber, hasHolder: !!cardHolderName, hasExpiry: !!expiryDate });
+                return resolve({ success: false, error: 'Champs requis manquants (numéro, titulaire, expiration)' });
+            }
 
-        const last4Digits = cleanNumber.slice(-4);
-        const brand = CardService.getCardBrand(cleanNumber);
+            const cleanNumber = cardNumber.replace(/[^0-9]/g, '');
+            logger.debug('Card validation', { cleanNumberLength: cleanNumber.length, isValidLuhn: CardService.isValidLuhn(cleanNumber) });
+            
+            if (cleanNumber.length < 13 || !CardService.isValidLuhn(cleanNumber)) {
+                return resolve({ success: false, error: 'Numéro de carte invalide (Luhn)', status: 400 });
+            }
 
-        // Insertion en base (Utilise l'ID de session pour la sécurité)
-        const newCard = { 
-            user_id: userId, 
-            card_holder_name: cardHolderName.trim(), 
-            last_4_digits: last4Digits, 
-            expiry_date: expiryDate, // ex: 2026-01
-            card_brand: brand 
-        };
+            const last4Digits = cleanNumber.slice(-4);
+            const brand = CardService.getCardBrand(cleanNumber);
 
-        db.query('INSERT INTO cards SET ?', newCard, (err, result) => {
-            if (err) return resolve({ success: false, error: err.message, status: 500 });
-            resolve({ success: true, card: { id: result.insertId, ...newCard } });
+            // Check duplicate with detailed logging
+            logger.debug('Checking duplicate card', { userId, last4Digits, brand });
+            db.query('SELECT id FROM cards WHERE user_id = ? AND last_4_digits = ? AND card_brand = ?', 
+                [userId, last4Digits, brand], 
+                (err, results) => {
+                    if (err) {
+                        logger.error('Duplicate check DB error', { 
+                            userId, 
+                            last4Digits, 
+                            brand, 
+                            error: err.message, 
+                            code: err.code,
+                            sqlState: err.sqlState 
+                        });
+                        return resolve({ success: false, error: `Erreur vérification doublon: ${err.code || err.message}`, status: 500 });
+                    }
+                    
+                    if (results.length > 0) {
+                        logger.info('Duplicate card blocked', { userId, last4Digits, brand });
+                        return resolve({ success: false, error: 'Cette carte est déjà enregistrée', status: 409 });
+                    }
+
+                    const date = new Date(expiryDate);
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const year = date.getFullYear();
+                    const formattedExpiryDate = `${month}/${year}`;
+
+                    const newCard = { 
+                        user_id: userId, 
+                        card_holder_name: cardHolderName.trim(), 
+                        last_4_digits: last4Digits, 
+                        expiry_date: formattedExpiryDate, 
+                        card_brand: brand 
+                    };
+                    
+                    logger.debug('Inserting new card', { userId, newCard });
+                    db.query('INSERT INTO cards SET ?', newCard, (err, result) => {
+                        if (err) {
+                            logger.error('Insert card DB error', { 
+                                userId, 
+                                last4Digits, 
+                                error: err.message, 
+                                code: err.code,
+                                sqlState: err.sqlState,
+                                errno: err.errno 
+                            });
+                            return resolve({ success: false, error: `Erreur base de données: ${err.code === 'ER_NO_REFERENCED_ROW_2' ? 'Utilisateur invalide' : err.message}`, status: 500 });
+                        }
+                        
+                        logger.info('Card created successfully', { cardId: result.insertId, userId });
+                        resolve({ success: true, card: { id: result.insertId, ...newCard } });
+                    });
+                });
         });
-    });
-}
+    }
 
     static updateCard(cardId, userId, data) {
         return new Promise((resolve) => {

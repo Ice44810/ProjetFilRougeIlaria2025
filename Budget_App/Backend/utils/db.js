@@ -113,6 +113,27 @@ db.query(createUsersTable, (err, result) => {
                     return;
                 }
                 console.log("Table 'cards' prête.");
+
+                // Ajout des nouvelles colonnes au cas où la table aurait été créée avec un ancien schéma
+                const alterCardsColumns = [
+                    `ALTER TABLE cards ADD COLUMN card_holder_name VARCHAR(255) DEFAULT 'Inconnu'`,
+                    `ALTER TABLE cards ADD COLUMN last_4_digits VARCHAR(4) DEFAULT '0000'`,
+                    `ALTER TABLE cards ADD COLUMN expiry_date VARCHAR(7) DEFAULT '00/00'`,
+                    `ALTER TABLE cards ADD COLUMN card_brand VARCHAR(50) DEFAULT 'Autre'`
+                ];
+
+                alterCardsColumns.forEach(query => {
+                    db.query(query, (err, result) => {
+                        if (err && !err.message.includes('Duplicate column name')) {
+                            console.error("Erreur lors de l'ajout d'une colonne à 'cards':", err);
+                        }
+                    });
+                });
+
+                // Suppression de l'ancienne colonne obsolète qui bloque l'insertion
+                db.query("ALTER TABLE cards DROP COLUMN last4_digits", (err) => {
+                    // On ignore silencieusement l'erreur si la colonne a déjà été supprimée
+                });
             });
 
             const createRecipientsTable = `
@@ -150,7 +171,11 @@ db.query(createUsersTable, (err, result) => {
                 `ALTER TABLE users ADD COLUMN phone VARCHAR(20) DEFAULT NULL`,
                 `ALTER TABLE users ADD COLUMN address VARCHAR(255) DEFAULT NULL`,
                 `ALTER TABLE users ADD COLUMN postcode VARCHAR(10) DEFAULT NULL`,
-                `ALTER TABLE users ADD COLUMN ville VARCHAR(100) DEFAULT NULL`
+                `ALTER TABLE users ADD COLUMN ville VARCHAR(100) DEFAULT NULL`,
+                `ALTER TABLE users ADD COLUMN iban VARCHAR(34) DEFAULT NULL`,
+                `ALTER TABLE users ADD COLUMN bic_swift VARCHAR(11) DEFAULT NULL`,
+                `ALTER TABLE users ADD COLUMN bank_name VARCHAR(100) DEFAULT NULL`,
+                `ALTER TABLE users ADD COLUMN balance DECIMAL(10,2) DEFAULT 0.00`
             ];
 
             // ALTER TABLE ADD COLUMN : est une instruction SQL utilisée pour ajouter une nouvelle colonne à une table 

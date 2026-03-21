@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
    <link rel="stylesheet" href="../public/assets/style.css" />
+    <script src="/public/js/api.js"></script>
 </head>
 
 <body>
@@ -47,11 +48,11 @@
                 <!-- Emétteur -->
                 <div>
                     <div class="text-muted small mb-0">De</div>
-                    <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3" id="senderMethodDisplay">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" width="45"
                             alt="Visa" />
                         <div>
-                            <div class="fw-semibold">Visa card</div>
+                            <div class="fw-semibold">Carte Visa</div>
                             <div class="text-muted small">**** **** **** 4234</div>
                         </div>
                     </div>
@@ -60,7 +61,7 @@
                 <!-- Recepteur -->
                 <div>
                     <div class="text-muted small mb-0">A</div>
-                    <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-3" id="recipientDisplay">
                         <img src="/public/assets/images/Themesflat.jpg" class="rounded-circle" width="45" />
                         <div>
                             <div class="fw-semibold">Themesflat</div>
@@ -70,7 +71,7 @@
                 </div>
             </div>
             <!-- INFO TRANSFERT -->
-            <div class="card card-custom p-3 mt-3">
+            <div class="card card-custom p-3 mt-3" id="detailsContainer">
                 <div class="info-row">
                     <span class="text-muted small">Montant transaction</span><strong>Gratuite</strong>
                 </div>
@@ -89,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="container text-center">
+        <div class="container d-flex justify-content-end mx-3">
             <button class="btn btn-primary confirm-btn" id="btnToOTP">
                 Confirmer
             </button>
@@ -179,11 +180,105 @@
                 if (amountSpan) {
                     amountSpan.textContent = data.amount;
                 }
+
+                const amountLabel = document.querySelector('.transfer-card p.text-muted');
+                if (amountLabel) {
+                    amountLabel.textContent = isBill ? 'Montant de la facture' : 'Montant transfert';
+                }
                 
-                // Mettre à jour le message dans les détails
-                const messageElement = document.querySelector('.info-row .text-end:last-child');
-                if (messageElement && data.message) {
-                    messageElement.innerHTML = `<strong class="text-end">${data.message}</strong>`;
+                // Mise à jour de l'émetteur
+                const senderMethodDisplay = document.getElementById('senderMethodDisplay');
+                if (senderMethodDisplay) {
+                    if (data.fromMethod === 'wallet') {
+                        senderMethodDisplay.innerHTML = `
+                            <img src="https://img.icons8.com/color/48/wallet.png" width="45" alt="Wallet" />
+                            <div>
+                                <div class="fw-semibold">Alipay Wallet</div>
+                                <div class="text-muted small">Solde Principal</div>
+                            </div>
+                        `;
+                    } else {
+                        senderMethodDisplay.innerHTML = `
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" width="45" alt="Visa" />
+                            <div>
+                                <div class="fw-semibold">Carte Visa</div>
+                                <div class="text-muted small">**** **** **** 4234</div>
+                            </div>
+                        `;
+                    }
+                }
+
+                // Mise à jour du destinataire
+                const recipientDisplay = document.getElementById('recipientDisplay');
+                if (recipientDisplay) {
+                    if (isBill) {
+                        const billTitle = data.billType.charAt(0).toUpperCase() + data.billType.slice(1);
+                        recipientDisplay.innerHTML = `
+                            <div class="bg-primary-subtle rounded-circle d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                                <i class="bi bi-receipt fs-4 text-primary"></i>
+                            </div>
+                            <div>
+                                <div class="fw-semibold">Facture ${billTitle}</div>
+                                <div class="text-muted small">${data.clientCode || 'N/A'}</div>
+                            </div>
+                        `;
+                    } else {
+                        recipientDisplay.innerHTML = `
+                            <img src="/public/assets/images/profil.jpg" class="rounded-circle" width="45" style="height: 45px; object-fit: cover;" />
+                            <div>
+                                <div class="fw-semibold">${data.recipientName || 'Destinataire'}</div>
+                                <div class="text-muted small">${data.recipientIdentifier || '****'}</div>
+                            </div>
+                        `;
+                    }
+                }
+
+                // Mise à jour des informations détaillées
+                const detailsContainer = document.getElementById('detailsContainer');
+                if (detailsContainer) {
+                    if (isBill) {
+                        detailsContainer.innerHTML = `
+                            <div class="info-row">
+                                <span class="text-muted small">Montant à payer</span><strong class="text-primary">${data.amount} €</strong>
+                            </div>
+                            <div class="info-row">
+                                <span class="text-muted small">Code client</span><strong>${data.clientCode || 'N/A'}</strong>
+                            </div>
+                            <div class="info-row">
+                                <span class="text-muted small">Nom du client</span><strong>${data.clientName || 'N/A'}</strong>
+                            </div>
+                            <div class="info-row">
+                                <span class="text-muted small">Email</span><strong>${data.clientEmail || 'N/A'}</strong>
+                            </div>
+                            <div class="info-row">
+                                <span class="text-muted small">Frais de transaction</span><strong>Gratuit</strong>
+                            </div>
+                        `;
+                    } else {
+                        // Mappage simple pour convertir les montants courants en lettres
+                        const amountWordMap = {
+                            '10': 'Dix', '20': 'Vingt', '50': 'Cinquante', '70': 'Soixante-dix', 
+                            '75': 'Soixante-quinze', '100': 'Cent', '150': 'Cent cinquante', 
+                            '200': 'Deux cents', '500': 'Cinq cents', '1000': 'Mille', '2000': 'Deux mille'
+                        };
+                        const amtValue = data.amount ? data.amount.toString().replace('.00', '').replace(',00', '') : '0';
+                        const montantLettres = amountWordMap[amtValue] ? amountWordMap[amtValue] + ' euros' : data.amount + ' euros';
+
+                        detailsContainer.innerHTML = `
+                            <div class="info-row">
+                                <span class="text-muted small">Montant transaction</span><strong>${data.amount} €</strong>
+                            </div>
+                            <div class="info-row">
+                                <span class="text-muted small">Montant en lettres</span><strong class="text-end">${montantLettres}</strong>
+                            </div>
+                            <div class="info-row">
+                                <span class="text-muted small">Transfert à partir</span><strong>${data.fromMethod === 'wallet' ? 'Portefeuille' : 'Carte Bancaire'}</strong>
+                            </div>
+                            <div class="info-row">
+                                <span class="text-muted small">Message</span><strong class="text-end">${data.message || 'Aucun message'}</strong>
+                            </div>
+                        `;
+                    }
                 }
                 
                 console.log('Transfer confirm data:', data);
@@ -204,6 +299,8 @@
             const btnToLoading = document.getElementById("btnToLoading");
             if (btnToLoading) {
                 btnToLoading.addEventListener("click", () => {
+                    // Retirer le focus actif pour éviter l'erreur "Blocked aria-hidden"
+                    if (document.activeElement) document.activeElement.blur();
                     modalOtp.hide();
 
                     // On attend un petit délai pour que la fermeture de OTP soit fluide
@@ -212,11 +309,13 @@
 
                         // Simulation du traitement (2 secondes)
                         setTimeout(() => {
+                            // Retirer le focus actif pour éviter l'erreur "Blocked aria-hidden"
+                            if (document.activeElement) document.activeElement.blur();
                             modalLoading.hide();
 
                             // Mise à jour du montant
                             const display = document.getElementById("successAmountDisplay");
-                            if (display) display.textContent = "€" + (transferData ? transferData.amount : billData.amount);
+                            if (display) display.textContent = "€" + (data ? data.amount : '0');
 
                             // Créer la transaction
                             createTransaction(data, isBill);
@@ -273,29 +372,26 @@
         // Fonction pour créer la transaction via l'API
         async function createTransaction(data, isBill) {
             try {
-                // Préparer les données de la transaction
+                // Nettoyer le montant (ex: retirer les espaces, €, et remplacer la virgule)
+                let cleanAmount = String(data.amount).replace(/[€\s]/g, '').replace(',', '.');
+
+                // Préparer les données (uniquement les colonnes qui existent en Base de Données)
                 const transactionData = {
                     title: isBill ? `Paiement facture - ${data.billType || 'Facture'}` : `Transfert vers ${data.recipientName || 'Destinataire'}`,
-                    amount: data.amount,
+                    amount: cleanAmount,
                     type: 'expense',
-                    category_id: isBill ? getCategoryForBill(data.billType) : 4, // 4 = Transfer category
-                    description: data.message || (isBill ? `Paiement facture ${data.billType}` : 'Transfert d\'argent'),
-                    recipient_name: data.recipientName || null,
-                    recipient_identifier: data.recipientIdentifier || null
+                    category_id: isBill ? getCategoryForBill(data.billType) : 4 // 4 = Transfert
                 };
 
-                // Appeler l'API pour créer la transaction
-                const response = await fetch('/api/transactions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: new URLSearchParams(transactionData).toString()
-                });
+                // Utiliser le client API officiel pour envoyer la donnée
+                const result = await api.createTransaction(transactionData);
 
-                if (response.ok) {
-                    const result = await response.json();
-                    console.log('Transaction créée avec succès:', result);
+                if (result && !result.error) {
+                    // Déduction automatique du montant de l'opération sur le solde
+                    let currentBalance = parseFloat(localStorage.getItem('userBalance')) || 0;
+                    let amountToDeduct = parseFloat(cleanAmount) || 0;
+                    currentBalance -= amountToDeduct;
+                    localStorage.setItem('userBalance', currentBalance.toFixed(2));
                 } else {
                     console.error('Erreur lors de la création de la transaction');
                 }
@@ -305,14 +401,20 @@
         }
 
         // Fonction pour obtenir l'ID de catégorie selon le type de facture
-        function getCategoryForBill(billType) {
+function getCategoryForBill(billType) {
             const categories = {
                 'mobile': 5,
                 'internet': 6,
                 'electricity': 7,
-                'water': 8
+                'water': 8   
             };
             return categories[billType] || 4;
+            // Ces chiffres correspondent aux identifiants (ID) des catégories (la colonne category_id dans votre table transactions).
+            // 4 : Transfert classique / Autre (Valeur par défaut si le type n'est pas reconnu)
+            // 5 : Facture Mobile
+            // 6 : Facture Internet
+            // 7 : Facture d'Électricité
+            // 8 : Facture d'Eau
         }
     </script>
 

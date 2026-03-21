@@ -285,6 +285,29 @@ class APIClient {
     async deleteRecipient(id) {
         return this.request(`/recipients/${id}`, 'DELETE');
     }
+
+    // =========== CARTES BANCAIRES =============
+
+    /**
+     * Obtenir toutes les cartes
+     */
+    async getCards() {
+        return this.request('/cards', 'GET');
+    }
+
+    /**
+     * Obtenir une carte spécifique
+     */
+    async getCard(id) {
+        return this.request(`/cards/${id}`, 'GET');
+    }
+
+    /**
+     * Supprimer une carte
+     */
+    async deleteCard(id) {
+        return this.request(`/cards/${id}`, 'DELETE');
+    }
 }
 
 // Créer une instance globale du client API
@@ -420,4 +443,3 @@ const UI = {
 // Rendre les fonctions disponibles globalement
 window.api = api;
 window.UI = UI;
-

@@ -1,141 +1,88 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajout carte bancaire</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../public/assets/style.css" />
-
 </head>
-
 <body>
-    <!-- Header -->
     <div class="container">
         <div class="breadcrumb mt-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="index.html">Accueil</a></li>
                     <li class="breadcrumb-item"><a href="card.html">Carte Bancaire</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        <span class="bi bi-credit-card text-primary" style="font-size: 15px;"></span>
-                        Ajouter une carte
-                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Ajouter une carte</li>
                 </ol>
             </nav>
         </div>
 
-        <p class="fw-semibold mb-4 ms-3 mt-1">Ajouter les informations de lacarte bancaire</p>
-        <form class="form-group">
-            <div class="form-floating" id="cardform" methode="post">
+        <p class="fw-semibold mb-4 ms-3 mt-1">Ajouter les informations de la carte bancaire</p>
+        
+        <form id="addCardForm" class="form-group">
+            <div class="form-floating" id="cardform">
                 <div class="mb-4 position-relative">
-                    <label class="position-absolute px-2 ms-3 text-muted fs-6" style="top: -15px; left: 0; z-index: 5;">
-                        Numéro carte</label>
+                    <label class="position-absolute px-2 ms-3 text-muted fs-6" style="top: -12px; left: 0; z-index: 5; background: white;">Numéro carte</label>
                     <div class="input-group border rounded-3 align-items-center px-3" style="height: 40px;">
-                        <input type="text" name="card_number" id="card-number"
-                            class="form-control border-0 bg-transparent fs-6" value="0123 4546 0000 2133"
-                            style="box-shadow: none;">
+                        <input type="text" name="card_number" id="card-number" class="form-control border-0 bg-transparent fs-6" placeholder="0000 0000 0000 0000" style="box-shadow: none;">
                         <i class="bi bi-credit-card-fill text-primary fs-5"></i>
                     </div>
                 </div>
 
-                <div class="invalid-feedback">
-                </div>
-                <div class=" mb-4 position-relative">
-                    <label class="position-absolute px-2 ms-3 text-muted fs-6" style="top: -15px; left: 0; z-index: 5;">
-                        Nom du titulaire
-                    </label>
+                <div class="mb-4 position-relative">
+                    <label class="position-absolute px-2 ms-3 text-muted fs-6" style="top: -12px; left: 0; z-index: 5; background: white;">Nom du titulaire</label>
                     <div class="border rounded-3 px-3 d-flex align-items-center" style="height: 40px;">
-                        <input type="text" name="card_holder" id="card-holder"
-                            class="form-control border-0 bg-transparent fs-6" value="Themesflat"
-                            style="box-shadow: none;">
+                        <input type="text" name="card_holder" id="card-holder" class="form-control border-0 bg-transparent fs-6" placeholder="Ex: Jean Dupont" style="box-shadow: none;">
                     </div>
                 </div>
 
                 <div class="row g-4">
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <div class="position-relative">
-                            <label class="position-absolute px-2 ms-3 text-muted fs-6"
-                                style="top: -15px; left: 0; z-index: 5;">
-                                Date expiration
-                            </label>
+                            <label class="position-absolute px-2 ms-3 text-muted fs-6" style="top: -12px; left: 0; z-index: 5; background: white;">Expiration</label>
                             <div class="input-group border rounded-3 align-items-center px-3" style="height: 40px;">
-                                <input type="date" class="form-control border-0 bg-transparent fs-6 text-muted"
-                                    value="15/01/2026" style="box-shadow: none">
+                                <input type="month" id="expiry-date" class="form-control border-0 bg-transparent text-muted" style="box-shadow: none">
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <div class="position-relative">
-                            <label class="position-absolute bg-white px-2 ms-3 text-muted fs-6"
-                                style="top: -15px; left: 0; z-index: 5;">
-                                CVV
-                            </label>
+                            <label class="position-absolute px-2 ms-3 text-muted fs-6" style="top: -12px; left: 0; z-index: 5; background: white;">CVV</label>
                             <div class="input-group border rounded-3 align-items-center px-3" style="height: 40px;">
-                                <input type="text" class="form-control border-0 bg-transparent fs- text-muted"
-                                    placeholder="CVV" style="box-shadow: none;">
+                                <input type="text" id="card-cvv" maxlength="3" class="form-control border-0 bg-transparent text-muted" placeholder="123" style="box-shadow: none;">
                                 <i class="bi bi-info-circle text-secondary fs-6"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="mt-3 d-flex justify-content-end">
-                <button class="btn btn-primary fs-6" id="btnToOTP">Continuer</button>
+            <div class="mt-4 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary rounded-3" id="btnToOTP">Continuer</button>
             </div>
         </form>
     </div>
-    <!-- MODALS -->
-    <div class="modal fade" id="otpModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content rounded-4 p-4 text-center">
-                <button type="button" class="btn-close position-absolute top-0 start-0 m-3"
-                    data-bs-dismiss="modal"></button>
-                <h5 class="fw-semibold mb-4">Verification OTP</h5>
-                <div class="d-flex justify-content-center gap-3 mb-3">
-                    <input type="text" maxlength="1" class="otp-input">
-                    <input type="text" maxlength="1" class="otp-input">
-                    <input type="text" maxlength="1" class="otp-input">
-                    <input type="text" maxlength="1" class="otp-input">
-                </div>
-                <p class="text-muted mb-1 small">Un code a été envoyé à votre téléphone</p>
-                <p class="mb-4"><span id="resendText" class="text-primary fw-semibold"><span
-                            id="timer">01:00</span></span>
-                </p>
-                <button class="btn btn-primary w-100 rounded-3 py-2" id="btnToLoading">Continuer</button>
-            </div>
-        </div>
-    </div>
-
 
     <div class="modal fade" id="loadingModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 bg-transparent text-center">
                 <div class="spinner-border text-white mb-3" style="width: 3rem; height: 3rem;"></div>
-                <p class="text-white fw-bold">Encours...</p>
+                <p class="text-white fw-bold">Traitement en cours...</p>
             </div>
         </div>
     </div>
 
     <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-0 rounded-4 p-5 text-center bg-primary text-white overflow-hidden">
-                <div class="bg-white rounded-4 p-4 text-dark shadow position-relative" style="z-index: 2;">
-                    <div class="bg-success rounded-circle d-inline-flex p-3 mb-3 text-white">
-                        <i class="bi bi-check-lg fs-1"></i>
-                    </div>
-                    <h4 class="fw-bold">Succes!</h4>
-                    <p class="text-muted small">Votre transfert a été effectuer!</p>
-                    <div class="my-4">
-                        <span class="text-muted small">Total Transfert</span>
-                        <h2 class="fw-bold text-primary" id="successAmountDisplay">€70.0</h2>
-                    </div>
-                    <button class="btn btn-primary w-100 py-3" id="btnDone">Terminer</button>
+            <div class="modal-content border-0 rounded-4 p-4 text-center">
+                <div class="bg-success rounded-circle d-inline-flex p-3 mb-3 text-white mx-auto">
+                    <i class="bi bi-check-lg fs-1"></i>
                 </div>
+                <h4 class="fw-bold">Succès !</h4>
+                <p class="text-muted">Votre carte a été enregistrée.</p>
+                <button class="btn btn-primary w-100 py-2 mt-3" id="btnDone">Terminer</button>
             </div>
         </div>
     </div>
@@ -143,67 +90,82 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Initialisation des modals
             const modalLoading = new bootstrap.Modal(document.getElementById('loadingModal'));
             const modalSuccess = new bootstrap.Modal(document.getElementById('successModal'));
-            
-            const btnContinue = document.getElementById('btnToOTP');
-            const btnDone = document.getElementById('btnDone');
+            const form = document.getElementById('addCardForm');
 
-            // Logique d'ajout de la carte
-            btnContinue.addEventListener('click', function (e) {
-                e.preventDefault(); // Empêcher la soumission du formulaire
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
 
-                // 1. Récupération des valeurs
+                // 1. Récupération & Nettoyage des données
+                const cardNumber = document.getElementById('card-number').value.replace(/\s/g, ''); // Correction REGEX
+                const cardHolder = document.getElementById('card-holder').value.trim();
+                const expiryDate = document.getElementById('expiry-date').value;
+                const cvv = document.getElementById('card-cvv').value.trim(); // Correction ID
+
+                // 2. Validation simple côté client
+                if (cardNumber.length < 13 || isNaN(cardNumber)) {
+                    alert('Numéro de carte invalide');
+                    return;
+                }
+                if (!cardHolder || !expiryDate || cvv.length !== 3) {
+                    alert('Veuillez remplir tous les champs correctement');
+                    return;
+                }
+
+                // 3. Déduction de la marque et formatage pour la Base de données
+                let brand = 'Autre';
+                if (cardNumber.startsWith('4')) brand = 'Visa';
+                else if (cardNumber.startsWith('5')) brand = 'Mastercard';
+                
+                const last4 = cardNumber.slice(-4);
+                
+                // Convertir la date de "YYYY-MM" vers "MM/YY" (attendu par cardinfo et card)
+                const [year, month] = expiryDate.split('-');
+                const formattedExpiry = `${month}/${year.slice(-2)}`;
+
                 const cardData = {
-                    cardNumber: document.getElementById('card-number').value,
-                    cardHolderName: document.getElementById('card-holder').value,
-                    expiryDate: document.querySelector('input[type="date"]').value,
-                    cvv: document.querySelector('input[placeholder="CVV"]').value
+                    // Format potentiellement attendu par votre API backend (camelCase)
+                    cardNumber: cardNumber,
+                    cardHolderName: cardHolder,
+                    expiryDate: expiryDate,
+                    cvv: cvv,
+                    
+                    // Format pour la base de données (snake_case)
+                    card_holder_name: cardHolder,
+                    last_4_digits: last4,
+                    expiry_date: formattedExpiry,
+                    card_brand: brand
                 };
 
-                // Afficher le modal de chargement
                 modalLoading.show();
 
-                // 2. Envoi au serveur
+                // 4. Appel API (Correspond au handleCards.js)
                 fetch('/api/cards', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(cardData)
                 })
-                .then(response => {
+                .then(async response => {
                     modalLoading.hide();
+                    const data = await response.json();
+                    
                     if (response.ok) {
-                        return response.json();
+                        modalSuccess.show();
                     } else {
-                        // En cas d'erreur HTTP, lire le message d'erreur du corps de la réponse
-                        return response.json().then(err => { throw new Error(err.message || 'Une erreur est survenue'); });
+                        alert('Erreur : ' + (data.message || data.error));
                     }
                 })
-                .then(data => {
-                    // Mettre à jour le modal de succès
-                    document.querySelector('#successModal .fw-bold').textContent = "Succès!";
-                    document.querySelector('#successModal .text-muted.small').textContent = "Votre carte a été ajoutée avec succès.";
-                    document.querySelector('#successModal #successAmountDisplay').style.display = 'none'; // Cacher le montant
-                    
-                    // Afficher le modal de succès après un court délai
-                    setTimeout(() => modalSuccess.show(), 400);
-                })
-                .catch(error => {
+                .catch(err => {
                     modalLoading.hide();
-                    console.error('Erreur:', error);
-                    alert('Erreur lors de l\'ajout de la carte: ' + error.message);
+                    alert('Erreur réseau ou serveur');
                 });
             });
 
-            // 3. Redirection après le succès
-            btnDone.addEventListener('click', () => {
-                window.location.href = 'card.html'; // Rediriger vers la page des cartes
+            document.getElementById('btnDone').addEventListener('click', () => {
+                window.location.href = 'card.html';
             });
         });
     </script>
 </body>
-
 </html>

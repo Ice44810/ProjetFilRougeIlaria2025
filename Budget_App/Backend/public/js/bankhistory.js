@@ -3,19 +3,9 @@
  * Charge les données depuis l'API et génère des graphiques Chart.js
  */
 
-// Instance du graphique
-let transactionsChart = null;
-
 // État des filtres
 let currentPeriod = '7days';
 
-// Couleurs pour les graphiques
-const CHART_COLORS = {
-    income: '#198754',    // Vert pour les revenus
-    expense: '#dc3545',   // Rouge pour les dépenses
-    incomeBg: 'rgba(25, 135, 84, 0.5)',
-    expenseBg: 'rgba(220, 53, 69, 0.5)'
-};
 
 // Initialisation au chargement de la page
 document.addEventListener('DOMContentLoaded', async () => {
@@ -58,15 +48,18 @@ async function loadDataForPeriod(period) {
     currentPeriod = period;
     console.log(`Bank History: Chargement pour ${period}...`);
     
+    // 1. Charger les statistiques (Try/Catch séparé pour ne pas bloquer la suite)
     try {
-        // Charger les statistiques
         await loadStats(period);
-        
-        // Charger les transactions et mettre à jour le graphique
-        await loadTransactionsAndChart(period);
-        
     } catch (error) {
-        console.error('Erreur chargement données:', error);
+        console.warn('Erreur chargement statistiques (ignorée):', error);
+    }
+    
+    // 2. Charger les transactions (Try/Catch séparé)
+    try {
+        await loadTransactionsAndChart(period);
+    } catch (error) {
+        console.error('Erreur chargement des transactions:', error);
     }
 }
 
@@ -105,15 +98,118 @@ async function loadTransactionsAndChart(period) {
         const periodFilter = getPeriodFilter(period);
         const transactions = await api.getTransactions({ period: periodFilter });
         
-        // Grouper les transactions par jour pour le graphique
-        const dailyData = groupTransactionsByDay(transactions, period);
+        // Sécurité au cas où l'API renvoie une erreur au lieu d'un tableau
+        const txList = Array.isArray(transactions) ? transactions : [];
+
+        // 1. Calcul et Mise à jour automatique des "Entrées" (income) et "Sorties" (expense)
+        let tIncome = 0;
+        let tExpense = 0;
+        txList.forEach(tx => {
+            if (tx.type === 'income') tIncome += parseFloat(tx.amount) || 0;
+            else tExpense += parseFloat(tx.amount) || 0;
+        });
         
-        // Créer/mettre à jour le graphique
-        await renderChart(dailyData, period);
+        const elIn = document.getElementById('totalIncome');
+        const elOut = document.getElementById('totalExpense');
+        if (elIn) elIn.textContent = formatCurrency(tIncome);
+        if (elOut) elOut.textContent = formatCurrency(tExpense);
+
+        // 2. Mettre à jour la liste des transactions en premier
+        renderTransactionsList(txList);
+        
+        // 3. Créer/mettre à jour le graphique s'il y a des données
+        if (txList.length > 0) {
+            try {
+                const dailyData = groupTransactionsByDay(txList, period);
+                await renderChart(dailyData, period);
+            } catch (err) {
+                console.error("Erreur génération graphique:", err);
+            }
+        } else {
+            // Génère un graphique vide (plat) si aucune transaction
+            const emptyData = groupTransactionsByDay([], period);
+            await renderChart(emptyData, period);
+        }
         
     } catch (error) {
         console.error('Erreur chargement transactions:', error);
+        const container = document.getElementById('transactionsListContainer');
+        if (container) container.innerHTML = '<p class="text-danger text-center py-4">Erreur serveur lors du chargement.</p>';
     }
+}
+
+/**
+ * Afficher la liste des transactions
+ * @param {Array} transactions 
+ */
+function renderTransactionsList(transactions) {
+    const container = document.getElementById('transactionsListContainer');
+    if (!container) return;
+    
+    if (!transactions || transactions.length === 0) {
+        container.innerHTML = '<p class="text-center text-muted py-4">Aucune transaction pour cette période.</p>';
+        return;
+    }
+
+    // Trier les transactions par date (la plus récente d'abord)
+    transactions.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    // Grouper par mois
+    const grouped = {};
+    transactions.forEach(tx => {
+        const date = new Date(tx.created_at);
+        // Ex: "Novembre"
+        const monthYear = date.toLocaleDateString('fr-FR', { month: 'long' });
+        const capitalizedMonth = monthYear.charAt(0).toUpperCase() + monthYear.slice(1);
+        
+        if (!grouped[capitalizedMonth]) {
+            grouped[capitalizedMonth] = [];
+        }
+        grouped[capitalizedMonth].push(tx);
+    });
+
+    let html = '';
+    for (const [month, txs] of Object.entries(grouped)) {
+        html += `<h6 class="mb-3 mt-4">${month}</h6>`;
+        
+        txs.forEach(tx => {
+            const isIncome = tx.type === 'income';
+            const amountClass = isIncome ? 'text-success' : 'text-danger';
+            const sign = isIncome ? '+' : '-';
+            const formattedAmount = `${sign} €${Math.abs(parseFloat(tx.amount)).toFixed(2)}`;
+            const dateStr = formatRelativeDate(tx.created_at);
+            
+            let iconClass = 'bi-cash-coin text-secondary';
+            let link = '#';
+            
+            // Déterminer l'icône et le lien en fonction de la catégorie
+            if (tx.category_id === 5) { iconClass = 'bi-phone text-primary'; link = './mobile.html'; }
+            else if (tx.category_id === 6) { iconClass = 'bi-wifi text-primary'; link = './internet.html'; }
+            else if (tx.category_id === 7) { iconClass = 'bi-lightning-charge-fill text-warning'; link = './electricity.html'; }
+            else if (tx.category_id === 8) { iconClass = 'bi-droplet-fill text-info'; link = './waterbill.html'; }
+            else if (isIncome) { iconClass = 'bi-arrow-down-left text-success'; }
+            else { iconClass = 'bi-arrow-up-right text-danger'; }
+            
+            html += `
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div class="d-flex align-items-center">
+                        <div class="transaction-icon me-3">
+                            <i class="bi ${iconClass} fs-4"></i>
+                        </div>
+                        <div>
+                            <a href="${link}" class="text-decoration-none text-dark">
+                                <div class="fw-bold">${tx.title}</div>
+                            </a>
+                            <div class="text-muted small">${dateStr}</div>
+                        </div>
+                    </div>
+                    <div class="fw-bold ${amountClass}">${formattedAmount}</div>
+                </div>
+            `;
+        });
+    }
+    
+    container.innerHTML = html;
 }
 
 /**
@@ -162,16 +258,26 @@ function groupTransactionsByDay(transactions, period) {
     // Remplir avec les données des transactions
     if (transactions && transactions.length > 0) {
         transactions.forEach(tx => {
-            const txDate = new Date(tx.created_at).toISOString().split('T')[0];
-            const dayData = result.find(d => d.date === txDate);
+            if (!tx.created_at) return;
             
-            if (dayData) {
-                const amount = parseFloat(tx.amount);
-                if (tx.type === 'income') {
-                    dayData.income += amount;
-                } else {
-                    dayData.expense += amount;
-                }
+            // Sécurisation de la lecture de la date venant de MySQL
+            let dateObj = new Date(tx.created_at);
+            if (isNaN(dateObj.getTime())) {
+                dateObj = new Date(tx.created_at.replace(' ', 'T') + 'Z');
+            }
+            
+            if (!isNaN(dateObj.getTime())) {
+                const txDate = dateObj.toISOString().split('T')[0];
+                const dayData = result.find(d => d.date === txDate);
+                
+                if (dayData) {
+                    const amount = parseFloat(tx.amount);
+                    if (tx.type === 'income') {
+                        dayData.income += amount;
+                    } else {
+                        dayData.expense += amount;
+                    }
+                } // Ajout de l'accolade manquante qui bloquait le script !
             }
         });
     }
@@ -180,119 +286,77 @@ function groupTransactionsByDay(transactions, period) {
 }
 
 /**
- * Afficher le graphique avec Chart.js
+ * Afficher le graphique de façon dynamique avec le HTML/CSS d'origine (sans Chart.js)
  * @param {Array} dailyData 
  * @param {string} period 
  */
 async function renderChart(dailyData, period) {
-    // Identifier le conteneur du graphique en fonction de l'onglet actif
-    let chartContainer = null;
+    let tabId = '7days';
+    if (period === '30days') tabId = '30days';
+    else if (period === 'custom') tabId = 'custom';
     
-    if (period === '7days' || !document.querySelector('#30days').classList.contains('active')) {
-        chartContainer = document.querySelector('#7days .chart-content');
-    } else if (period === '30days') {
-        chartContainer = document.querySelector('#30days .chart-content');
-    } else {
-        chartContainer = document.querySelector('#custom .chart-content');
-    }
+    const chartContainer = document.getElementById(tabId);
+    if (!chartContainer) return;
     
-    if (!chartContainer) {
-        console.error('Conteneur de graphique non trouvé');
-        return;
-    }
+    const barsContainer = chartContainer.querySelector('.chart-content .d-flex.justify-content-around');
+    const yAxisContainer = chartContainer.querySelector('.y-axis');
     
-    // Supprimer l'ancien graphique s'il existe
-    if (transactionsChart) {
-        transactionsChart.destroy();
-        transactionsChart = null;
-    }
+    if (!barsContainer || !yAxisContainer) return;
+
+    // 1. Calculer le solde net par jour
+    const netData = dailyData.map(d => ({
+        label: d.label,
+        net: d.income - d.expense
+    }));
+
+    // 2. Déterminer l'échelle maximale pour l'axe Y
+    let maxAbs = Math.max(...netData.map(d => Math.abs(d.net)));
+    if (maxAbs === 0) maxAbs = 400; // Échelle par défaut
     
-    // Supprimer les barres statiques existantes
-    const existingBars = chartContainer.querySelectorAll('.bar');
-    existingBars.forEach(bar => bar.remove());
+    let scaleMax = Math.ceil(maxAbs / 100) * 100; // Arrondi à la centaine supérieure
+    if (scaleMax < 10) scaleMax = 10;
+
+    // 3. Mettre à jour l'axe Y
+    yAxisContainer.innerHTML = `
+        <span>${scaleMax}</span>
+        <span>${scaleMax / 2}</span>
+        <span>0</span>
+        <span>-${scaleMax / 2}</span>
+        <span>-${scaleMax}</span>
+    `;
+
+    // 4. Gérer l'affichage (réduire la largeur si beaucoup de barres comme pour 30 jours)
+    const barWidth = dailyData.length > 15 ? '8px' : '30px';
+    const gapClass = dailyData.length > 15 ? 'gap-1' : 'gap-4';
     
-    // Supprimer la grille existante si elle干涉 avec le canvas
-    const existingCanvas = chartContainer.querySelector('canvas');
-    if (existingCanvas) {
-        existingCanvas.remove();
-    }
-    
-    // Créer un élément canvas
-    const canvas = document.createElement('canvas');
-    canvas.id = 'transactionsChart';
-    canvas.style.position = 'relative';
-    canvas.style.zIndex = '1';
-    chartContainer.appendChild(canvas);
-    
-    // Préparer les données pour Chart.js
-    const labels = dailyData.map(d => d.label);
-    const incomeData = dailyData.map(d => d.income);
-    const expenseData = dailyData.map(d => -Math.abs(d.expense)); // Négatif pour les dépenses
-    
-    // Créer le graphique à barres
-    const ctx = canvas.getContext('2d');
-    transactionsChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Revenus',
-                    data: incomeData,
-                    backgroundColor: CHART_COLORS.incomeBg,
-                    borderColor: CHART_COLORS.income,
-                    borderWidth: 1,
-                    borderRadius: 4
-                },
-                {
-                    label: 'Dépenses',
-                    data: expenseData,
-                    backgroundColor: CHART_COLORS.expenseBg,
-                    borderColor: CHART_COLORS.expense,
-                    borderWidth: 1,
-                    borderRadius: 4
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            const value = context.raw;
-                            const label = context.dataset.label;
-                            return `${label}: ${formatCurrency(Math.abs(value))}`;
-                        }
-                    }
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return value + ' €';
-                        }
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.05)'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
-            }
+    barsContainer.className = `d-flex justify-content-around align-items-center position-relative ${gapClass}`;
+
+    // 5. Générer les barres HTML
+    let barsHtml = '';
+    const MAX_BAR_HEIGHT = 100; // Hauteur maximale visuelle d'une barre
+
+    netData.forEach(d => {
+        const isPositive = d.net >= 0;
+        const value = Math.abs(d.net);
+        const heightPx = Math.max((value / scaleMax) * MAX_BAR_HEIGHT, 2); // Minimum 2px pour être visible
+        
+        const tooltipText = `${d.label}: ${isPositive ? '+' : '-'}${value.toFixed(2)}€`;
+
+        if (isPositive) {
+            barsHtml += `<div class="bar up bg-success" style="height: ${heightPx}px; width: ${barWidth};" title="${tooltipText}"></div>`;
+        } else {
+            barsHtml += `<div class="bar down bg-danger" style="height: ${heightPx}px; width: ${barWidth};" title="${tooltipText}"></div>`;
         }
     });
+
+    // Nettoyer si un canvas (Chart.js) traîne des versions précédentes
+    const canvas = chartContainer.querySelector('canvas');
+    if (canvas) canvas.remove();
+
+    // 6. Injecter les nouvelles barres dynamiques
+    barsContainer.innerHTML = barsHtml;
     
-    // Mettre à jour les dates affichées
+    // 7. Mettre à jour les dates affichées
     updateChartDates(dailyData, period);
 }
 
@@ -304,12 +368,12 @@ async function renderChart(dailyData, period) {
 function updateChartDates(dailyData, period) {
     let dateContainer = null;
     
-    if (period === '7days' || !document.querySelector('#30days').classList.contains('active')) {
-        dateContainer = document.querySelector('#7days .d-flex.justify-content-between.text-muted.small');
+    if (period === '7days' || !document.getElementById('30days').classList.contains('active')) {
+        dateContainer = document.getElementById('7days').querySelector('.d-flex.justify-content-between.text-muted.small');
     } else if (period === '30days') {
-        dateContainer = document.querySelector('#30days .d-flex.justify-content-between.text-muted.small');
+        dateContainer = document.getElementById('30days').querySelector('.d-flex.justify-content-between.text-muted.small');
     } else {
-        dateContainer = document.querySelector('#custom .d-flex.justify-content-between.text-muted.small');
+        dateContainer = document.getElementById('custom').querySelector('.d-flex.justify-content-between.text-muted.small');
     }
     
     if (dateContainer && dailyData.length > 0) {
@@ -355,21 +419,23 @@ function formatRelativeDate(dateString) {
     const diffMs = now - date;
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
     
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const timeStr = `${hours}:${minutes}`;
+    
     if (diffDays === 0) {
-        const hours = date.getHours();
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        return `aujourd'hui ${hours}:${minutes}`;
+        return `aujourd'hui ${timeStr}`;
     } else if (diffDays === 1) {
-        return 'hier';
+        return `hier ${timeStr}`;
     } else if (diffDays < 7) {
-        return `il y a ${diffDays} jours`;
+        return `il y a ${diffDays} jours à ${timeStr}`;
     }
     
     return date.toLocaleDateString('fr-FR', {
         day: 'numeric',
         month: 'short',
         year: 'numeric'
-    });
+    }) + ' ' + timeStr;
 }
 
 // Rendre disponible globalement
@@ -379,4 +445,3 @@ window.BankHistory = {
     loadTransactionsAndChart,
     refresh: () => loadDataForPeriod(currentPeriod)
 };
-

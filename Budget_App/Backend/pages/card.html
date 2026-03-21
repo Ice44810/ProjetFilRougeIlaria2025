@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="container">
+<div class="container">
     <div class="breadcrumb mt-3">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -24,6 +24,21 @@
           </li>
         </ol>
       </nav>
+    </div>
+
+    <!-- Mes Cartes Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-semibold mb-0">Mes cartes enregistrées</h6>
+                <a href="addnewcard.html" class="btn btn-primary btn-sm">
+                    <i class="bi bi-plus-circle"></i> Ajouter une carte
+                </a>
+            </div>
+            <div id="cards-container" class="row g-3 mb-4">
+                <!-- Dynamic cards will load here -->
+            </div>
+        </div>
     </div>
   
 
@@ -174,20 +189,24 @@
                     }
                     cards.forEach(card => {
                         const cardElement = document.createElement('div');
-                        cardElement.className = 'card-item p-3 border rounded d-flex justify-content-between align-items-center';
+                        cardElement.className = 'col-6 col-md-3 card-item';
                         cardElement.dataset.cardId = card.id;
 
                         cardElement.innerHTML = `
-                            <div class="d-flex align-items-center gap-3">
-                                <i class="bi bi-credit-card-2-front-fill fs-2 text-primary"></i>
-                                <div>
-                                    <h6 class="mb-0">${card.card_brand} - **** ${card.last_4_digits}</h6>
-                                    <small class="text-muted">${card.card_holder_name} - Exp: ${card.expiry_date}</small>
+                            <div class="bank-card h-100 position-relative p-3 border rounded-3 shadow-sm d-flex flex-column" style="cursor: pointer;" onclick="window.location.href='cardinfo.html?id=${card.id}'">
+                                <div class="d-flex align-items-start justify-content-between mb-2">
+                                    <i class="bi bi-credit-card-2-front-fill fs-3 text-primary"></i>
+                                    <button class="btn btn-sm btn-outline-danger delete-btn p-1 ms-1" onclick="event.stopPropagation();">
+                                        <i class="bi bi-trash3"></i>
+                                    </button>
                                 </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">${card.card_brand}</h6>
+                                    <small class="text-muted mb-1 d-block">**** ${card.last_4_digits}</small>
+                                    <small class="text-muted">${card.card_holder_name}</small>
+                                </div>
+                                <small class="text-muted mt-2">Exp: ${card.expiry_date}</small>
                             </div>
-                            <button class="btn btn-sm btn-outline-danger delete-btn">
-                                <i class="bi bi-trash3"></i>
-                            </button>
                         `;
                         cardsContainer.appendChild(cardElement);
                     });
