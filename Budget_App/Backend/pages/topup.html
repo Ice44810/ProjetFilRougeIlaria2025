@@ -56,24 +56,24 @@
                 <p class="fw-bold mb-2">Montant</p>
                 <div class="row g-2 mb-2">
                     <div class="col-4"><button type="button"
-                            class="btn btn-outline-primary w-100 amount-btn">€50</button>
+                            class="btn btn-primary w-100 amount-btn">€50</button>
                     </div>
                     <div class="col-4"><button type="button"
-                            class="btn btn-outline-primary w-100 amount-btn">€100</button>
+                            class="btn btn-primary w-100 amount-btn">€100</button>
                     </div>
                     <div class="col-4"><button type="button"
-                            class="btn btn-outline-primary w-100 amount-btn">€200</button>
+                            class="btn btn-primary w-100 amount-btn">€200</button>
                     </div>
                 </div>
                 <div class="row g-2 mb-4">
                     <div class="col-4"><button type="button"
-                            class="btn btn-outline-primary w-100 amount-btn">€500</button>
+                            class="btn btn-primary w-100 amount-btn">€500</button>
                     </div>
                     <div class="col-4"><button type="button"
-                            class="btn btn-outline-primary w-100 amount-btn">€1000</button>
+                            class="btn btn-primary w-100 amount-btn">€1000</button>
                     </div>
                     <div class="col-4"><button type="button"
-                            class="btn btn-outline-primary w-100 amount-btn">€2000</button>
+                            class="btn btn-primary w-100 amount-btn">€2000</button>
                     </div>
                 </div>
             </div>
@@ -95,11 +95,11 @@
                     <p class="text-muted small">Choisir la Source</p>
                     <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded-3 mb-4">
                         <div class="d-flex align-items-center">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+                            <img id="confirmCardImg" src="../public/assets/images/icons8-visa-48.png" alt="Card"
                                 width="35" class="me-3">
                             <div>
-                                <div class="fw-bold small">Mastercard</div>
-                                <div class="text-muted extra-small">**** 7576</div>
+                                <div id="confirmCardBrand" class="fw-bold small">Chargement...</div>
+                                <div id="confirmCardLast4" class="text-muted extra-small">****</div>
                             </div>
                         </div>
                         <i class="bi bi-chevron-right text-muted"></i>
@@ -179,6 +179,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Charger le solde actuel
             loadCurrentBalance();
+            // Charger la carte pour le modal de confirmation
+            loadTopupCard();
 
             // 1. Éléments de l'interface principale
             const amountInput = document.getElementById('amountInput');
@@ -329,9 +331,32 @@
                 document.getElementById('currentBalance').textContent = '€0,00';
             }
         }
+
+        // Charger la carte principale pour le rechargement
+        async function loadTopupCard() {
+            try {
+                const cards = await api.getCards();
+                const cardImg = document.getElementById('confirmCardImg');
+                const cardBrand = document.getElementById('confirmCardBrand');
+                const cardLast4 = document.getElementById('confirmCardLast4');
+                
+                if (cards && cards.length > 0) {
+                    const card = cards[0]; // On prend la première carte par défaut
+                    cardBrand.textContent = card.card_brand;
+                    cardLast4.textContent = `**** ${card.last_4_digits}`;
+                    cardImg.src = card.card_brand === 'Visa' ? 
+                        'https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg' : 
+                        'https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg';
+                } else {
+                    cardBrand.textContent = 'Aucune carte';
+                    cardLast4.textContent = 'Veuillez en ajouter une';
+                }
+            } catch (error) {
+                console.error('Erreur chargement carte:', error);
+            }
+        }
     </script>
 
 </body>
 
 </html>
-
