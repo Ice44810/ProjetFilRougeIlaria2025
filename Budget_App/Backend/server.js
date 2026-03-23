@@ -95,65 +95,56 @@ const server = http.createServer(async (req, res) => {
     // ================= REGISTER =================
 
     if (requestUrl === '/register' && method === 'POST') {
+    parseBody(req, res).then(async () => {
+        // Extraction des données (vérifie que parseBody remplit bien req.body)
+        const { fullName, email, password } = req.body || {};
 
-        let body = '';
+        // 1. Validation des champs vides
+        if (!fullName || !email || !password) {
+            return sendJson(res, 400, { message: 'Nom complet, email et mot de passe requis' });
+        }
 
-        req.on('data', chunk => {
-            body += chunk.toString();
-            if (body.length > 1e6) req.connection.destroy();
-        });
-
-        req.on('end', async () => {
-            try {
-                await parseBody(req, res);
-                const { email, password } = req.body;
-            } catch(e) {
-                return sendJson(res, 400, { message: 'Bad request' });
+        try {
+            // 2. Vérifier si l'email existe déjà
+            const existingUser = await db.queryPromise('SELECT id FROM users WHERE email = ?', [email]);
+            
+            if (existingUser.length > 0) {
+                return sendJson(res, 409, { message: 'Cet email est déjà associé à un compte' });
             }
 
-            if (!email || !password) {
-                return sendJson(res, 400, { message: 'Email et mot de passe requis' });
-            }
+            // 3. Hasher le mot de passe
+            const hashedPassword = await bcrypt.hash(password, 12);
 
-            db.query('SELECT id FROM users WHERE email = ?', [email], async (err, results) => {
+            // 4. Insérer l'utilisateur
+            const result = await db.queryPromise(
+                'INSERT INTO users (fullName, email, password, role) VALUES (?, ?, ?, ?)',
+                [fullName, email, hashedPassword, 'user']
+            );
 
-                if (err) {
-                    logger.error('Register check failed', { error: err.message });
-                    return sendJson(res, 500, { message: 'Erreur serveur' });
-                }
+            logger.info('User registered', { userId: result.insertId });
 
-                if (results.length > 0) {
-                    return sendJson(res, 409, { message: 'Email déjà utilisé' });
-                }
-
-                try {
-                    const hashedPassword = await bcrypt.hash(password, 12);
-
-                    db.query(
-                        'INSERT INTO users (email, password, role) VALUES (?, ?, ?)',
-                        [email, hashedPassword, 'user'],
-                        (err, result) => {
-
-                            if (err) {
-                                logger.error('Registration failed', { error: err.message });
-                                return sendJson(res, 500, { message: 'Erreur création compte' });
-                            }
-
-                            logger.info('User registered', { userId: result.insertId });
-                            res.writeHead(302, { Location: '/login.html?message=registration_success' });
-                            res.end();
-                        }
-                    );
-
-                } catch (error) {
-                    logger.error('Hash error', { error: error.message });
-                    return sendJson(res, 500, { message: 'Erreur serveur' });
-                }
+            // CORRECTIF : Au lieu d'un 302, on envoie un succès JSON
+            // Le frontend verra response.ok === true et fera la redirection lui-même
+            return sendJson(res, 201, { 
+                message: 'Inscription réussie', 
+                userId: result.insertId 
             });
-        });
 
-        return;
-    }
+        } catch (error) {
+            logger.error('Registration failed', { 
+                error: error.message, 
+                stack: error.stack,
+                email: email 
+            });
+            return sendJson(res, 500, { message: 'Erreur interne lors de l\'inscription' });
+        }
+    }).catch(err => {
+        logger.error('Parse body error on register', { error: err.message });
+        sendJson(res, 400, { message: 'Erreur lors du traitement des données' });
+    });
+
+    return;
+}
 
     // ================= LOGIN =================
 

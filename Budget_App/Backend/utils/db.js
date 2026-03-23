@@ -35,18 +35,28 @@ db.changeUser({ database: 'Backend_node' }, (err) => {
             const createUsersTable = `
                 CREATE TABLE IF NOT EXISTS users (
                     id INT AUTO_INCREMENT PRIMARY KEY,
+                    fullName VARCHAR(255) DEFAULT NULL,
                     email VARCHAR(255) NOT NULL UNIQUE,
-                    password VARCHAR(255) NOT NULL
+                    password VARCHAR(255) NOT NULL,
+                    role ENUM('admin', 'user') DEFAULT 'user',
+                    phone VARCHAR(20) DEFAULT NULL,
+                    address VARCHAR(255) DEFAULT NULL,
+                    postcode VARCHAR(10) DEFAULT NULL,
+                    ville VARCHAR(100) DEFAULT NULL,
+                    iban VARCHAR(34) DEFAULT NULL,
+                    bic_swift VARCHAR(11) DEFAULT NULL,
+                    bank_name VARCHAR(100) DEFAULT NULL,
+                    balance DECIMAL(10,2) DEFAULT 0.00,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
             `;
 
-            // Gestion des erreurs 
-db.query(createUsersTable, (err, result) => {
+            db.query(createUsersTable, (err, result) => {
                 if (err) {
                     logger.error("Users table creation error", err);
                     return;
                 }
-                logger.info("Users table ready.");
+                logger.info("Users table ready with full schema.");
             });
 
             const createTransactionsTable = `
@@ -156,40 +166,9 @@ db.query(createUsersTable, (err, result) => {
                 console.log("Table 'recipients' prête.");
             });
 
-            // Ajouter une colonne rôle à la table des utilisateurs
-            db.query(`ALTER TABLE users ADD COLUMN role ENUM('admin', 'user') DEFAULT 'user'`, (err, result) => {
-                if (err && !err.message.includes('Duplicate column name')) {
-                    console.error("Erreur lors de l'ajout de la colonne 'role' à 'users':", err);
-                } else {
-                    console.log("Colonne 'role' ajoutée à 'users'.");
-                }
-            });
+// role column now in CREATE TABLE
 
-            // Ajouter des colonnes de profil supplémentaires à la table des utilisateurs
-            const profileColumns = [
-                `ALTER TABLE users ADD COLUMN fullName VARCHAR(255) DEFAULT NULL`,
-                `ALTER TABLE users ADD COLUMN phone VARCHAR(20) DEFAULT NULL`,
-                `ALTER TABLE users ADD COLUMN address VARCHAR(255) DEFAULT NULL`,
-                `ALTER TABLE users ADD COLUMN postcode VARCHAR(10) DEFAULT NULL`,
-                `ALTER TABLE users ADD COLUMN ville VARCHAR(100) DEFAULT NULL`,
-                `ALTER TABLE users ADD COLUMN iban VARCHAR(34) DEFAULT NULL`,
-                `ALTER TABLE users ADD COLUMN bic_swift VARCHAR(11) DEFAULT NULL`,
-                `ALTER TABLE users ADD COLUMN bank_name VARCHAR(100) DEFAULT NULL`,
-                `ALTER TABLE users ADD COLUMN balance DECIMAL(10,2) DEFAULT 0.00`
-            ];
-
-            // ALTER TABLE ADD COLUMN : est une instruction SQL utilisée pour ajouter une nouvelle colonne à une table 
-            // existante sans perdre les données existantes.
-
-            profileColumns.forEach(query => {
-                db.query(query, (err, result) => {
-                    if (err && !err.message.includes('Duplicate column name')) {
-                        console.error("Erreur lors de l'ajout d'une colonne de profil à 'users':", err);
-                    } else {
-                        console.log("Colonne de profil ajoutée à 'users'.");
-                    }
-                });
-            });
+            // Profile columns now included in CREATE TABLE users
 
             // ================= CRÉATION DES INDEXES =================
             

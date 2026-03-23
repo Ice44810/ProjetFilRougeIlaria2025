@@ -1,6 +1,15 @@
-# TODO: Make Profile Page Dynamic
+# Registration Fix - Inscription Page
 
-✅ 1. Verified all handlers exist and work (users.js, stats.js, etc.)  
-✅ 2. Identified frontend crashes (missing DOM null checks)  
-✅ 3. Got user approval for fix plan  
-✅ 4. Fixed Profile.html JS/HTML (null-safe, removed broken edit form, fixed copy, session check)  \n🔄 5. Test functionality  \n⏳ 6. Backend session/auth verification if still issues
+## Current Status
+✅ Plan approved by user
+
+## Steps
+- [x] Create this TODO.md
+- [✅] 1. Fix utils/db.js: Complete users table schema ✅
+- [✅] 2. Improve server.js logging ✅
+- [✅] 3. Frontend JS already correct with button reset & error handling ✅
+- [ ] 4. Test: Restart server, test form submission, verify DB insert and redirect
+- [ ] 5. Complete task
+
+**Test: 1. Restart server 2. Go to http://localhost:3000/pages/inscription.html 3. Submit form 4. Should redirect to login.html**
+

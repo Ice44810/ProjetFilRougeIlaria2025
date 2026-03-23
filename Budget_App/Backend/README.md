@@ -79,3 +79,8 @@ Budget_App/Backend/
    npm start
    ```
 5. Ouvrez le navigateur sur : `http://localhost:3000`
+
+
+## Vanilla JavaScript : 
+fait référence à l'utilisation native de JavaScript sans recourir à des bibliothèques ou frameworks comme jQuery, React ou Angular.  Il s'agit de coder directement avec les API du navigateur, comme document.querySelector, fetch ou addEventListener. 
+
