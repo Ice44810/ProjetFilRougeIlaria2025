@@ -31,10 +31,11 @@
                 <img src="../public/assets/images/profil.jpg" alt="Profil" class="rounded-circle profile-img me-3" style="width: 60px; height: 60px;" id="userAvatar">
                 <div>
                     <h5 class="mb-0 fw-bold" id="userName">Chargement...</h5>
-                        <span class="text-muted small">ID: <span id="userId">--</span></span>
-                        <i class="bi bi-files text-primary" role="button" title="Copier le numéro"></i></span>
-                    </p>
+                    <p class="mb-0"><span class="text-muted small">ID: <span id="userId">--</span></span></p>
+                    <i class="bi bi-files text-primary ms-2" role="button" title="Copier ID" id="copyUserId"></i>
                 </div>
+            </div>
+        </div>
             </div>
         </div>
 
@@ -158,88 +159,60 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const cardNumber = document.querySelector(".bi-files");
-        cardNumber.addEventListener("click", () => {
-            const cardNumber = "0321 0000 2342 2424";
-            navigator.clipboard.writeText(cardNumber).then(() => {
-                alert("carte copiée dans le presse-papier!");
-                console.log("Numéro de carte copié avec succès !");
-            });
+        // Copy user ID
+        document.addEventListener('click', (e) => {
+            if (e.target.id === 'copyUserId') {
+                const idEl = document.getElementById('userId');
+                if (idEl && idEl.textContent !== '--') {
+                    navigator.clipboard.writeText(idEl.textContent).then(() => {
+                        UI.showNotification('ID copié !', 'success');
+                    });
+                }
+            }
+        });
+
+        // Check session first
+        api.request('/users/profile', 'HEAD').catch(() => {
+            UI.showNotification('Veuillez vous connecter', 'warning');
+            setTimeout(() => window.location.href = './login.html', 2000);
+            return;
         });
 
         document.addEventListener('DOMContentLoaded', async () => {
             await loadProfile();
             await loadStats();
-            setupForm();
         });
 
         async function loadProfile() {
             try {
                 const profile = await api.getProfile();
+                const nameEl = document.getElementById('userName');
+                const idEl = document.getElementById('userId');
                 
-                if (profile) {
-                    document.getElementById('userName').textContent = profile.fullName || profile.email.split('@')[0];
-                    document.getElementById('userEmail').textContent = profile.email;
-                    document.getElementById('userId').textContent = profile.id;
-                    document.getElementById('userRole').textContent = profile.role === 'admin' ? 'Administrateur' : 'Utilisateur';
-
-                    // Remplir le formulaire
-                    document.getElementById('profileEmail').value = profile.email || '';
-                    document.getElementById('profileFullName').value = profile.fullName || '';
-                    document.getElementById('profilePhone').value = profile.phone || '';
-                    document.getElementById('profileAddress').value = profile.address || '';
-                    document.getElementById('profilePostcode').value = profile.postcode || '';
-                    document.getElementById('profileVille').value = profile.ville || '';
+                if (profile && nameEl && idEl) {
+                    nameEl.textContent = profile.fullName || (profile.email ? profile.email.split('@')[0] : 'Utilisateur');
+                    idEl.textContent = profile.id || '--';
                 }
             } catch (error) {
                 console.error('Erreur chargement profil:', error);
-                UI.showNotification('Erreur lors du chargement du profil', 'error');
+                const idEl = document.getElementById('userId');
+                if (idEl) idEl.textContent = '--';
             }
         }
 
         async function loadStats() {
             try {
                 const stats = await api.getStats();
-                
-                document.getElementById('userBalance').textContent = UI.formatCurrency(stats.balance);
-                document.getElementById('balanceDisplay').textContent = UI.formatCurrency(stats.balance);
-                // Stocker le solde dans le localStorage pour le partager
-                localStorage.setItem('userBalance', stats.balance);
-                document.getElementById('transactionCount').textContent = stats.transactionCount;
+                const balanceEl = document.getElementById('balanceDisplay');
+                if (balanceEl && stats && stats.balance !== undefined) {
+                    balanceEl.textContent = UI.formatCurrency(stats.balance);
+                    localStorage.setItem('userBalance', stats.balance);
+                }
             } catch (error) {
                 console.error('Erreur chargement stats:', error);
+                const balanceEl = document.getElementById('balanceDisplay');
+                if (balanceEl) balanceEl.textContent = '--';
             }
-        }
-
-        function setupForm() {
-            document.getElementById('editProfileForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const data = {
-                    email: document.getElementById('profileEmail').value,
-                    fullName: document.getElementById('profileFullName').value || null,
-                    phone: document.getElementById('profilePhone').value || null,
-                    address: document.getElementById('profileAddress').value || null,
-                    postcode: document.getElementById('profilePostcode').value || null,
-                    ville: document.getElementById('profileVille').value || null
-                };
-
-                try {
-                    const result = await api.updateProfile(data);
-                    
-                    if (result.success) {
-                        UI.showNotification('Profil mis à jour!', 'success');
-                        const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
-                        modal.hide();
-                        await loadProfile();
-                    } else {
-                        UI.showNotification(result.error || 'Erreur lors de la mise à jour', 'error');
-                    }
-                } catch (error) {
-                    console.error('Erreur mise à jour profil:', error);
-                    UI.showNotification('Erreur lors de la mise à jour', 'error');
-                }
-            });
         }
     </script>
 </body>

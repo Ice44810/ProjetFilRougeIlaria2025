@@ -78,56 +78,51 @@
                 </div>
             </div>
 
-            <!-- Profile Info Display (Read-only) -->
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-person me-2"></i>Informations du profil</h5>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <label class="form-label text-muted small">Nom complet</label>
-                            <p class="fw-bold" id="displayFullName">--</p>
+            <!-- Profile Info Edit Form -->
+            <form id="editProfileForm">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-pencil-square me-2"></i>Modifier les informations</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label class="form-label text-muted small" for="inputFullName">Nom complet</label>
+                                <input type="text" class="form-control" id="inputFullName" placeholder="Votre nom">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small" for="inputEmail">Email (Non modifiable)</label>
+                                <input type="email" class="form-control" id="inputEmail" readonly style="background-color: #f8f9fa;">
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small">Email</label>
-                            <p class="fw-bold" id="displayEmail">--</p>
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label class="form-label text-muted small" for="inputPhone">Téléphone</label>
+                                <input type="tel" class="form-control" id="inputPhone" placeholder="Votre numéro de téléphone">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small" for="inputAddress">Adresse</label>
+                                <input type="text" class="form-control" id="inputAddress" placeholder="Votre adresse">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <label class="form-label text-muted small" for="inputPostcode">Code postal</label>
+                                <input type="text" class="form-control" id="inputPostcode" placeholder="Code postal">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small" for="inputVille">Ville</label>
+                                <input type="text" class="form-control" id="inputVille" placeholder="Votre ville">
+                            </div>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <label class="form-label text-muted small">Téléphone</label>
-                            <p class="fw-bold" id="displayPhone">--</p>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small">Adresse</label>
-                            <p class="fw-bold" id="displayAddress">--</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 mb-3 mb-md-0">
-                            <label class="form-label text-muted small">Code postal</label>
-                            <p class="fw-bold" id="displayPostcode">--</p>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label text-muted small">Ville</label>
-                            <p class="fw-bold" id="displayVille">--</p>
-                        </div>
+                    <div class="card-footer bg-transparent d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary" id="btnSaveProfile">
+                            <i class="bi bi-save me-1"></i>Enregistrer les modifications
+                        </button>
                     </div>
                 </div>
-                <div class="card-footer bg-transparent">
-                    <a href="./Profile.html" class="btn btn-outline-primary">
-                        <i class="bi bi-pencil me-1"></i>Modifier le profil
-                    </a>
-                </div>
-            </div>
-
-            <!-- Message about profile editing -->
-            <div class="alert alert-info">
-                <i class="bi bi-info-circle me-2"></i>
-                Pour modifier vos informations personnelles, utilisez la page 
-                <a href="./Profile.html" class="alert-link">Profil</a>.
-            </div>
+            </form>
         </div>
     </div>
 
@@ -136,6 +131,7 @@
         document.addEventListener('DOMContentLoaded', async () => {
             await loadProfile();
             setupPhotoUpload();
+            setupFormSubmission();
         });
 
         // Charger les informations du profil
@@ -144,13 +140,13 @@
                 const profile = await api.getProfile();
                 
                 if (profile) {
-                    // Mettre à jour l'affichage
-                    document.getElementById('displayFullName').textContent = profile.fullName || 'Non défini';
-                    document.getElementById('displayEmail').textContent = profile.email || 'Non défini';
-                    document.getElementById('displayPhone').textContent = profile.phone || 'Non défini';
-                    document.getElementById('displayAddress').textContent = profile.address || 'Non défini';
-                    document.getElementById('displayPostcode').textContent = profile.postcode || 'Non défini';
-                    document.getElementById('displayVille').textContent = profile.ville || 'Non défini';
+                    // Pré-remplir les champs
+                    document.getElementById('inputFullName').value = profile.fullName || '';
+                    document.getElementById('inputEmail').value = profile.email || '';
+                    document.getElementById('inputPhone').value = profile.phone || '';
+                    document.getElementById('inputAddress').value = profile.address || '';
+                    document.getElementById('inputPostcode').value = profile.postcode || '';
+                    document.getElementById('inputVille').value = profile.ville || '';
                     
                     // Mettre à jour la photo de profil si elle existe
                     if (profile.avatar) {
@@ -161,6 +157,44 @@
                 console.error('Erreur chargement profil:', error);
                 UI.showNotification('Erreur lors du chargement du profil', 'error');
             }
+        }
+
+        // Gérer la sauvegarde du formulaire
+        function setupFormSubmission() {
+            const form = document.getElementById('editProfileForm');
+            const btnSave = document.getElementById('btnSaveProfile');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Modifier visuellement le bouton pendant le chargement
+                const originalText = btnSave.innerHTML;
+                btnSave.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enregistrement...';
+                btnSave.disabled = true;
+
+                const data = {
+                    fullName: document.getElementById('inputFullName').value.trim(),
+                    phone: document.getElementById('inputPhone').value.trim(),
+                    address: document.getElementById('inputAddress').value.trim(),
+                    postcode: document.getElementById('inputPostcode').value.trim(),
+                    ville: document.getElementById('inputVille').value.trim()
+                };
+
+                try {
+                    const result = await api.updateProfile(data);
+                    if (result.success) {
+                        UI.showNotification('Profil mis à jour avec succès', 'success');
+                    } else {
+                        UI.showNotification(result.error || 'Erreur lors de la mise à jour', 'error');
+                    }
+                } catch (error) {
+                    console.error('Erreur sauvegarde profil:', error);
+                    UI.showNotification('Erreur réseau lors de la sauvegarde', 'error');
+                } finally {
+                    btnSave.innerHTML = originalText;
+                    btnSave.disabled = false;
+                }
+            });
         }
 
         // Gérer le téléchargement de la photo de profil
@@ -226,4 +260,3 @@
 </body>
 
 </html>
-

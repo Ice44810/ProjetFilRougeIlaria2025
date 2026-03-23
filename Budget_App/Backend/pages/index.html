@@ -26,8 +26,9 @@
                         height="50">
                     <div>
                         <a href="./Profile.html" class="text-decoration-none text-dark">
-                            <h6 class="username fw-bold mb-0 text-white">Themesflat</h6>
+                            <h6 class="username fw-bold mb-0 text-white">Chargement...</h6>
                         </a>
+                        
                         <p class="slogan mb-0">Economisons votre argent!</p>
                     </div>
                 </div>
@@ -756,8 +757,9 @@
         // lien de l'API backend
         // Essayer d'abord de récupérer le solde depuis le localStorage (mis à jour par topup)
         const cachedBalance = localStorage.getItem('userBalance');
+        const cachedUsername = localStorage.getItem('username');
         
-        fetch("http://localhost:3000/api/home")
+        fetch("/api/home")
             .then(response => response.json())
             .then(data => {
                 console.log("Données reçues :", data);
@@ -766,6 +768,19 @@
                 const usernameEl = document.querySelector(".username");
                 if (usernameEl && data.username) {
                     usernameEl.textContent = data.username;
+                    let displayUsername = data.username;
+                    if (displayUsername.length > 10) {
+                        displayUsername = displayUsername.substring(0, 10) + '...';
+                    }
+                    usernameEl.textContent = displayUsername;
+                    // Mettre à jour le localStorage avec le nouveau username
+                    localStorage.setItem('username', data.username);
+                }
+
+                // ID Utilisateur
+                const userIdEl = document.getElementById("homeUserId");
+                if (userIdEl && data.userId) {
+                    userIdEl.textContent = data.userId;
                 }
 
                 // Solde

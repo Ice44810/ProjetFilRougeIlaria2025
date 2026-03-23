@@ -1,34 +1,6 @@
-# TODO: Rendre dynamique la page banque
+# TODO: Make Profile Page Dynamic
 
-## Étapes du plan approuvé (Option 1: champs directs dans users table)
-
-### 1. ✅ Créer fichier TODO.md (fait)
-
-### 2. ✅ Créer script migration DB pour ajouter champs banque à users table
-- Fichier: migrations/add_bank_fields.sql (prêt, client DB install en cours)
-
-### 3. ✅ Exécuter migration DB (utiliser execute_command après install)
-
-### 4. ✅ Mettre à jour models/User.js (ajouter champs iban, bicSwift, bankName, balance)
-
-### 5. ✅ Mettre à jour handlers/users.js 
-- Étendre requête SELECT dans getProfile()
-- Ajouter logique balance si computed
-
-### 6. ✅ Mettre à jour public/js/api.js 
-- Étendre getProfile() ou ajouter getBankDetails() (getProfile prêt)
-
-### 7. ✅ Mettre à jour pages/banque.html
-- Ajouter fetch data on DOMContentLoaded
-- Remplacer static data par data.fields
-- Rendre copy IBAN dynamique
-
-### 8. Ajouter échantillon data test (INSERT user avec bank info)
-
-### 9. Tester:
-- API /api/users/profile
-- Page banque.html
-- Copy IBAN
-
-### 10. ✅ Marquer complet + attempt_completion
-
+✅ 1. Verified all handlers exist and work (users.js, stats.js, etc.)  
+✅ 2. Identified frontend crashes (missing DOM null checks)  
+✅ 3. Got user approval for fix plan  
+✅ 4. Fixed Profile.html JS/HTML (null-safe, removed broken edit form, fixed copy, session check)  \n🔄 5. Test functionality  \n⏳ 6. Backend session/auth verification if still issues

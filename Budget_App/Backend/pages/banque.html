@@ -42,7 +42,7 @@
                 <ul class="list-group list-group-flush rounded-3 shadow-sm">
                     <li class="list-group-item d-flex justify-content-between">
                         <span><i class="bi bi-credit-card-fill me-2"></i>IBAN</span>
-<span class="fw-semibold text-break" id="ibanValue">FR76 xxxx xxxx xxxx xxxx</span>
+                        <span class="fw-semibold text-break" id="ibanValue">FR76 xxxx xxxx xxxx xxxx</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span><i class="bi bi-bank me-2"></i>BIC/SWIFT</span>
@@ -50,7 +50,7 @@
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span><i class="bi bi-person me-2"></i>Nom Complet</span>
-<span class="fw-semibold" id="fullNameValue">THEMESFLAT DUPONT</span>
+                        <span class="fw-semibold" id="fullNameValue">Chargement...</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span><i class="bi bi-geo-alt me-2"></i>Banque</span>
@@ -87,7 +87,7 @@
                     document.getElementById('bankShortName').textContent = profile.bank_name || '--';
                     document.getElementById('ibanValue').textContent = profile.iban || '--';
                     document.getElementById('bicValue').textContent = profile.bic_swift || '--';
-                    document.getElementById('fullNameValue').textContent = profile.fullName || '--';
+                    document.getElementById('fullNameValue').textContent = profile.fullName || (profile.email ? profile.email.split('@')[0] : 'Utilisateur');
                     document.getElementById('bankNameValue').textContent = profile.bank_name || '--';
 
                     currentIban = profile.iban || '';

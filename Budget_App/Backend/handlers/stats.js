@@ -53,14 +53,18 @@ async function handleStats(req, res, userSession) {
 
         // GET /api/home
         if (path === '/api/home' && method === 'GET') {
-            const [user] = await db.queryPromise('SELECT fullName FROM users WHERE id = ?', [userSession.userId]);
+            const [user] = await db.queryPromise('SELECT id, fullName, email FROM users WHERE id = ?', [userSession.userId]);
             const [balance, recent] = await Promise.all([
                 StatsService.getBalance(userSession.userId),
                 db.queryPromise('SELECT * FROM transactions WHERE user_id = ? ORDER BY created_at DESC LIMIT 5', [userSession.userId])
             ]);
+            
+            const displayUsername = user?.fullName || (user?.email ? user.email.split('@')[0] : 'Utilisateur');
+            
             return sendResponse(200, {
                 balance: parseFloat(balance).toFixed(2),
-                username: user.fullName || 'Utilisateur',
+                username: displayUsername,
+                userId: user?.id,
                 lastTransactions: recent
             });
         }
@@ -207,4 +211,3 @@ class StatsService {
 }
 
 module.exports = handleStats;
-
