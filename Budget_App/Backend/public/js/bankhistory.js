@@ -5,6 +5,8 @@
 
 // État des filtres
 let currentPeriod = '7days';
+let currentMonthFilter = 'all';
+let currentStatusFilter = 'all';
 
 
 // Initialisation au chargement de la page
@@ -14,6 +16,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Configurer les écouteurs d'événements pour les onglets
     setupTabListeners();
     
+    // Configurer les écouteurs pour le modal de filtres
+    setupFilterListeners();
+
     // Charger les données initiales (7 jours)
     await loadDataForPeriod('7days');
 });
@@ -38,6 +43,42 @@ function setupTabListeners() {
             await loadDataForPeriod(period);
         });
     });
+}
+
+/**
+ * Configurer les écouteurs d'événements pour les filtres du modal
+ */
+function setupFilterListeners() {
+    const monthBtns = document.querySelectorAll('#monthFilters .btn-filter');
+    monthBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            monthBtns.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentMonthFilter = e.target.getAttribute('data-value');
+        });
+    });
+
+    const statusBtns = document.querySelectorAll('#statusFilters .btn-filter');
+    statusBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            statusBtns.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            currentStatusFilter = e.target.getAttribute('data-value');
+        });
+    });
+
+    const applyBtn = document.getElementById('applyFiltersBtn');
+    if (applyBtn) {
+        applyBtn.addEventListener('click', () => {
+            // Fermer l'offcanvas
+            const offcanvasEl = document.getElementById('offcanvasFilter');
+            const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl) || new bootstrap.Offcanvas(offcanvasEl);
+            offcanvas.hide();
+            
+            // Recharger les données en appliquant les nouveaux filtres
+            loadDataForPeriod(currentPeriod);
+        });
+    }
 }
 
 /**
@@ -95,11 +136,35 @@ async function loadStats(period) {
  */
 async function loadTransactionsAndChart(period) {
     try {
-        const periodFilter = getPeriodFilter(period);
+        let periodFilter = getPeriodFilter(period);
+        
+        // Si un mois spécifique est sélectionné, on récupère plus de données (l'année) pour pouvoir filtrer côté client
+        if (currentMonthFilter !== 'all') {
+            periodFilter = 'year';
+        }
+        
         const transactions = await api.getTransactions({ period: periodFilter });
         
         // Sécurité au cas où l'API renvoie une erreur au lieu d'un tableau
-        const txList = Array.isArray(transactions) ? transactions : [];
+        let txList = Array.isArray(transactions) ? transactions : [];
+
+        // Application du filtre de mois
+        if (currentMonthFilter !== 'all') {
+            const targetMonth = parseInt(currentMonthFilter);
+            txList = txList.filter(tx => {
+                const txDate = new Date(tx.created_at);
+                return txDate.getMonth() === targetMonth; // 0 = Janvier, 1 = Février...
+            });
+        }
+
+        // Application du filtre de statut
+        if (currentStatusFilter !== 'all') {
+            if (currentStatusFilter === 'success') {
+                txList = txList.filter(tx => true); // Par défaut toutes les transactions en BDD sont "réussies"
+            } else {
+                txList = []; // Les statuts 'En cours' ou 'Échoué' ne renvoient rien car non existants en base
+            }
+        }
 
         // 1. Calcul et Mise à jour automatique des "Entrées" (income) et "Sorties" (expense)
         let tIncome = 0;
