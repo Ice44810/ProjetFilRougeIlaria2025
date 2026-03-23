@@ -1,4 +1,4 @@
-# 📊 Budget App - Fil Rouge 2025
+# Budget App - Fil Rouge 2025
 
 **Budget App** est une application web innovante de gestion de finances personnelles et de services bancaires. Elle permet à ses utilisateurs de suivre leurs dépenses, gérer leurs cartes bancaires, effectuer des transferts d'argent et payer leurs factures via une interface fluide et "Mobile-First".
 
@@ -6,10 +6,10 @@ Ce projet a été développé dans le cadre de mon projet **Fil Rouge** de forma
 
 ---
 
-## 🎯 Fonctionnalités Principales
+## Fonctionnalités Principales
 
 - ** Tableau de bord interactif** : Suivi du solde en temps réel et aperçu des transactions récentes.
-- ** Gestion des cartes bancaires** : Ajout, consultation (avec code masqué) et suppression de cartes de crédit.
+- ** Gestion des cartes bancaires** : Ajout, consultation et suppression de cartes de crédit.
 - ** Transferts et Bénéficiaires** : Enregistrement de contacts (IBAN ou Téléphone) et virements simplifiés.
 - ** Statistiques détaillées** : Graphiques d'historique bancaire (7 derniers jours, 30 jours, personnalisable) et filtrage précis par mois ou statuts.
 - ** Paiement de Factures** : Intégration simulée des opérateurs d'électricité, d'eau et d'internet.
@@ -18,19 +18,19 @@ Ce projet a été développé dans le cadre de mon projet **Fil Rouge** de forma
 
 ---
 
-## 🛠️ Architecture et Technologies
+## Architecture et Technologies
 
 Le projet adopte une architecture client-serveur classique, rendue légère et performante en utilisant l'écosystème Node.js natif.
 
 ### Front-End (Client)
 - **HTML5 / CSS3** : Structure sémantique respectant les normes d'accessibilité (A11y/WCAG).
 - **Bootstrap 5.3** : Framework CSS pour un design responsive, des modals, offcanvas et composants UI.
-- **Vanilla JavaScript (ES6+)** : Logique front-end native, manipulation du DOM et appels `fetch()`.
+- **Vanilla JavaScript (ES6+)** : Logique front-end native, manipulation du DOM et appels `fetch()` (dans profil :const nameEl = document.getElementById('userName');)
 - **Bootstrap Icons** : Typographie iconographique.
 
 ### Back-End (Serveur)
 - **Node.js** : Environnement d'exécution côté serveur.
-- **Architecture Vanilla** : Utilisation du module `http` natif pour gérer les requêtes et les routes (sans framework lourd de type Express, démontrant une maîtrise des fondations).
+- **Architecture Vanilla** : Utilisation du module `http` natif pour gérer les requêtes et les routes (sans framework de type Express).
 - **Bcrypt** : Hachage sécurisé des mots de passe.
 - **Cookie & Sessions** : Gestion de l'authentification et maintien de la session utilisateur.
 
@@ -41,7 +41,7 @@ Le projet adopte une architecture client-serveur classique, rendue légère et p
 
 ---
 
-## 📁 Structure du Projet
+## Structure du Projet
 
 ```text
 Budget_App/Backend/
@@ -66,7 +66,7 @@ Budget_App/Backend/
 
 ---
 
-## 🚀 Installation & Exécution Locale
+## Installation & Exécution Locale
 
 1. **Cloner le projet** sur votre machine.
 2. **Configurer la base de données** : Assurez-vous qu'un serveur MySQL fonctionne en local (`root`:`Root@123`). Le script `utils/db.js` s'occupe de créer automatiquement la BDD `Backend_node` et ses tables.
