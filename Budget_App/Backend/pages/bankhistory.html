@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../public/assets/style.css" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="/public/js/api.js"></script>
-    <script src="/public/js/charts.js"></script>
+    <script src="/public/js/bankhistory.js"></script>
+
+
+
 </head>
 
 <body>
@@ -99,19 +101,20 @@
                                 <div class="line border-bottom" style="height: 25%;"></div>
                                 <div class="line border-bottom" style="height: 25%;"></div>
                             </div>
-                            <div class="d-flex justify-content-around align-items-center position-relative gap-4"
-                                style="height: 230px;">
-                                <div class="bar up bg-success" style="height: 80px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 80px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 110px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 60px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 90px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 70px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 40px; width: 30px;"></div>
+    <div class="d-flex justify-content-around align-items-center position-relative gap-4 chart-loader"
+                                style="height: 230px;" id="chart7days">
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 60px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 80px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 40px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 100px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 50px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 70px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 30px; width: 30px;"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;">
+                    <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;" id="labels7days">
+
                         <span>29-06</span>
                         <span>05-07</span>
                     </div>
@@ -135,19 +138,19 @@
                                 <div class="line border-bottom" style="height: 25%;"></div>
                                 <div class="line border-bottom" style="height: 25%;"></div>
                             </div>
-                            <div class="d-flex justify-content-around align-items-center position-relative gap-4"
-                                style="height: 230px;">
-                                <div class="bar up bg-success" style="height: 80px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 80px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 110px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 60px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 90px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 70px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 40px; width: 30px;"></div>
+                            <div class="d-flex justify-content-around align-items-center position-relative gap-4 chart-loader"
+                                style="height: 230px;" id="chart30days">
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 60px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 80px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 40px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 100px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 50px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 70px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 30px; width: 30px;"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;">
+                    <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;" id="labels30days">
                         <span>29-06</span>
                         <span>05-07</span>
                     </div>
@@ -155,6 +158,19 @@
             </div>
             <div class="tab-pane fade" id="custom" role="tabpanel">
                 <div class="mb-3 px-2 p-3">
+                    <!-- Custom Date Inputs -->
+                    <div class="row g-2 mb-3">
+                        <div class="col-5">
+                            <input type="date" id="customStartDate" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-5">
+                            <input type="date" id="customEndDate" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-2">
+                            <button id="applyCustomDates" class="btn btn-sm btn-primary w-100"><i class="bi bi-check"></i></button>
+                        </div>
+                    </div>
+                    
                     <div class="chart-container d-flex">
                         <div class="y-axis fs-6 small d-flex flex-column justify-content-between"
                             style="width: 50px; min-width: 50px; min-height: 230px; max-height: 230px; padding-bottom: 30px;">
@@ -171,26 +187,26 @@
                                 <div class="line border-bottom" style="height: 25%;"></div>
                                 <div class="line border-bottom" style="height: 25%;"></div>
                             </div>
-                            <div class="d-flex justify-content-around align-items-center position-relative gap-4"
-                                style="height: 230px;">
-                                <div class="bar up bg-success" style="height: 80px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 80px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 110px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 60px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 90px; width: 30px;"></div>
-                                <div class="bar up bg-success" style="height: 70px; width: 30px;"></div>
-                                <div class="bar down bg-danger" style="height: 40px; width: 30px;"></div>
+                            <div class="d-flex justify-content-around align-items-center position-relative gap-4 chart-loader"
+                                style="height: 230px;" id="chartCustom">
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 60px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 80px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 40px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 100px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 50px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 70px; width: 30px;"></div>
+                                <div class="bar-skeleton bg-light border rounded opacity-50" style="height: 30px; width: 30px;"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;">
+                    <div class="d-flex justify-content-between text-muted small mt-2" style="margin-left: 50px;" id="labels7days">
                         <span>29-06</span>
                         <span>05-07</span>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="transactionsListContainer" class="container-fluid mb-5 mt-2">
+<div id="dynamicTransactionsContainer" class="container-fluid mb-5 mt-2">
             <!-- Les transactions seront chargées ici dynamiquement -->
             <div class="text-center text-muted py-4">Chargement des transactions...</div>
         </div>
@@ -205,32 +221,29 @@
         </div>
         <div class="offcanvas-body p-4">
             <p class="fw-bold mb-3">Mensuel</p>
-            <div class="row g-2 mb-4">
-                <div class="col-4"><button class="btn btn-filter active w-100">Tout</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Jan</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Fev</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Mar</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Avr</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Mai</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Jun</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Juil</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Aou</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Sep</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Oct</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Nov</button></div>
-                <div class="col-4"><button class="btn btn-filter w-100">Dec</button></div>
-                <p class="fw-bold mb-3">Statut</p>
-                <div class="row g-2 mb-5">
-                    <div class="col-6"><button class="btn btn-filter active w-100">Tout</button></div>
-                    <div class="col-6"><button class="btn btn-filter w-100">Réussi</button></div>
-                    <div class="col-6"><button class="btn btn-filter w-100">En cours</button></div>
-                    <div class="col-6"><button class="btn btn-filter w-100">Échoué</button></div>
+            <div id="monthFilters" class="row g-2 mb-4">
+                <div class="col-4"><button class="btn btn-filter active w-100" data-value="all">Tout</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="0">Jan</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="1">Fev</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="2">Mar</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="3">Avr</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="4">Mai</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="5">Jun</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="6">Juil</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="7">Aou</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="8">Sep</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="9">Oct</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="10">Nov</button></div>
+                <div class="col-4"><button class="btn btn-filter w-100" data-value="11">Dec</button></div>
+                <p class="fw-bold mb-3">Type</p>
+                <div id="typeFilters" class="row g-2 mb-5">
+                    <div class="col-6"><button class="btn btn-filter active w-100" data-value="all">Tout</button></div>
+                    <div class="col-6"><button class="btn btn-filter w-100" data-value="income">Revenus</button></div>
+                    <div class="col-6"><button class="btn btn-filter w-100" data-value="expense">Dépenses</button></div>
                 </div>
                 <div class="mt-auto pt-4">
-                    <a href="./bankhistory.html">
-                        <button class="btn btn-primary w-100 py-3 fw-bold shadow-sm"
-                            style="border-radius: 12px;">Appliquer</button>
-                    </a>
+                    <button id="applyFiltersBtn" class="btn btn-primary w-100 py-3 fw-bold shadow-sm"
+                        style="border-radius: 12px;" data-bs-dismiss="offcanvas">Appliquer</button>
                 </div>
             </div>
         </div>
@@ -263,7 +276,429 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/public/js/bankhistory.js"></script>
+    
+    <style>
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .bar-skeleton {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        .chart-loader {
+            opacity: 0.6;
+        }
+        .bar {
+            transition: all 0.4s ease;
+        }
+    </style>
+     <script>
+        let rawTransactions = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const refreshTransactions = sessionStorage.getItem('refreshTransactions');
+            if (refreshTransactions) {
+                sessionStorage.removeItem('refreshTransactions');
+                window.location.reload();
+                return; // Arrête l'exécution pour éviter de charger les données deux fois lors du rafraîchissement
+            }
+
+            await loadData();
+            setupFilterUI();
+        });
+
+        async function loadData() {
+            try {
+                const [statsRes, transRes] = await Promise.all([
+                    fetch('/api/stats'),
+                    fetch('/api/transactions')
+                ]);
+
+                if (!statsRes.ok || !transRes.ok) throw new Error('Erreur API');
+
+                const stats = await statsRes.json();
+                const trans = await transRes.json();
+
+                // Initial chart tab7
+                const chartData7 = stats.daily_evolution || [];
+                renderBarChart('chart7days', 'labels7days', chartData7);
+
+                rawTransactions = Array.isArray(trans) ? trans : trans.transactions || trans || [];
+
+                // Liste des Rendues initial de transactions
+                displayTransactions(rawTransactions);
+                updateTotals(rawTransactions);
+
+                // Configure le changement d'onglet et les commandes personnalisées
+                setupTabCharts();
+                if (Array.isArray(trans)) {
+                    rawTransactions = trans;
+                } else if (trans.transactions) {
+                    rawTransactions = trans.transactions;
+                } else {
+                    rawTransactions = [];
+                }
+
+                // Affichage initial
+                displayTransactions(rawTransactions);
+                updateTotals(rawTransactions);
+
+            } catch (e) {
+                console.error("Erreur chargement données:", e);
+                document.getElementById('dynamicTransactionsContainer').innerHTML =
+                    '<p class="text-center text-danger py-4">Erreur de chargement des données.</p>';
+            }
+        }
+
+        function updateTotals(transactions) {
+            let totalIncome = 0;
+            let totalExpense = 0;
+
+            transactions.forEach(tx => {
+                const amount = Math.abs(parseFloat(tx.amount));
+                const title = (tx.title || '').toLowerCase();
+
+                // Logique de catégorisation : c'est une sortie si...
+                // 1. Le type est explicitement 'expense'
+                // 2. OU le titre contient un mot-clé de facture
+                // 3. OU le montant brut est négatif
+                const isExpense = tx.type === 'expense' ||
+                    title.includes('facture') ||
+                    title.includes('paiement') ||
+                    title.includes('mobile') ||
+                    title.includes('eau') ||
+                    title.includes('electricité') ||
+                    title.includes('internet') ||
+                    parseFloat(tx.amount) < 0;
+
+                if (isExpense) {
+                    totalExpense += amount;
+                } else {
+                    totalIncome += amount;
+                }
+            });
+
+            document.getElementById('totalIncome').textContent = totalIncome.toFixed(2) + ' €';
+            document.getElementById('totalExpense').textContent = totalExpense.toFixed(2) + ' €';
+        }
+
+        function displayTransactions(list) {
+            const container = document.getElementById('dynamicTransactionsContainer');
+
+            if (!list || list.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted py-5">Aucune opération trouvée.</p>';
+                return;
+            }
+
+            // Tri par date décroissante
+            list.sort((a, b) => new Date(b.created_at || b.date) - new Date(a.created_at || a.date));
+
+            const grouped = {};
+            list.forEach(tx => {
+                const date = new Date(tx.created_at || tx.date);
+                const monthYear = date.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+                const key = monthYear.charAt(0).toUpperCase() + monthYear.slice(1);
+                if (!grouped[key]) grouped[key] = [];
+                grouped[key].push(tx);
+            });
+
+            let html = '';
+            for (const [month, txs] of Object.entries(grouped)) {
+                html += `<h6 class="mb-3 mt-4 text-muted small fw-bold text-uppercase ps-2">${month}</h6>`;
+
+                html += txs.map(tx => {
+                    const amountVal = Math.abs(parseFloat(tx.amount));
+                    const title = (tx.title || '').toLowerCase();
+                    const dateObj = new Date(tx.created_at || tx.date);
+                    const timeStr = dateObj.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+                    // Détermination si c'est une entrée ou sortie pour le style
+                    const isForcedExpense = title.includes('facture') ||
+                        title.includes('paiement') ||
+                        title.includes('mobile') ||
+                        title.includes('eau') ||
+                        title.includes('electricité') ||
+                        title.includes('internet');
+
+                    const isIncome = (tx.type === 'income' || parseFloat(tx.amount) > 0) && !isForcedExpense;
+
+                    // Icône et couleur selon le titre
+                    let icon = 'bi-receipt';
+                    let colorClass = 'text-primary';
+
+                    if (title.includes('electricité') || title.includes('facture')) { icon = 'bi-lightning-charge-fill'; colorClass = 'text-warning'; }
+                    else if (title.includes('mobile') || title.includes('tel')) { icon = 'bi-phone'; colorClass = 'text-info'; }
+                    else if (title.includes('eau')) { icon = 'bi-droplet-fill'; colorClass = 'text-info'; }
+                    else if (title.includes('wifi') || title.includes('internet')) { icon = 'bi-wifi'; colorClass = 'text-primary'; }
+                    else if (title.includes('course') || title.includes('market')) { icon = 'bi-cart-fill'; colorClass = 'text-warning'; }
+                    else if (isIncome) { icon = 'bi-arrow-down-left'; colorClass = 'text-success'; }
+                    else { icon = 'bi-arrow-up-right'; colorClass = 'text-danger'; }
+
+                    const amountClass = isIncome ? 'text-success' : 'text-danger';
+                    const sign = isIncome ? '+' : '-';
+
+                    return `
+                <div class="d-flex align-items-center justify-content-between mb-3 bg-white p-3 rounded-4 shadow-sm border-0">
+                    <div class="d-flex align-items-center">
+                        <div class="transaction-icon me-3 bg-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                            <i class="bi ${icon} ${colorClass} fs-5"></i>
+                        </div>
+                        <div>
+                            <div class="fw-bold text-dark text-capitalize">${tx.title}</div>
+                            <div class="text-muted small">Le ${dateObj.toLocaleDateString('fr-FR')} à ${timeStr}</div>
+                        </div>
+                    </div>
+                    <div class="fw-bold ${amountClass}">
+                        ${sign} ${amountVal.toFixed(2)} €
+                    </div>
+                </div>
+                `;
+                }).join(''); // Joint les transactions du même mois avec un séparateur
+            }
+            container.innerHTML = html;
+        }
+
+        // --- Fonctions de filtrage et graphiques ---
+
+        function renderBarChart(containerId, labelId, data) {
+            const container = document.getElementById(containerId);
+            if (!container || !data || data.length === 0) return;
+
+            const SCALE_MAX = 400;
+            const SCALE_MIN = -400;
+
+            // Mise à jour des labels de l'axe y
+            const yAxis = container.parentElement.querySelector('.y-axis');
+            if (yAxis) {
+                // Fixed y-axis labels as per requirement
+                yAxis.innerHTML = `
+                    <span>400</span>
+                    <span>200</span>
+                    <span>0</span>
+                    <span>-200</span>
+                    <span>-400</span>
+                `;
+            }
+
+            container.innerHTML = data.map(d => {
+                const net = parseFloat(d.net || 0);
+                const heightPercent = ((net - SCALE_MIN) / (SCALE_MAX - SCALE_MIN)) * 100;
+                const barHeight = Math.max(Math.abs(heightPercent - 50) * 2, 2); // Scale to full height around 50%
+                const isPositive = net >= 0;
+                const translateY = isPositive ? `calc(50% - ${barHeight / 2}%)` : `calc(50% + ${barHeight / 2}%)`;
+
+                return `
+                <div class="d-flex flex-column align-items-center h-100 position-relative" style="width: ${100/data.length}%;">
+                    <div class="${isPositive ? 'bg-success' : 'bg-danger'} rounded" style="height:${barHeight}%; width:80%; transform: translateY(${translateY}); opacity: 0.8; position: absolute;"></div>
+                </div>`;
+            }).join('');
+
+            const startDate = new Date(data[0].date);
+            const endDate = new Date(data[data.length-1].date);
+            const labelEl = document.getElementById(labelId);
+            if (labelEl) {
+                labelEl.innerHTML = `<span>${startDate.getDate()}/${(startDate.getMonth()+1)}</span><span>${endDate.getDate()}/${(endDate.getMonth()+1)}</span>`;
+            }
+        }
+
+        function isExpenseTransaction(tx) {
+            const amount = parseFloat(tx.amount);
+            const title = (tx.title || '').toLowerCase();
+            return tx.type === 'expense' ||
+                   title.includes('facture') ||
+                   title.includes('paiement') ||
+                   title.includes('mobile') ||
+                   title.includes('eau') ||
+                   title.includes('electricité') ||
+                   amount < 0;
+        }
+
+        function aggregateDailyData(transactions, days) {
+            const now = new Date();
+            now.setHours(0,0,0,0);
+            const data = [];
+            for (let i = days - 1; i >= 0; i--) {
+                const date = new Date(now);
+                date.setDate(now.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                data.push({ date: dateStr, net: 0 });
+            }
+
+            transactions.forEach(tx => {
+                const txDate = new Date(tx.created_at || tx.date);
+                txDate.setHours(0,0,0,0);
+                const dateStr = txDate.toISOString().split('T')[0];
+                const signedAmount = parseFloat(tx.amount);
+                if (data.some(d => d.date === dateStr)) {
+                    const dayData = data.find(d => d.date === dateStr);
+                    dayData.net += signedAmount;
+                }
+            });
+            return data;
+        }
+
+        function getCustomDateRangeData(startDate, endDate) {
+            const data = [];
+            const start = new Date(startDate + 'T00:00:00');
+            const end = new Date(endDate + 'T23:59:59');
+            let current = new Date(start);
+            
+            while (current <= end) {
+                const dateStr = current.toISOString().split('T')[0];
+                data.push({ date: dateStr, net: 0 });
+                current.setDate(current.getDate() + 1);
+            }
+
+            rawTransactions.forEach(tx => {
+                const txDate = new Date(tx.created_at || tx.date);
+                if (txDate >= start && txDate <= end) {
+                    const dateStr = txDate.toISOString().split('T')[0];
+                    const signedAmount = parseFloat(tx.amount);
+                    const dayData = data.find(d => d.date === dateStr);
+                    if (dayData && dayData.date === dateStr) {
+                        dayData.net += signedAmount;
+                    }
+                }
+            });
+            return data;
+        }
+
+        function setupTabCharts() {
+            // Tab switch listeners
+            document.querySelectorAll('[data-bs-toggle="tab"]').forEach(tabBtn => {
+                tabBtn.addEventListener('shown.bs.tab', function (e) {
+                    const targetId = e.target.getAttribute('data-bs-target');
+                    renderChartForTab(targetId);
+                });
+            });
+
+            // Custom date controls
+            document.getElementById('applyCustomDates').addEventListener('click', async function() {
+                const start = document.getElementById('customStartDate').value;
+                const end = document.getElementById('customEndDate').value;
+                if (start && end) {
+                    // Show loading
+                    const btn = this;
+                    const originalText = btn.textContent;
+                    btn.textContent = 'Chargement...';
+                    btn.disabled = true;
+
+                    try {
+        const response = await fetch(`/api/transactions?start_date=${start}&end_date=${end}`);
+                        const result = await response.json();
+                        rawTransactions = result.transactions || [];
+                        
+                        // Update chart
+                        const data = getCustomDateRangeData(start, end);
+                        // Custom chart IDs missing - fallback to 7days
+                        renderBarChart('chart7days', 'labels7days', data);
+                        
+                        // Update list and totals
+                        displayTransactions(rawTransactions);
+                        updateTotals(rawTransactions);
+                        
+                        // Update period text
+                        const periodDiv = document.querySelector('#custom .text-center.text-muted.small.mt-2');
+                        const startFormatted = new Date(start).toLocaleDateString('fr-FR', {day: 'numeric', month: 'short'});
+                        const endFormatted = new Date(end).toLocaleDateString('fr-FR', {day: 'numeric', month: 'short'});
+                        periodDiv.textContent = `Du ${startFormatted} au ${endFormatted}`;
+
+                        // Activate custom tab
+                        const customTab = new bootstrap.Tab(document.getElementById('custom-tab'));
+                        customTab.show();
+
+                    } catch (error) {
+                        console.error('Erreur fetch:', error);
+                        alert('Erreur lors du chargement des transactions');
+                    } finally {
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                    }
+                }
+            });
+
+            // Set default custom dates (last 30 days)
+            const now = new Date();
+            const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            document.getElementById('customStartDate').value = thirtyDaysAgo.toISOString().split('T')[0];
+            document.getElementById('customEndDate').value = now.toISOString().split('T')[0];
+        }
+
+        function renderChartForTab(tabId) {
+            let chartData = [];
+            if (tabId === '#tab7') {
+                // Use dashboard data or aggregate 7 days
+                chartData = aggregateDailyData(rawTransactions, 7);
+            } else if (tabId === '#tab30') {
+                chartData = aggregateDailyData(rawTransactions, 30);
+            } else if (tabId === '#custom') {
+                const start = document.getElementById('customStartDate').value;
+                const end = document.getElementById('customEndDate').value;
+                if (start && end) {
+                    chartData = getCustomDateRangeData(start, end);
+                } else {
+                    chartData = aggregateDailyData(rawTransactions, 30);
+                }
+                renderBarChart('chartCustom', 'labelsCustom', chartData);
+                return;
+            }
+
+            // Render based on tab
+            if (tabId === '#tab7') {
+                renderBarChart('chart7days', 'labels7days', chartData);
+            } else if (tabId === '#tab30') {
+                renderBarChart('chart30days', 'labels30days', chartData);
+            }
+        }
+
+        function setupFilterUI() {
+            document.querySelectorAll('.btn-filter-choice').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const group = this.closest('.row');
+                    group.querySelectorAll('.btn-filter-choice').forEach(b => {
+                        b.classList.remove('active', 'bg-primary', 'text-white', 'border-primary');
+                        b.classList.add('btn-outline-secondary', 'text-dark');
+                    });
+                    this.classList.remove('btn-outline-secondary', 'text-dark');
+                    this.classList.add('active', 'bg-primary', 'text-white', 'border-primary');
+                });
+            });
+            document.getElementById('applyFiltersBtn').addEventListener('click', applyFilters);
+            setupTabCharts(); // Initial setup
+        }
+
+        function applyFilters() {
+            const monthBtn = document.querySelector('#monthFilterGroup .active');
+            const typeBtn = document.querySelector('#typeFilterGroup .active');
+            const monthVal = monthBtn ? monthBtn.dataset.value : 'all';
+            const typeVal = typeBtn ? typeBtn.dataset.value : 'all';
+
+            let filtered = [...rawTransactions];
+
+            if (monthVal !== 'all') {
+                const targetMonth = parseInt(monthVal);
+                filtered = filtered.filter(tx => (new Date(tx.created_at || tx.date).getMonth() + 1) === targetMonth);
+            }
+
+            if (typeVal !== 'all') {
+                filtered = filtered.filter(tx => {
+                    const title = (tx.title || '').toLowerCase();
+                    const isForcedExpense = title.includes('facture') || title.includes('paiement');
+                    const isIncome = (tx.type === 'income' || parseFloat(tx.amount) > 0) && !isForcedExpense;
+                    return typeVal === 'income' ? isIncome : !isIncome;
+                });
+            }
+
+            const offcanvasEl = document.getElementById('offcanvasFilter');
+            const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl);
+            if (offcanvas) offcanvas.hide();
+
+            displayTransactions(filtered);
+            updateTotals(filtered);
+        }
+
+    </script>
+    
 </body>
 
 </html>

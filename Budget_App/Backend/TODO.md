@@ -1,15 +1,8 @@
-# Registration Fix - Inscription Page
+# TODO: Rendre bankhistory.html 100% dynamique (DB only)
 
-## Current Status
-✅ Plan approved by user
-
-## Steps
-- [x] Create this TODO.md
-- [✅] 1. Fix utils/db.js: Complete users table schema ✅
-- [✅] 2. Improve server.js logging ✅
-- [✅] 3. Frontend JS already correct with button reset & error handling ✅
-- [ ] 4. Test: Restart server, test form submission, verify DB insert and redirect
-- [ ] 5. Complete task
-
-**Test: 1. Restart server 2. Go to http://localhost:3000/pages/inscription.html 3. Submit form 4. Should redirect to login.html**
-
+## Plan approuvé (étapes):
+- [x] Étape 1: Nettoyer placeholders HTML dans bankhistory.html (loaders animés)
+- [x] Étape 2: Améliorer handlers/stats.js (endpoint /api/stats/daily_evolution?days=N + custom server-side)
+- [ ] Étape 3: Adapter public/js/bankhistory.js (utiliser nouveau endpoint charts)
+- [ ] Étape 4: Test complet (seed → server → browser)
+- [ ] Étape 5: Vérifier autres pages si besoin (statistics.html?)

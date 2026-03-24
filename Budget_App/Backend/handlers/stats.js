@@ -39,10 +39,27 @@ async function handleStats(req, res, userSession) {
             return sendResponse(200, { success: true, balance: parseFloat(balance).toFixed(2), transactionId: result.insertId });
         }
 
-        // GET /api/stats
+        // GET /api/stats?period=week|month|year
         if (path === '/api/stats' && method === 'GET') {
-            const stats = await StatsService.getOverallStats(userSession.userId);
+            const filters = {};
+            const period = url.searchParams.get('period');
+            if (period) filters.period = period;
+            const stats = await StatsService.getOverallStats(userSession.userId, filters);
             return sendResponse(200, stats);
+        }
+
+        // NEW: GET /api/stats/daily_evolution?days=7|30|custom
+        if (path === '/api/stats/daily_evolution' && method === 'GET') {
+            const days = parseInt(url.searchParams.get('days')) || 7;
+            const start_date = url.searchParams.get('start_date');
+            const end_date = url.searchParams.get('end_date');
+            if (start_date && end_date) {
+                const data = await StatsService.getCustomDailyEvol(userSession.userId, start_date, end_date);
+                return sendResponse(200, data);
+            } else {
+                const data = await StatsService.getDailyEvol(userSession.userId, days);
+                return sendResponse(200, { daily_evolution: data });
+            }
         }
 
         // GET /api/balance
@@ -123,15 +140,28 @@ class StatsService {
         return results[0].balance;
     }
 
-    static async getOverallStats(userId) {
-        const results = await db.queryPromise(`
+    static async getOverallStats(userId, filters = {}) {
+        let query = `
             SELECT 
                 COUNT(*) as totalTransactions,
                 SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as totalIncome,
                 SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as totalExpense,
                 AVG(amount) as avgTransaction
             FROM transactions WHERE user_id = ?
-        `, [userId]);
+        `;
+        let params = [userId];
+
+        if (filters.period) {
+            if (filters.period === 'week') {
+                query += ' AND created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)';
+            } else if (filters.period === 'month') {
+                query += ' AND created_at >= DATE_SUB(NOW(), INTERVAL 1 MONTH)';
+            } else if (filters.period === 'year') {
+                query += ' AND YEAR(created_at) = YEAR(NOW())';
+            }
+        }
+
+        const results = await db.queryPromise(query, params);
         return results[0];
     }
 
@@ -141,13 +171,41 @@ class StatsService {
             const start = new Date(end.getTime() - days * 24 * 60 * 60 * 1000);
             const results = await db.queryPromise(`
                 SELECT DATE(created_at) as date, 
-                       SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as income,
-                       SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as expense
+                       (SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) - 
+                        SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END)) as net
                 FROM transactions WHERE user_id = ? AND created_at >= ? GROUP BY DATE(created_at) ORDER BY date DESC LIMIT ?
             `, [userId, start, days]);
-            return results;
+            // Fill missing days with 0
+            const data = [];
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            for (let i = days - 1; i >= 0; i--) {
+                const date = new Date(today);
+                date.setDate(today.getDate() - i);
+                const dateStr = date.toISOString().split('T')[0];
+                const dayData = results.find(r => r.date === dateStr) || { date: dateStr, net: 0 };
+                data.push(dayData);
+            }
+            return data;
         } catch (err) {
             logger.error('getDailyEvol error', err);
+            return [];
+        }
+    }
+
+    static async getCustomDailyEvol(userId, start_date, end_date) {
+        try {
+            const results = await db.queryPromise(`
+                SELECT DATE(created_at) as date,
+                       (SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) - 
+                        SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END)) as net
+                FROM transactions 
+                WHERE user_id = ? AND created_at >= ? AND created_at <= ? 
+                GROUP BY DATE(created_at) ORDER BY date ASC
+            `, [userId, start_date, end_date]);
+            return results;
+        } catch (err) {
+            logger.error('getCustomDailyEvol error', err);
             return [];
         }
     }
